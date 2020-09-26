@@ -35,6 +35,8 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <!-- Material Design Bootstrap -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.0/css/mdb.min.css" rel="stylesheet">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -97,14 +99,16 @@
 <!-- page script -->
 <script>
     $(function () {
-        $("#userTable").DataTable({
-            "responsive": true,
-            "autoWidth": false,
-        });
+        // $("#userTable").DataTable({
+        //     "responsive": true,
+        //     "autoWidth": false,
+        // });
     });
 </script>
 <!-- AdminLTE App -->
 <script src="{{asset('js/adminlte.js')}}"></script>
+<!-- AdminLTE App -->
+<script src="{{asset('js/axios.min.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('js/demo.js')}}"></script>
 <!-- custom admin js -->
@@ -113,6 +117,8 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.0/js/mdb.min.js"></script>
+<!-- Toastr -->
+<script src="{{asset('plugins/toastr/toastr.min.js')}}"></script>
 
 @yield('script')
 </body>

@@ -10,21 +10,31 @@ class UserController extends Controller
 {
     function users() {
         Session::put('page', 'users');
-        $users = User::all();
-        return view('users')->with(compact('users'));
+        return view('users');
     }
 
-    function addEditUsers(Request $request, $id=null) {
-        if($id == '') {
-            $user = new User;
-            $title = 'Add User';
-            $message = 'User Added Successfully !';
+    function getUserData() {
+        return User::orderBy('id', 'desc')->get();
+    }
+
+    function addUser(Request $request) {
+        $role = $request->input('role');
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $pass = $request->input('pass');
+        $confPass = $request->input('confPass');
+
+        $result = User::insert([
+            'role' => $role,
+            'name' => $name,
+            'email' => $email,
+            'password' => $pass,
+        ]);
+
+        if($result == true) {
+            return 1;
+        } else {
+            return 0;
         }
-        else {
-            $user = User::find($id);
-            $title = 'Edit User';   
-            $message = 'User Updated Successfully !';
-        }
-        return view('addEditUser')->with(compact('title', 'user'));
     }
 }

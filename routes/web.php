@@ -15,8 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index');
 Route::get('/users', 'UserController@users');
-Route::match(['get', 'post'], 'add-edit-user/{id?}', 'UserController@addEditUsers');
+Route::get('/getUserData', 'UserController@getUserData');
+Route::post('/addUser', 'UserController@addUser');
 
-Auth::routes();
+Auth::routes(); 
 
 Route::get('/home', 'HomeController@index')->name('home');
