@@ -20,6 +20,8 @@ Route::get('/users', 'UserController@users');
 Route::get('/getUserData', 'UserController@getUserData');
 Route::post('/addUser', 'UserController@addUser');
 Route::get('/delete-User/{id}', 'UserController@deleteUser');
+Route::get('/getUserEditDetails/{id}', 'UserController@getUserEditDetails');
+Route::post('/updateUserDetails', 'UserController@updateUserDetails');
 
 Auth::routes(); 
 

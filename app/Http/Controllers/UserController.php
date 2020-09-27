@@ -54,4 +54,28 @@ class UserController extends Controller
             return 0;
         }
     }
+
+    function getUserEditDetails($id) {
+        $result = User::find($id);
+        return $result;
+    }
+
+    function updateUserDetails(Request $request) {
+        $id = $request->input('id');
+        $role = $request->input('role');
+        $name = $request->input('name');
+        $email = $request->input('email');
+
+        $result = User::where('id', $id)->update([
+            'role' => $role,
+            'name' => $name,
+            'email' => $email,
+        ]);
+
+        if($result == true) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }
