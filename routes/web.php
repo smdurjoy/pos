@@ -14,9 +14,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@index');
+
+// User Routes
 Route::get('/users', 'UserController@users');
 Route::get('/getUserData', 'UserController@getUserData');
 Route::post('/addUser', 'UserController@addUser');
+Route::get('/delete-User/{id}', 'UserController@deleteUser');
 
 Auth::routes(); 
 

@@ -56,6 +56,7 @@
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->
+            <!-- /.card-body -->
         </section>
         <!-- /.content -->
     </div>
@@ -66,26 +67,42 @@
          aria-hidden="true">
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
-                <div class="modal-body p-4">
-                    <h5 class="text-center mb-4">Add User</h5>
-                    <div class="row" id="UserAddDetails">
-                        <div class="col-md-12">
-                            <select class="browser-default custom-select mb-4" id="addUserRole">
-                                <option value="">Select Role</option>
-                                <option value="Admin">Admin</option>
-                                <option value="User">User</option>
-                            </select>
-                            <input type="text" id="addUserName" class="form-control mb-4" placeholder="Name">
-                            <input type="email" id="addUserEmail" class="form-control mb-4" placeholder="Email">
-                            <input type="password" id="addUserPass" class="form-control mb-4" placeholder="Password">
-                            <input type="password" id="addUserConfPass" class="form-control mb-4" placeholder="Confirm Password">
+                <form id="addUserForm">
+                    <div class="modal-body p-4">
+                        <h5 class="text-center mb-4">Add User</h5>
+                        <p class="errorMessage d-none"></p>
+                        <div class="row" id="UserAddDetails">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <select class="browser-default custom-select mb-4" id="addUserRole" name="role">
+                                        <option value="">Select Role</option>
+                                        <option value="Admin">Admin</option>
+                                        <option value="User">User</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="addUserName" name="name" class="form-control mb-4" placeholder="Name">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="email" id="addUserEmail" name="email" class="form-control mb-4" placeholder="Email">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="password" id="addUserPass" name="pass" class="form-control mb-4" placeholder="Password">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="password" id="addUserConfPass" name="confPass" class="form-control mb-4" placeholder="Confirm Password">
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer"> 
-                    <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
-                    <button id="UserAddConfirmBtn" type="button" class="btn btn-danger btn-sm">Save</button>
-                </div>
+                    <div class="modal-footer"> 
+                        <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
+                        <button id="UserAddConfirmBtn" type="submit" class="btn btn-danger btn-sm">Save</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -101,31 +118,87 @@
             timer: 3000
         });
 
-        
+        // validation
+        function valdation() {
+            $('#addUserForm').validate({
+                rules: {
+                    role: {
+                        required: true,
+                    },
+                    name: {
+                        required: true,
+                    },
+                    email: {
+                        required: true,
+                        email: true,
+                    },
+                    pass: {
+                        required: true,
+                        minlength: 6
+                    },
+                    confPass: {
+                        required: true,
+                        equalTo: '#addUserPass'
+                    },
+                },
+                messages: {
+                    role: {
+                        required: "Please select user role",
+                    },
+                    name: {
+                        required: "Please enter username",
+                    },
+                    email: {
+                        required: "Please enter a email address",
+                        email: "Please enter a vaild email address"
+                    },
+                    pass: {
+                        required: "Please provide a password",
+                        minlength: "Your password must be at least 6 characters long"
+                    },
+                    confPass: {
+                        required: "Please retype your password",
+                        equalTo: "Confirm password doesn't matched"
+                    },
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+                }
+            });
+        }
+
         function getUser() {
             axios.get('/getUserData').then((response) => {
-
                 if(response.status == 200) {
                     const jsonData = response.data;
                     $("#userTable").DataTable().destroy();
                     $('#userTableBody').empty();
-                    console.log(jsonData)
 
-                        $.each(jsonData, function (i) {
+                    $.each(jsonData, function (i) {
                         $('<tr>').html(
                             "<td>" + jsonData[i].id + "</td>" +
                             "<td>" + jsonData[i].role + "</td>" +
                             "<td>" + jsonData[i].name + "</td>" +
                             "<td>" + jsonData[i].email + "</td>" +
-                            "<td><a id='userId' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm'> <i class='far fa-edit'></i> </a> <a href='#' class='btn btn-danger btn-sm confirmDelete'> <i class='far fa-trash-alt deleteButton'></i> </a></td>" 
+                            "<td><a id='userId' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm'> <i class='far fa-edit'></i> </a> <a href='#' class='btn btn-danger btn-sm confirmDelete' record='User' recordId="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a></td>" 
                         ).appendTo('#userTableBody')
                     })
-                }
+                } 
+
                 $("#userTable").DataTable({
                 "responsive": true,
                 "autoWidth": false,
                 "order": false,
                 });
+
             }).catch((error) => {
                 Toast.fire({
                     icon: 'error',
@@ -143,43 +216,51 @@
             $('#addUserModal').modal('show');
         }
 
-        $(document).on('click', '#UserAddConfirmBtn', function() {
+        $(document).on('click', '#UserAddConfirmBtn', function(e) {
             const role = $('#addUserRole').val();
             const name = $('#addUserName').val();
             const email = $('#addUserEmail').val();
             const pass = $('#addUserPass').val();
             const confPass = $('#addUserConfPass').val();
+            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
             
-            axios.post('/addUser', {
-                role: role,
-                name: name,
-                email: email,
-                pass: pass,
-                confPass: confPass,
-            }).then((response) => {
-                if(response.status == 200 && response.data == 1) {
-                    $('#addUserModal').modal('hide');
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'User Added Successfully !'
-                    });
-                    getUser();
-                } else { 
+            if(role == '' || name == '' || email == '' || pass == '' || confPass == '' || pass != confPass || !(pass.length >= 6) || !(email.match(emailPattern))) {
+                valdation();
+            } else {
+                e.preventDefault();
+                $('#UserAddConfirmBtn').html('<span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>Working...').addClass('disabled');
+
+                axios.post('/addUser', {
+                    role: role,
+                    name: name,
+                    email: email,
+                    pass: pass,
+                    confPass: confPass,
+                }).then((response) => {
+                    if(response.status == 200 && response.data == 1) {
+                        $('#UserAddConfirmBtn').text('Save').removeClass('disabled');
+                        $('#addUserModal').modal('hide');
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'User Added Successfully !'
+                        });
+                        getUser();
+                    } else { 
+                        $('#UserAddConfirmBtn').text('Save').removeClass('disabled');
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Something Went Wrong !'
+                        })
+                    }
+                }).catch((error) => {
+                    $('#UserAddConfirmBtn').text('Save').removeClass('disabled');
                     Toast.fire({
                         icon: 'error',
-                        title: 'Something Went Wrong !'
+                        title: error.message
                     })
-                }
-            }).catch((error) => {
-                Toast.fire({
-                    icon: 'error',
-                    title: error.message
-                })
-            })
-        })
-
-
-
+                })  
+            }
+        });
 
     </script>   
 @endsection
