@@ -1,0 +1,22 @@
+.actionBtn {
+    padding: 5px 10px !important;
+    font-size: 12px !important;
+}
+
+.profileImage {
+    height: 100px;
+    width: 100px ;
+    border-radius: 50% !important;
+}
+
+.proPicSelect {
+    opacity: 0.0;
+    width: 100%;
+    height: 100%;
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    bottom: 0; 
+    right: 0;
+    cursor: pointer;
+}

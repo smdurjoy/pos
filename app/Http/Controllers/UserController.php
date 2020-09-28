@@ -29,13 +29,14 @@ class UserController extends Controller
         $name = $request->input('name');
         $email = $request->input('email');
         $pass = bcrypt($request->input('pass'));
-        $confPass = $request->input('confPass');
+        $status = 1;
 
         $result = User::insert([
             'role' => $role,
             'name' => $name,
             'email' => $email,
             'password' => $pass,
+            'status' => $status,
         ]);
 
         if($result == true) {
@@ -46,11 +47,18 @@ class UserController extends Controller
     }
 
     function deleteUser($id) {
-        $result = User::find($id)->delete();
+        $user = User::find($id);
+        $imagePath = "images/userImages/";
+
+        if(file_exists($imagePath.$user->image)) {
+            unlink($imagePath.$user->image);
+        }
+
+        $result = $user->delete();
 
         if($result == true) {
             return 1;
-        } else {
+        } else { 
             return 0;
         }
     }

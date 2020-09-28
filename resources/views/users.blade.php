@@ -153,17 +153,53 @@
 @section('script')
     <script type="text/javascript">
         getUser()
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000
-        });
 
-        // User add edit validation
-        function valdation(addEditValidation) {
-            $(addEditValidation).validate({
-                rules: {
+        // Get user data
+        function getUser() {
+            axios.get('/getUserData').then((response) => {
+                if(response.status == 200) {
+                    $('.loading').addClass('d-none');
+                    const jsonData = response.data;
+                    $("#userTable").DataTable().destroy();
+                    $('#userTableBody').empty();
+
+                    $.each(jsonData, function (i) {
+                        $('<tr>').html(
+                            "<td>" + jsonData[i].id + "</td>" +
+                            "<td>" + jsonData[i].role + "</td>" +
+                            "<td>" + jsonData[i].name + "</td>" +
+                            "<td>" + jsonData[i].email + "</td>" +
+                            "<td><a href='#' id='editUser' title='Edit User' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> <a href='#' title='Delete User' class='btn btn-danger btn-sm confirmDelete actionBtn' record='User' recordId="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a></td>" 
+                        ).appendTo('#userTableBody')
+                    })
+                } 
+
+                $("#userTable").DataTable({
+                "responsive": true,
+                "autoWidth": false,
+                "order": false,
+                });
+
+            }).catch((error) => {
+                errorMessage('Something Went Wrong !')
+            })
+        }
+        
+        // User add modal open
+        function addUserModalOpen() {
+            $('#addUserModal').modal('show');
+        }
+
+        // User add confirm method
+        $(document).on('click', '#UserAddConfirmBtn', function(e) {
+            const role = $('#addUserRole').val();
+            const name = $('#addUserName').val();
+            const email = $('#addUserEmail').val();
+            const pass = $('#addUserPass').val();
+            const confPass = $('#addUserConfPass').val();
+            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+            const validationRules = Object.assign({
                     role: {
                         required: true,
                     },
@@ -182,8 +218,9 @@
                         required: true,
                         equalTo: '#addUserPass'
                     },
-                },
-                messages: {
+                });
+
+            const validationMsg = Object.assign({
                     role: {
                         required: "Please select user role",
                     },
@@ -202,70 +239,10 @@
                         required: "Please retype your password",
                         equalTo: "Confirm password doesn't matched"
                     },
-                },
-                errorElement: 'span',
-                errorPlacement: function (error, element) {
-                error.addClass('invalid-feedback');
-                element.closest('.form-group').append(error);
-                },
-                highlight: function (element, errorClass, validClass) {
-                $(element).addClass('is-invalid');
-                },
-                unhighlight: function (element, errorClass, validClass) {
-                $(element).removeClass('is-invalid');
-                }
-            });
-        }
-
-        function getUser() {
-            axios.get('/getUserData').then((response) => {
-                if(response.status == 200) {
-                    $('.loading').addClass('d-none');
-                    const jsonData = response.data;
-                    $("#userTable").DataTable().destroy();
-                    $('#userTableBody').empty();
-
-                    $.each(jsonData, function (i) {
-                        $('<tr>').html(
-                            "<td>" + jsonData[i].id + "</td>" +
-                            "<td>" + jsonData[i].role + "</td>" +
-                            "<td>" + jsonData[i].name + "</td>" +
-                            "<td>" + jsonData[i].email + "</td>" +
-                            "<td><a id='editUser' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm'> <i class='far fa-edit'></i> </a> <a href='#' class='btn btn-danger btn-sm confirmDelete' record='User' recordId="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a></td>" 
-                        ).appendTo('#userTableBody')
-                    })
-                } 
-
-                $("#userTable").DataTable({
-                "responsive": true,
-                "autoWidth": false,
-                "order": false,
                 });
-
-            }).catch((error) => {
-                Toast.fire({
-                    icon: 'error',
-                    title: error.message
-                })
-            })
-        }
-        
-        // User add modal open
-        function addUserModalOpen() {
-            $('#addUserModal').modal('show');
-        }
-
-        // User add confrim method
-        $(document).on('click', '#UserAddConfirmBtn', function(e) {
-            const role = $('#addUserRole').val();
-            const name = $('#addUserName').val();
-            const email = $('#addUserEmail').val();
-            const pass = $('#addUserPass').val();
-            const confPass = $('#addUserConfPass').val();
-            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
             
             if(role == '' || name == '' || email == '' || pass == '' || confPass == '' || pass != confPass || !(pass.length >= 6) || !(email.match(emailPattern))) {
-                valdation('#addUserForm');
+                valdation('#addUserForm', validationRules, validationMsg);
             } else {
                 e.preventDefault();
                 $('#UserAddConfirmBtn').html('<span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>Working...').addClass('disabled');
@@ -280,24 +257,15 @@
                     if(response.status == 200 && response.data == 1) {
                         $('#UserAddConfirmBtn').text('Save').removeClass('disabled');
                         $('#addUserModal').modal('hide');
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'User Added Successfully !'
-                        });
+                        successMessage('User Added Successfully.')
                         getUser();
                     } else { 
                         $('#UserAddConfirmBtn').text('Save').removeClass('disabled');
-                        Toast.fire({
-                            icon: 'error',
-                            title: 'Something Went Wrong !'
-                        })
+                        errorMessage('Something Went Wrong !')
                     }
                 }).catch((error) => {
                     $('#UserAddConfirmBtn').text('Save').removeClass('disabled');
-                    Toast.fire({
-                        icon: 'error',
-                        title: error.message
-                    })
+                    errorMessage('Something Went Wrong !')
                 })  
             }
         });
@@ -310,7 +278,7 @@
             getUserEditDetails(id)
         })
 
-        // Get user details
+        // Get user edit details
         function getUserEditDetails(id) {
             axios.get('/getUserEditDetails/'+id).then((response) => {
                 if(response.status == 200) {
@@ -321,16 +289,10 @@
                     $('#editUserName').val(response.data.name);
                     $('#editUserEmail').val(response.data.email);
                 } else {
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'Something Went Wrong !'
-                    })
+                    errorMessage('Something Went Wrong !')
                 }
             }).catch((error) => {
-                Toast.fire({
-                    icon: 'error',
-                    title: error.message
-                })
+                errorMessage('Something Went Wrong !')
             })
         }
 
@@ -353,27 +315,18 @@
                     name: name,
                     email: email,
                 }).then((response) => {
-                    if(response.status == 200 && response.data == 1) {
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'User Updated Successfully.'
-                        })
+                    if(response.status == 2000 && response.data == 1) {
+                        successMessage('User Updated Successfully.')
                         $('#editUserModal').modal('hide');
-                        $('#UserEditConfirmBtn').text('Save').removeClass('disabled');
+                        $('#UserEditConfirmBtn').text('Update').removeClass('disabled');
                         getUser();
                     } else {
-                        Toast.fire({
-                            icon: 'error',
-                            title: 'Something Went Wrong !'
-                        });
-                        $('#UserEditConfirmBtn').text('Save').removeClass('disabled');
+                        errorMessage('Something Went Wrong !')
+                        $('#UserEditConfirmBtn').text('Update').removeClass('disabled');
                     }
                 }).catch((error) => {
-                    Toast.fire({
-                        icon: 'error',
-                        title: error.message
-                    });
-                    $('#UserEditConfirmBtn').text('Save').removeClass('disabled');
+                    errorMessage('Something Went Wrong !')
+                    $('#UserEditConfirmBtn').text('Update').removeClass('disabled');
                 });
             }
         });

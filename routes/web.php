@@ -23,6 +23,12 @@ Route::get('/delete-User/{id}', 'UserController@deleteUser');
 Route::get('/getUserEditDetails/{id}', 'UserController@getUserEditDetails');
 Route::post('/updateUserDetails', 'UserController@updateUserDetails');
 
+// User Profile Routes
+Route::get('/profile', 'ProfileController@userProfile');
+Route::get('/getProfileData', 'ProfileController@getProfileData');
+Route::get('/getProfileEditDetails', 'ProfileController@getProfileEditDetails');
+Route::post('/updateProfileInfo', 'ProfileController@updateProfileInfo');
+
 Auth::routes(); 
 
 Route::get('/home', 'HomeController@index')->name('home');

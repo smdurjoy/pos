@@ -1,4 +1,4 @@
-// Common delete method for all action !!
+// Common delete method for all actions !!
 $(document).on('click', '.confirmDelete', function() {
     const record = $(this).attr("record");
     const recordId = $(this).attr("recordId");
@@ -14,17 +14,7 @@ $(document).on('click', '.confirmDelete', function() {
         if (result.value) {
             axios.get('/delete-'+record+'/'+recordId).then((response) => {
                 if(response.status == 200 && response.data == 1) {
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000
-                    });
-
-                    Toast.fire({
-                        icon: 'success',
-                        title: record+' Deleted Successfully !'
-                    });
+                    successMessage(record+' Deleted Successfully !')
 
                     if(record == 'User') {
                         getUser();
@@ -46,3 +36,53 @@ $(document).on('click', '.confirmDelete', function() {
         }
     });
 })
+
+// Common method for all success messages !!
+function successMessage(message) {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+    });
+
+    Toast.fire({
+        icon: 'success',
+        title: message
+    })
+}
+
+// Common method for all error messages !!
+function errorMessage(message) {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+    });
+
+    Toast.fire({
+        icon: 'error',
+        title: message
+    });
+}
+
+// Update profile validation
+function valdation(formId, rules, messages) {
+    $(formId).validate({
+        rules: rules,
+        messages: messages,
+        
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+        },
+        highlight: function (element, errorClass, validClass) {
+        $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+        $(element).removeClass('is-invalid');
+        }
+    });
+}

@@ -12,7 +12,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="#" class="img-circle elevation-2" alt="Image !">
+                <img src="{{ url('images/userImages/'.Auth::user()->image) }}" class="img-circle elevation-2" alt="Image !">
             </div>
             <div class="info">
                 <a href="#" class="d-block">{{ Auth::user()->name }}</a>
@@ -39,7 +39,7 @@
                 </li>
 
                 <!-- Catalogues -->
-                @if(Session::get('page') == 'users')
+                @if(Session::get('page') == 'users' || Session::get('page') == 'profile' || Session::get('page') == 'changePass')
                     <?php $active = "active"; ?>
                 @else
                     <?php $active = ""; ?>
@@ -48,7 +48,7 @@
                     <a href="#" class="nav-link {{ $active }}">
                         <i class="nav-icon fas fa-book"></i>
                         <p>
-                            Users
+                            Settings
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -65,7 +65,19 @@
                             </a>
                         </li>
 
-                        @if(Session::get('page') == "banners")
+                        @if(Session::get('page') == "profile")
+                            <?php $active = "active"; ?>
+                        @else
+                            <?php $active = ""; ?>
+                        @endif
+                        <li class="nav-item active">
+                            <a href="{{ url('/profile') }}" class="nav-link {{ $active }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Your Profile</p>
+                            </a>
+                        </li>
+
+                        @if(Session::get('page') == 'changePass')
                             <?php $active = "active"; ?>
                         @else
                             <?php $active = ""; ?>
