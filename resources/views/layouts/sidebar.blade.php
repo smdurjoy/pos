@@ -12,7 +12,11 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{ url('images/userImages/'.Auth::user()->image) }}" class="img-circle elevation-2" alt="Image !">
+                @if(!empty(Auth::user()->image))
+                    <img src="{{ asset('images/userImages/'.Auth::user()->image) }}" class="img-circle elevation-2" alt="Image !">
+                @else
+                    <img src="{{ asset('images/userImages/smallDummyImg.png') }}" class="img-circle elevation-2" alt="Image !">
+                @endif
             </div>
             <div class="info">
                 <a href="#" class="d-block">{{ Auth::user()->name }}</a>
@@ -83,7 +87,7 @@
                             <?php $active = ""; ?>
                         @endif
                         <li class="nav-item">
-                            <a href="{{ url('/change-pass') }}" class="nav-link {{ $active }}">
+                            <a href="{{ url('/update-password') }}" class="nav-link {{ $active }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Change Password</p>
                             </a>

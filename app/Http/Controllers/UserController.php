@@ -50,7 +50,7 @@ class UserController extends Controller
         $user = User::find($id);
         $imagePath = "images/userImages/";
 
-        if(file_exists($imagePath.$user->image)) {
+        if(file_exists("images/userImages/".$user->image) AND !empty($user->image)) {
             unlink($imagePath.$user->image);
         }
 

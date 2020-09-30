@@ -22,20 +22,14 @@ $(document).on('click', '.confirmDelete', function() {
                         getOther();
                     }
                 } else {
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'Something Went Wrong !'
-                    });
+                    errorMessage('Something Went Wrong !') 
                 }
             }).catch((error) => {
-                Toast.fire({
-                    icon: 'error',
-                    title: error.message
-                });
+                errorMessage(error.message) 
             })
         }
     });
-})
+});
 
 // Common method for all success messages !!
 function successMessage(message) {
@@ -68,7 +62,7 @@ function errorMessage(message) {
 }
 
 // Update profile validation
-function valdation(formId, rules, messages) {
+function validation(formId, rules, messages) {
     $(formId).validate({
         rules: rules,
         messages: messages,

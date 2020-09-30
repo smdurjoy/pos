@@ -8,7 +8,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Users</h1>
+                        <h1>Settings</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -27,20 +27,20 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Categories</h3>
+                                <h3 class="card-title">Users</h3>
                                 <a href="javascript:void(0)" class="btn btn-dark btn-sm" style="float: right" onclick="addUserModalOpen()"> Add User</a>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table id="userTable" class="table table-bordered table-striped">
                                     <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Role</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Action</th>
-                                    </tr>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Role</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Action</th>
+                                        </tr>
                                     </thead>
                                     <tbody id="userTableBody">
                                        
@@ -77,7 +77,7 @@
                         <div class="row" id="UserAddDetails">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <select class="browser-default custom-select" id="addUserRole" name="role">
+                                    <select class="form-control" style="width: 100%;" id="addUserRole" name="role">
                                         <option value="">Select Role</option>
                                         <option value="Admin">Admin</option>
                                         <option value="User">User</option>
@@ -124,7 +124,7 @@
                         <div class="row d-none" id="UserEditDetails">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <select class="browser-default custom-select" id="editUserRole" name="role">
+                                    <select class="form-control select2" style="width: 100%;" id="editUserRole" name="role">
                                         <option value="">Select Role</option>
                                         <option value="Admin">Admin</option>
                                         <option value="User">User</option>
@@ -239,10 +239,10 @@
                         required: "Please retype your password",
                         equalTo: "Confirm password doesn't matched"
                     },
-                });
+            });
             
-            if(role == '' || name == '' || email == '' || pass == '' || confPass == '' || pass != confPass || !(pass.length >= 6) || !(email.match(emailPattern))) {
-                valdation('#addUserForm', validationRules, validationMsg);
+            if(role == '' || name == '' || email == '' || pass == '' || confPass == '' || pass != confPass || pass.length <= 5 || !(email.match(emailPattern))) {
+                validation('#addUserForm', validationRules, validationMsg);
             } else {
                 e.preventDefault();
                 $('#UserAddConfirmBtn').html('<span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>Working...').addClass('disabled');
@@ -304,8 +304,34 @@
             const email = $('#editUserEmail').val();
             const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
             
+            const validationRules = Object.assign({
+                    role: {
+                        required: true,
+                    },
+                    name: {
+                        required: true,
+                    },
+                    email: {
+                        required: true,
+                        email: true,
+                    },
+                });
+
+            const validationMsg = Object.assign({
+                    role: {
+                        required: "Please select user role",
+                    },
+                    name: {
+                        required: "Please enter username",
+                    },
+                    email: {
+                        required: "Please enter a email address",
+                        email: "Please enter a vaild email address"
+                    },
+            });
+
             if(role == '' || name == '' || email == '' || !(email.match(emailPattern))) {
-                valdation('#editUserForm');
+                validation('#editUserForm', validationRules, validationMsg);
             } else {
                 e.preventDefault();
                 $('#UserEditConfirmBtn').html('<span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>Working...').addClass('disabled');
@@ -315,7 +341,7 @@
                     name: name,
                     email: email,
                 }).then((response) => {
-                    if(response.status == 2000 && response.data == 1) {
+                    if(response.status == 200 && response.data == 1) {
                         successMessage('User Updated Successfully.')
                         $('#editUserModal').modal('hide');
                         $('#UserEditConfirmBtn').text('Update').removeClass('disabled');

@@ -20,3 +20,11 @@
     right: 0;
     cursor: pointer;
 }
+
+.rightPass {
+    border: 1px solid green !important;
+}
+
+.wrongPass {
+    border: 1px solid red !important;
+}

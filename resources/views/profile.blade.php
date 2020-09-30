@@ -206,7 +206,7 @@
             });
 
             if(name == '' || email == '' || !(email.match(emailPattern))) {
-                valdation('#editProfileForm', validationRules, validationMessage);
+                validation('#editProfileForm', validationRules, validationMessage);
                 e.preventDefault();
             } else {
                 e.preventDefault();

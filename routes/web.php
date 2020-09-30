@@ -29,6 +29,11 @@ Route::get('/getProfileData', 'ProfileController@getProfileData');
 Route::get('/getProfileEditDetails', 'ProfileController@getProfileEditDetails');
 Route::post('/updateProfileInfo', 'ProfileController@updateProfileInfo');
 
+// Password Update Routes
+Route::get('/update-password', 'ProfileController@updatePassword');
+Route::post('/checkCurrentPass', 'ProfileController@checkCurrentPass');
+Route::post('/updatePass', 'ProfileController@updatePass');
+
 Auth::routes(); 
 
 Route::get('/home', 'HomeController@index')->name('home');

@@ -111,8 +111,6 @@
 <script src="{{asset('js/axios.min.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('js/demo.js')}}"></script>
-<!-- custom admin js -->
-<script src="{{asset('js/script.js')}}"></script>
 <!-- sweetalert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <!-- MDB core JavaScript -->
@@ -122,6 +120,8 @@
 <!-- jquery-validation -->
 <script src="{{asset('plugins/jquery-validation/jquery.validate.min.js')}}"></script>
 <script src="{{asset('plugins/jquery-validation/additional-methods.min.js')}}"></script>
+<!-- custom admin js -->
+<script src="{{asset('js/script.js')}}"></script>
 
 @yield('script')
 </body>
