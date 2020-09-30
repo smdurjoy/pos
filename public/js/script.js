@@ -25,6 +25,9 @@ $(document).on('click', '.confirmDelete', function() {
                     else if(record == 'Customer') {
                         getCustomers();
                     }
+                    else if(record == 'Unit') {
+                        getUnits();
+                    }
                     
                 } else {
                     errorMessage('Something Went Wrong !') 

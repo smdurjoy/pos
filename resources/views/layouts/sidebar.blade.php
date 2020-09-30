@@ -154,6 +154,35 @@
                         </li>
                     </ul>
                 </li>
+
+                <!-- Units -->
+                @if(Session::get('page') == "units")
+                    <?php $active = "active"; ?>
+                @else
+                    <?php $active = ""; ?>
+                @endif
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link {{ $active }}">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Units
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        @if(Session::get('page') == "units")
+                            <?php $active = "active"; ?>
+                        @else
+                            <?php $active = ""; ?>
+                        @endif
+                        <li class="nav-item active">
+                            <a href="{{ url('/units') }}" class="nav-link {{ $active }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>View Units</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

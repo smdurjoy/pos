@@ -50,6 +50,14 @@ Route::get('/getCustomerDetails/{id}', 'CustomerController@getCustomerDetails');
 Route::post('/updateCustomerDetails', 'CustomerController@updateCustomerDetails');
 Route::get('/delete-Customer/{id}', 'CustomerController@deleteCustomer');
 
+// Unit Routes
+Route::get('/units', 'UnitController@index');
+Route::get('/getUnits', 'UnitController@getUnits');
+Route::post('/addUnit', 'UnitController@addUnit');
+Route::get('/getUnitDetails/{id}', 'UnitController@getUnitDetails');
+Route::post('/updateUnitDetails', 'UnitController@updateUnitDetails');
+Route::get('/delete-Unit/{id}', 'UnitController@deleteUnit');
+
 Auth::routes(); 
 
 Route::get('/home', 'HomeController@index')->name('home');
