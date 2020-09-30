@@ -37,6 +37,7 @@ Route::post('/updatePass', 'ProfileController@updatePass');
 // Supplier Routes
 Route::get('/suppliers', 'SupplierController@index');
 Route::get('/getSuppliers', 'SupplierController@getSuppliers');
+Route::post('/addSupplier', 'SupplierController@addSupplier');
 Route::get('/delete-Supplier/{id}', 'SupplierController@deleteSupplier');
 
 Auth::routes(); 

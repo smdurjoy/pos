@@ -27,4 +27,24 @@ class SupplierController extends Controller
             return 0;
         }
     }
+
+    function addSupplier(Request $request) {
+        $name = $request->input('name');
+        $number = $request->input('number');
+        $email = $request->input('email');
+        $address = $request->input('address');
+
+        $result = Supplier::insert([
+            'name' => $name,
+            'number' => $number,
+            'email' => $email,
+            'address' => $address,
+        ]);
+
+        if($result == true) {
+            return 1;
+        } else { 
+            return 0;
+        }
+    }
 }
