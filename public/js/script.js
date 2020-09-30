@@ -18,9 +18,11 @@ $(document).on('click', '.confirmDelete', function() {
 
                     if(record == 'User') {
                         getUser();
-                    } else if(record == 'other') {
-                        getOther();
+                    } 
+                    else if(record == 'Supplier') {
+                        getSuppliers();
                     }
+                    
                 } else {
                     errorMessage('Something Went Wrong !') 
                 }

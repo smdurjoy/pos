@@ -57,18 +57,20 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        @if(Session::get('page') == "users")
-                            <?php $active = "active"; ?>
-                        @else
-                            <?php $active = ""; ?>
+                        @if(Auth::user()->role == 'Admin')
+                            @if(Session::get('page') == "users")
+                                <?php $active = "active"; ?>
+                            @else
+                                <?php $active = ""; ?>
+                            @endif
+                            <li class="nav-item active">
+                                <a href="{{ url('/users') }}" class="nav-link {{ $active }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>View Users</p>
+                                </a>
+                            </li>
                         @endif
-                        <li class="nav-item active">
-                            <a href="{{ url('/users') }}" class="nav-link {{ $active }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>View Users</p>
-                            </a>
-                        </li>
-
+                        
                         @if(Session::get('page') == "profile")
                             <?php $active = "active"; ?>
                         @else
@@ -78,6 +80,42 @@
                             <a href="{{ url('/profile') }}" class="nav-link {{ $active }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Your Profile</p>
+                            </a>
+                        </li>
+
+                        @if(Session::get('page') == 'changePass')
+                            <?php $active = "active"; ?>
+                        @else
+                            <?php $active = ""; ?>
+                        @endif
+                        <li class="nav-item">
+                            <a href="{{ url('/update-password') }}" class="nav-link {{ $active }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Change Password</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Suppliers -->
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link {{ $active }}">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Suppliers
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        @if(Session::get('page') == "suppliers")
+                            <?php $active = "active"; ?>
+                        @else
+                            <?php $active = ""; ?>
+                        @endif
+                        <li class="nav-item active">
+                            <a href="{{ url('/suppliers') }}" class="nav-link {{ $active }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>View Suppliers</p>
                             </a>
                         </li>
 

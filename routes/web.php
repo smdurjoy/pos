@@ -34,6 +34,11 @@ Route::get('/update-password', 'ProfileController@updatePassword');
 Route::post('/checkCurrentPass', 'ProfileController@checkCurrentPass');
 Route::post('/updatePass', 'ProfileController@updatePass');
 
+// Supplier Routes
+Route::get('/suppliers', 'SupplierController@index');
+Route::get('/getSuppliers', 'SupplierController@getSuppliers');
+Route::get('/delete-Supplier/{id}', 'SupplierController@deleteSupplier');
+
 Auth::routes(); 
 
 Route::get('/home', 'HomeController@index')->name('home');
