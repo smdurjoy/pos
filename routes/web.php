@@ -58,6 +58,14 @@ Route::get('/getUnitDetails/{id}', 'UnitController@getUnitDetails');
 Route::post('/updateUnitDetails', 'UnitController@updateUnitDetails');
 Route::get('/delete-Unit/{id}', 'UnitController@deleteUnit');
 
+// Category Routes
+Route::get('/categories', 'CategoryController@index');
+Route::get('/getCategories', 'CategoryController@getcategories');
+Route::post('/addCategory', 'CategoryController@addCategory');
+Route::get('/getCategoryDetails/{id}', 'CategoryController@getCategoryDetails');
+Route::post('/updateCategoryDetails', 'CategoryController@updateCategoryDetails');
+Route::get('/delete-Category/{id}', 'CategoryController@deleteCategory');
+
 Auth::routes(); 
 
 Route::get('/home', 'HomeController@index')->name('home');

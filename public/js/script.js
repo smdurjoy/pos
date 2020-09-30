@@ -28,6 +28,9 @@ $(document).on('click', '.confirmDelete', function() {
                     else if(record == 'Unit') {
                         getUnits();
                     }
+                    else if(record == 'Category') {
+                        getCategories();
+                    }
                     
                 } else {
                     errorMessage('Something Went Wrong !') 
