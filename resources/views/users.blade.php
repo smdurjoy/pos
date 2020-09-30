@@ -274,7 +274,6 @@
         $(document).on('click', '#editUser', function() {
             $('#editUserModal').modal('show');
             const id = $(this).data('id');
-            $('#userId').text(id);
             getUserEditDetails(id)
         })
 
@@ -288,6 +287,7 @@
                     $('#editUserRole').val(response.data.role);
                     $('#editUserName').val(response.data.name);
                     $('#editUserEmail').val(response.data.email);
+                    $('#UserEditConfirmBtn').data('id', id);
                 } else {
                     errorMessage('Something Went Wrong !')
                 }
@@ -296,9 +296,9 @@
             })
         }
 
-        // User edit confrim method
+        // User edit confirm method
         $(document).on('click', '#UserEditConfirmBtn', function(e) {
-            const id = $('#userId').text();
+            const id = $(this).data('id');
             const role = $('#editUserRole').val();
             const name = $('#editUserName').val();
             const email = $('#editUserEmail').val();
