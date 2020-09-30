@@ -45,6 +45,9 @@ Route::get('/delete-Supplier/{id}', 'SupplierController@deleteSupplier');
 // Customer Routes
 Route::get('/customers', 'CustomerController@index');
 Route::get('/getCustomers', 'CustomerController@getCustomers');
+Route::post('/addCustomer', 'CustomerController@addCustomer');
+Route::get('/getCustomerDetails/{id}', 'CustomerController@getCustomerDetails');
+Route::post('/updateCustomerDetails', 'CustomerController@updateCustomerDetails');
 Route::get('/delete-Customer/{id}', 'CustomerController@deleteCustomer');
 
 Auth::routes(); 
