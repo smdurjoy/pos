@@ -98,6 +98,11 @@
                 </li>
 
                 <!-- Suppliers -->
+                @if(Session::get('page') == "suppliers")
+                    <?php $active = "active"; ?>
+                @else
+                    <?php $active = ""; ?>
+                @endif
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link {{ $active }}">
                         <i class="nav-icon fas fa-book"></i>
@@ -118,16 +123,33 @@
                                 <p>View Suppliers</p>
                             </a>
                         </li>
+                    </ul>
+                </li>
 
-                        @if(Session::get('page') == 'changePass')
+                <!-- Customers -->
+                @if(Session::get('page') == "customers")
+                    <?php $active = "active"; ?>
+                @else
+                    <?php $active = ""; ?>
+                @endif
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link {{ $active }}">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Customers
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        @if(Session::get('page') == "customers")
                             <?php $active = "active"; ?>
                         @else
                             <?php $active = ""; ?>
                         @endif
-                        <li class="nav-item">
-                            <a href="{{ url('/update-password') }}" class="nav-link {{ $active }}">
+                        <li class="nav-item active">
+                            <a href="{{ url('/customers') }}" class="nav-link {{ $active }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Change Password</p>
+                                <p>View Customers</p>
                             </a>
                         </li>
                     </ul>

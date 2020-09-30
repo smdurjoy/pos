@@ -22,6 +22,9 @@ $(document).on('click', '.confirmDelete', function() {
                     else if(record == 'Supplier') {
                         getSuppliers();
                     }
+                    else if(record == 'Customer') {
+                        getCustomers();
+                    }
                     
                 } else {
                     errorMessage('Something Went Wrong !') 

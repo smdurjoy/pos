@@ -42,6 +42,11 @@ Route::get('/getSupplierDetails/{id}', 'SupplierController@getSupplierDetails');
 Route::post('/updateSupplierDetails', 'SupplierController@updateSupplierDetails');
 Route::get('/delete-Supplier/{id}', 'SupplierController@deleteSupplier');
 
+// Customer Routes
+Route::get('/customers', 'CustomerController@index');
+Route::get('/getCustomers', 'CustomerController@getCustomers');
+Route::get('/delete-Customer/{id}', 'CustomerController@deleteCustomer');
+
 Auth::routes(); 
 
 Route::get('/home', 'HomeController@index')->name('home');
