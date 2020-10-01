@@ -1,7 +1,7 @@
 // Common delete method for all actions !!
 $(document).on('click', '.confirmDelete', function() {
     const record = $(this).attr("record");
-    const recordId = $(this).attr("recordId");
+    const id = $(this).data("id");
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -12,7 +12,7 @@ $(document).on('click', '.confirmDelete', function() {
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.value) {
-            axios.get('/delete-'+record+'/'+recordId).then((response) => {
+            axios.get('/delete-'+record+'/'+id).then((response) => {
                 if(response.status == 200 && response.data == 1) {
                     successMessage(record+' Deleted Successfully !')
 

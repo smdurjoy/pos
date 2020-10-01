@@ -169,7 +169,7 @@
                             "<td>" + jsonData[i].role + "</td>" +
                             "<td>" + jsonData[i].name + "</td>" +
                             "<td>" + jsonData[i].email + "</td>" +
-                            "<td><a href='#' id='editUser' title='Edit User' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> <a href='#' title='Delete User' class='btn btn-danger btn-sm confirmDelete actionBtn' record='User' recordId="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a></td>" 
+                            "<td><a href='#' id='editUser' title='Edit User' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> <a href='#' title='Delete User' class='btn btn-danger btn-sm confirmDelete actionBtn' record='User' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a></td>" 
                         ).appendTo('#userTableBody')
                     })
                 } 

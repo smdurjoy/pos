@@ -169,7 +169,7 @@
                             "<td>" + ((jsonData[i].email == null) ? "Not Given" : jsonData[i].email) + "</td>" +
                             "<td>" + jsonData[i].number + "</td>" +
                             "<td>" + jsonData[i].address + "</td>" +
-                            "<td><a href='#' id='editCustomer' title='Edit Customer' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> <a href='#' title='Delete Customer' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Customer' recordId="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a></td>" 
+                            "<td><a href='#' id='editCustomer' title='Edit Customer' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> <a href='#' title='Delete Customer' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Customer' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a></td>" 
                         ).appendTo('#customerTableBody')
                     })
                 } 

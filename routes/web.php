@@ -71,6 +71,8 @@ Route::get('/products', 'ProductController@index');
 Route::get('/getProducts', 'ProductController@getproducts');
 Route::get('/getProductInfo', 'ProductController@getProductInfo');
 Route::post('/addProduct', 'ProductController@addProduct');
+Route::get('/getProductDetails/{id}', 'ProductController@getProductDetails');
+Route::post('/updateProductDetails', 'ProductController@updateProductDetails');
 Route::get('/delete-Product/{id}', 'ProductController@deleteProduct');
 
 Auth::routes(); 
