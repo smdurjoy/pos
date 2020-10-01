@@ -77,7 +77,7 @@
                         <div class="row" id="UserAddDetails">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <select class="form-control" style="width: 100%;" id="addUserRole" name="role">
+                                    <select class='form-control select2' style='width: 100%;' id="addUserRole" name="role">
                                         <option value="">Select Role</option>
                                         <option value="Admin">Admin</option>
                                         <option value="User">User</option>

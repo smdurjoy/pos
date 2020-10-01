@@ -31,6 +31,9 @@ $(document).on('click', '.confirmDelete', function() {
                     else if(record == 'Category') {
                         getCategories();
                     }
+                    else if(record == 'Product') {
+                        getProducts();
+                    }
                     
                 } else {
                     errorMessage('Something Went Wrong !') 

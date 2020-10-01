@@ -66,6 +66,13 @@ Route::get('/getCategoryDetails/{id}', 'CategoryController@getCategoryDetails');
 Route::post('/updateCategoryDetails', 'CategoryController@updateCategoryDetails');
 Route::get('/delete-Category/{id}', 'CategoryController@deleteCategory');
 
+// Product Routes
+Route::get('/products', 'ProductController@index');
+Route::get('/getProducts', 'ProductController@getproducts');
+Route::get('/getProductInfo', 'ProductController@getProductInfo');
+Route::post('/addProduct', 'ProductController@addProduct');
+Route::get('/delete-Product/{id}', 'ProductController@deleteProduct');
+
 Auth::routes(); 
 
 Route::get('/home', 'HomeController@index')->name('home');

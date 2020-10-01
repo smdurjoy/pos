@@ -12,8 +12,8 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{url('/admin/dashboard')}}">Home</a></li>
-                            <li class="breadcrumb-item active"><a href=" {{url('/admin/banners')}} ">Users</a></li>
+                            <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
+                            <li class="breadcrumb-item active"><a href=" {{url('/update-password')}} ">Update-Passowrd</a></li>
                         </ol>
                     </div>
                 </div>
@@ -30,8 +30,8 @@
                                 <h3 class="card-title">Change Password</h3>
                             </div>
                             <!-- /.card-header -->
-                            <div class="card-body">
-                                <form id="updatePassForm">
+                            <div class="card-body col-md-8 offset-md-2">
+                                <form id="updatePassForm">  
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label for="crntPass">Current Password</label>
