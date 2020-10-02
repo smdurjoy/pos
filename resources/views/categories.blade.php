@@ -27,7 +27,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">View Categories</h3>
+                                <h3 class="card-title">Manage Categories</h3>
                                 <a href="javascript:void(0)" class="btn btn-dark btn-sm" style="float: right" onclick="addCategoryModalOpen()"> Add Category</a>
                             </div>
                             <!-- /.card-header -->

@@ -34,7 +34,7 @@
     <!-- custom css -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <!-- Material Design Bootstrap -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.0/css/mdb.min.css" rel="stylesheet">
+    <link href="{{ asset('css/mdb.min.css') }}" rel="stylesheet">
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
     <!-- jQuery -->
@@ -44,13 +44,13 @@
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
-   @include('layouts/header')
+    @include('layouts/header')
 
-   @include('layouts/sidebar')
+    @include('layouts/sidebar')
 
-   @yield('content')
+    @yield('content')
 
-   @include('layouts/footer')
+    @include('layouts/footer')
 
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
@@ -69,7 +69,7 @@
 <!-- Bootstrap 4 -->
 <script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- Select2 -->
-<script src="../../plugins/select2/js/select2.full.min.js"></script>
+<script src="{{asset('plugins/select2/js/select2.full.min.js')}}"></script>
 <script>
     $('.select2').select2()
 </script>
@@ -96,32 +96,24 @@
 <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-<!-- page script -->
-<script>
-    $(function () {
-        // $("#userTable").DataTable({
-        //     "responsive": true,
-        //     "autoWidth": false,
-        // });
-    });
-</script>
 <!-- AdminLTE App -->
 <script src="{{asset('js/adminlte.js')}}"></script>
-<!-- AdminLTE App -->
+<!-- Axios -->
 <script src="{{asset('js/axios.min.js')}}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{asset('js/demo.js')}}"></script>
 <!-- sweetalert -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="{{asset('js/sweetalert2@9.js')}}"></script>
 <!-- MDB core JavaScript -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.0/js/mdb.min.js"></script>
+<script src="{{asset('js/mdb.min.js')}}"></script>
 <!-- Toastr -->
 <script src="{{asset('plugins/toastr/toastr.min.js')}}"></script>
 <!-- jquery-validation -->
 <script src="{{asset('plugins/jquery-validation/jquery.validate.min.js')}}"></script>
 <script src="{{asset('plugins/jquery-validation/additional-methods.min.js')}}"></script>
-<!-- custom admin js -->
+<!-- Handlebar JS -->
+<script src="{{asset('js/handlebars.min.js')}}"></script>
+<!-- custom js -->
 <script src="{{asset('js/script.js')}}"></script>
+
 
 @yield('script')
 </body>

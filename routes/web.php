@@ -75,6 +75,17 @@ Route::get('/getProductDetails/{id}', 'ProductController@getProductDetails');
 Route::post('/updateProductDetails', 'ProductController@updateProductDetails');
 Route::get('/delete-Product/{id}', 'ProductController@deleteProduct');
 
+// Purchase Routes
+Route::get('/purchase', 'PurchaseController@index');
+Route::get('/getPurchases', 'PurchaseController@getPurchases');
+Route::get('/getPurchaseInfo', 'PurchaseController@getPurchaseInfo');
+Route::post('/addPurchase', 'PurchaseController@addPurchase');
+Route::get('/getPurchaseDetails/{id}', 'PurchaseController@getPurchaseDetails');
+Route::post('/updatePurchaseDetails', 'PurchaseController@updatePurchaseDetails');
+Route::get('/delete-Purchase/{id}', 'PurchaseController@deletePurchase');
+Route::post('/getCategories', 'DefaultController@getCategories');
+Route::post('/getProducts', 'DefaultController@getProducts');
+
 Auth::routes(); 
 
 Route::get('/home', 'HomeController@index')->name('home');

@@ -27,7 +27,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">View Customers</h3>
+                                <h3 class="card-title">Manage Customers</h3>
                                 <a href="javascript:void(0)" class="btn btn-dark btn-sm" style="float: right" onclick="addCustomerModalOpen()"> Add Customer</a>
                             </div>
                             <!-- /.card-header -->

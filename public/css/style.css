@@ -28,3 +28,15 @@
 .wrongPass {
     border: 1px solid red !important;
 }
+
+#addPurchaseModal {
+    overflow-y: auto !important;
+}
+
+#addItem {
+    margin-top: 2.2rem;
+}
+
+.purchaseItemSelectBox {
+    padding: 18px 30px; 
+}

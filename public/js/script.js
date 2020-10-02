@@ -45,15 +45,16 @@ $(document).on('click', '.confirmDelete', function() {
     });
 });
 
+// Config Toast
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+});
+
 // Common method for all success messages !!
 function successMessage(message) {
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000
-    });
-
     Toast.fire({
         icon: 'success',
         title: message
@@ -62,17 +63,18 @@ function successMessage(message) {
 
 // Common method for all error messages !!
 function errorMessage(message) {
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000
-    });
-
     Toast.fire({
         icon: 'error',
         title: message
     });
+}
+
+// Common method for all error messages !!
+function warningMessage(message) {
+    Toast.fire({
+        icon: 'warning',
+        title: message
+    })
 }
 
 // Update profile validation

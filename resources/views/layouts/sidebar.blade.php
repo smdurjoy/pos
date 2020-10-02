@@ -66,7 +66,7 @@
                             <li class="nav-item active">
                                 <a href="{{ url('/users') }}" class="nav-link {{ $active }}">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>View Users</p>
+                                    <p>Manage Users</p>
                                 </a>
                             </li>
                         @endif
@@ -120,7 +120,7 @@
                         <li class="nav-item active">
                             <a href="{{ url('/suppliers') }}" class="nav-link {{ $active }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>View Suppliers</p>
+                                <p>Manage Suppliers</p>
                             </a>
                         </li>
                     </ul>
@@ -149,7 +149,7 @@
                         <li class="nav-item active">
                             <a href="{{ url('/customers') }}" class="nav-link {{ $active }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>View Customers</p>
+                                <p>Manage Customers</p>
                             </a>
                         </li>
                     </ul>
@@ -178,7 +178,7 @@
                         <li class="nav-item active">
                             <a href="{{ url('/units') }}" class="nav-link {{ $active }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>View Units</p>
+                                <p>Manage Units</p>
                             </a>
                         </li>
                     </ul>
@@ -207,7 +207,7 @@
                         <li class="nav-item active">
                             <a href="{{ url('/categories') }}" class="nav-link {{ $active }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>View Category</p>
+                                <p>Manage Category</p>
                             </a>
                         </li>
                     </ul>
@@ -236,7 +236,36 @@
                         <li class="nav-item active">
                             <a href="{{ url('/products') }}" class="nav-link {{ $active }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>View Procucts</p>
+                                <p>Manage Procucts</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Purchase -->
+                @if(Session::get('page') == "purchase")
+                    <?php $active = "active"; ?>
+                @else
+                    <?php $active = ""; ?>
+                @endif
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link {{ $active }}">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Purchase
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        @if(Session::get('page') == "purchase")
+                            <?php $active = "active"; ?>
+                        @else
+                            <?php $active = ""; ?>
+                        @endif
+                        <li class="nav-item active">
+                            <a href="{{ url('/purchase') }}" class="nav-link {{ $active }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Manage Purchase</p>
                             </a>
                         </li>
                     </ul>

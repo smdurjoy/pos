@@ -27,7 +27,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">View Units</h3>
+                                <h3 class="card-title">Manage Units</h3>
                                 <a href="javascript:void(0)" class="btn btn-dark btn-sm" style="float: right" onclick="addUnitModalOpen()"> Add Unit</a>
                             </div>
                             <!-- /.card-header -->
