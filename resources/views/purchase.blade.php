@@ -159,59 +159,7 @@
             </div>
         </div>
     </div>
-    <!-- Edit Purchase Modal -->
-    <div class="modal fade" id="editPurchaseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <form id="editPurchaseForm">
-                    <div class="modal-body p-4">
-                        <h5 class="text-center mb-4">Edit Purchase</h5>
-                        <h5 class="d-none" id="purchaseId"></h5>
-                        <div class="loadingEdit text-center">
-                            <img src="{{ asset('images/loading.svg') }}" alt="loading .."/>
-                        </div>
-                        <div class="row d-none" id="purchaseEditDetails">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="date">Date</label>
-                                </div>
-                            </div>
 
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="supplier">Purchase No</label>
-                                    <input type="text" id="editProductName" name="name" class="form-control" placeholder="Product Name">
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="unit">Select Unit</label>
-                                    <select class="form-control select2" style="width: 100%;" id="editPurchaseUnit" name="unit">
-
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="supplier">Supplier</label>
-                                    <select class='form-control select2' style='width: 100%;' id='editPurchaseupplier' name='supplier'>
-
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer"> 
-                        <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
-                        <button id="purchaseEditConfirmBtn" data-id="" type="submit" class="btn btn-danger btn-sm">Update</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @section('script')
@@ -261,10 +209,10 @@
                     $("#purchaseTable").DataTable().destroy();
                     $('#purchaseTableBody').empty();
 
-                    $.each(jsonData, function (i) {
+                    $.each(jsonData, function (i, key) {
                         $('<tr>').html(
                             "<td>" + jsonData[i].id + "</td>" +
-                            "<td>" + jsonData[i].purchase_number + "</td>" +
+                            "<td>" + jsonData[i].purchase_number + "</td>" + 
                             "<td>" + jsonData[i].date + "</td>" +
                             "<td>" + jsonData[i].supplier.name + "</td>" +
                             "<td>" + jsonData[i].category.name + "</td>" +
@@ -273,7 +221,7 @@
                             "<td>" + jsonData[i].unit_price + "</td>" +
                             "<td>" + jsonData[i].buying_price + "</td>" +
                             "<td>" + ((jsonData[i].status == 0) ? ("<span class='badge badge-danger'>Pending</span>") : ("<span class='badge badge-success'>Approved</span>")) + "</td>" +
-                            "<td> <a href='#' title='Delete Purchase' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Purchase' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a></td>" +
+                            "<td>"+ ((jsonData[i].status == 1) ? '' : ("<button href='#' title='Delete Purchase' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Purchase' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </button>")) + " </td>" +
                             "<td>" + jsonData[i].description + "</td>" 
                         ).appendTo('#purchaseTableBody')  
                     })
@@ -495,102 +443,6 @@
                 $('#purchaseAddConfirmBtn').text('Save').removeClass('disabled');
                 errorMessage(error.message)
             })
-        });
-
-        // Edit Purchase Modal Open
-        $(document).on('click', '#editPurchase', function(e) {
-            $('#editPurchaseModal').modal('show');
-
-            const id = $(this).data('id');
-            getPurchaseDetails(id);
-        });
-
-        // Get Purchase details
-        function getPurchaseDetails(id) {
-            axios.get('/getPurchaseDetails/'+id).then((response) => {
-                if(response.status == 200) {
-                    $('#purchaseEditDetails').removeClass('d-none');
-                    $('.loadingEdit').addClass('d-none');
-
-                    const suppliers = response.data.suppliers;
-                    const categories = response.data.categories;
-                    const units = response.data.units;
-                    const name = response.data.Purchase.name;
-                    const supplier_id = response.data.Purchase.supplier_id;
-                    const category_id = response.data.Purchase.category_id;
-                    const unit_id = response.data.Purchase.unit_id;
-
-
-                    $('#editPurchaseupplier').empty();
-                    $('#editPurchaseupplier').append($('<option></option>').val("").html("Select"));
-
-                    $.each(suppliers, function (i) {
-                        $('#editPurchaseupplier').append($("<option data-id="+suppliers[i].id+ " " + ((suppliers[i].id == supplier_id) ? 'selected' : '') + "></option>").val(suppliers[i].name).html(suppliers[i].name));
-                    })  
-
-                    $('#editPurchaseCategory').empty();
-                    $('#editPurchaseCategory').append($('<option></option>').val("").html("Select"));
-
-                    $.each(categories, function (i) {
-                        $('#editPurchaseCategory').append($("<option data-id="+categories[i].id+ " " + ((categories[i].id == category_id) ? 'selected' : '') + "></option>").val(categories[i].name).html(categories[i].name));
-                    })  
-
-                    $('#editPurchaseUnit').empty();
-                    $('#editPurchaseUnit').append($('<option></option>').val("").html("Select"));
-
-                    $.each(units, function (i) {
-                        $('#editPurchaseUnit').append($("<option data-id="+units[i].id+ " " + ((units[i].id == unit_id) ? 'selected' : '') + "></option>").val(units[i].name).html(units[i].name));
-                    })  
-
-                    $('#editPurchaseName').val(name);
-                    $('#purchaseEditConfirmBtn').data('id', id);
-                } else {
-                    errorMessage('Something Went Wrong !')
-                }
-            }).catch((error) => {
-                errorMessage('Something Went Wrong !')
-            })
-        }
-
-        // Purchase Edit Confirm Method
-        $(document).on('click', '#purchaseEditConfirmBtn', function(e) {
-            const id = $(this).data('id');
-            const supplier = $('#editPurchaseupplier option:selected').data('id');
-            const category = $('#editPurchaseCategory option:selected').data('id');
-            const unit = $('#editPurchaseUnit option:selected').data('id');
-            const name = $('#editPurchaseName').val()
-
-            const supplierVal = $('#editPurchaseupplier').val();
-            const categoryVal = $('#editPurchaseCategory').val();
-            const unitVal = $('#editPurchaseUnit').val();
-
-            if(supplierVal == '' || categoryVal == '' || unitVal == '' || name == '') {
-                validation('#editPurchaseForm', validationRules, validationMsg);
-            } else {
-                e.preventDefault();
-                $('#purchaseEditConfirmBtn').html('<span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>Working...').addClass('disabled');
-
-                axios.post('/updatePurchaseDetails', {
-                    id: id,
-                    supplier: supplier,
-                    category: category,
-                    unit: unit,
-                    name: name,
-                }).then((response) => {
-                    if(response.status == 200 && response.data == 1) {
-                        $('#purchaseEditConfirmBtn').text('Update').removeClass('disabled');
-                        $('#editPurchaseModal').modal('hide');
-                        successMessage('Purchase Updated Successfully.')
-                        getPurchase();
-                    } else { 
-                        $('#purchaseEditConfirmBtn').text('Update').removeClass('disabled');
-                        errorMessage('Something Went Wrong !')
-                    }
-                }).catch((error) => {
-                    $('#purchaseEditConfirmBtn').text('Update').removeClass('disabled');
-                    errorMessage('Something Went Wrong !')
-                });  
-            }
         });
     </script>
 @endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Supplier;
+use App\Product;
 use Auth;
 
 class SupplierController extends Controller
@@ -16,6 +17,7 @@ class SupplierController extends Controller
 
     function getSuppliers() {
         $data = Supplier::orderBy('id', 'desc')->get();
+        // $count_supplier = Product::where();
         return $data;
     }
 

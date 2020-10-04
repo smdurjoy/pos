@@ -34,12 +34,48 @@ $(document).on('click', '.confirmDelete', function() {
                     else if(record == 'Product') {
                         getProducts();
                     }
+                    else if(record == 'Purchase') {
+                        getPurchase();
+                    }
                     
                 } else {
                     errorMessage('Something Went Wrong !') 
                 }
             }).catch((error) => {
                 errorMessage(error.message) 
+            })
+        }
+    });
+});
+
+// Common status update method for all action !!
+$(document).on('click', '.updateStatus', function() {
+    const record = $(this).attr("record");
+    const id = $(this).data("id");  
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You want to approve this "+record,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, approve it!'
+    }).then((result) => {
+        if (result.value) {
+            axios.post('/update-'+record+'-status', {id: id}).then((response) => {
+                if(response.status == 200) {
+                    successMessage(record+' Approved Successfully !')
+
+                    if(record == 'Purchase') {
+                        getPurchase();
+                    }
+                    
+                } else {
+                    errorMessage('Something Went Wrong !') 
+                }
+            }).catch((error) => {
+                errorMessage('Something Went Wrong !') 
             })
         }
     });

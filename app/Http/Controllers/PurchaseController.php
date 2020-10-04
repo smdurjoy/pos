@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Session;
 use App\Purchase;
 use App\Supplier;
 use App\Category;
+use App\Product;
 use App\Unit;
 use Auth;
 
@@ -18,7 +19,7 @@ class PurchaseController extends Controller
     }
 
     function getPurchases() {
-        $data = Purchase::orderBy('date', 'desc')->with('product', 'supplier', 'category')->get();
+        $data = Purchase::orderBy('date', 'desc')->orderBy('id', 'desc')->with('product', 'supplier', 'category')->get();
         return $data;
     }
 
@@ -57,35 +58,26 @@ class PurchaseController extends Controller
         return 1;
     }
 
-    function getPurchaseDetails($id) {
-        $data['Purchase'] =  Purchase::find($id);
-        $data['suppliers'] = Supplier::select('id', 'name')->get();
-        $data['categories'] = Category::select('id', 'name')->get();
-        $data['units'] = Unit::select('id', 'name')->get();
+    function pendingPurchase() {
+        Session::put('page', 'pendingPurchase');
+        return view('pendingPurchase');
+    }
 
+    function pendingPurchaseList() {
+        $data = Purchase::where('status', 0)->with('product', 'supplier', 'category')->orderBy('date', 'desc')->orderBy('id', 'desc')->get();
         return $data;
     }
 
-    function updatePurchaseDetails(Request $request) {
+    function updatePurchaseStatus(Request $request) {
         $id = $request->id;
-        $supplier = $request->supplier;
-        $category = $request->category;
-        $unit = $request->unit;
-        $name = $request->name;
-        $updated_by = Auth::user()->id;
+        $purchase = Purchase::find($id);
+        $product = Product::where('id', $purchase->product_id)->first();
+        $purchase_qty = ((float) ($purchase->buying_quantity))+((float) ($product->quantity));
+        $product->quantity = $purchase_qty;
+        $updateProductQuantity = $product->save();
 
-        $result = Purchase::where('id', $id)->update([
-            'supplier_id' => $supplier,
-            'category_id' => $category,
-            'unit_id' => $unit,
-            'name' => $name,
-            'updated_by' => $updated_by,
-        ]);
-
-        if($result == true) {
-            return 1;
-        } else { 
-            return 0;
+        if($updateProductQuantity == true) {
+            Purchase::where('id', $id)->update(['status' => 1]);
         }
     }
 }

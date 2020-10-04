@@ -85,6 +85,9 @@ Route::post('/updatePurchaseDetails', 'PurchaseController@updatePurchaseDetails'
 Route::get('/delete-Purchase/{id}', 'PurchaseController@deletePurchase');
 Route::post('/getCategories', 'DefaultController@getCategories');
 Route::post('/getProducts', 'DefaultController@getProducts');
+Route::get('/pending-purchase', 'PurchaseController@pendingPurchase');
+Route::get('/pendingPurchaseList', 'PurchaseController@pendingPurchaseList');
+Route::post('/update-Purchase-status', 'PurchaseController@updatePurchaseStatus');
 
 Auth::routes(); 
 
