@@ -201,9 +201,6 @@
                     address: {
                         required: true,
                     },
-                    email: {
-                        email: true,
-                    },
             });
 
         const validationMsg = Object.assign({
@@ -216,9 +213,6 @@
                 address: {
                     required: "Please enter Customer address",
                 },
-                email: {
-                    email: "Please enter a valid email address",
-                },
         });
 
         // Add Customer
@@ -227,11 +221,11 @@
             const number = $('#addCustomerNumber').val();
             const email = $('#addCustomerEmail').val();
             const address = $('#addCustomerAddress').val();
-            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
             
-            if(name == '' || number == '' || address == '' || !(email.match(emailPattern))) {
+            if(name == '' || number == '' || address == '' ) {
                 validation('#addCustomerForm', validationRules, validationMsg);
-            } else {
+            }
+            else {
                 e.preventDefault();
                 $('#customerAddConfirmBtn').html('<span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>Working...').addClass('disabled');
 

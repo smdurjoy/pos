@@ -180,7 +180,7 @@
                             "<td>" + jsonData[i].category.name + "</td>" +
                             "<td>" + jsonData[i].name + "</td>" +
                             "<td>" + jsonData[i].unit.name + "</td>" +
-                            "<td><a href='#' id='editProduct' title='Edit Product' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> <a href='#' title='Delete Product' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Product' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a></td>" 
+                            "<td><a href='#' id='editProduct' title='Edit Product' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> " + ((jsonData[i].purchase.length == 0) ? ("<a href='#' title='Delete Product' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Product' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a>") : '') + " </td>" 
                         ).appendTo('#productTableBody')  
                     })
                 } 

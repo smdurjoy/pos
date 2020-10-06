@@ -18,7 +18,7 @@ class ProductController extends Controller
     }
 
     function getProducts() {
-        $data = Product::orderBy('id', 'desc')->with('supplier', 'category', 'unit')->get();
+        $data = Product::orderBy('id', 'desc')->with('supplier', 'category', 'unit', 'purchase')->get();
         return $data;
     }
 

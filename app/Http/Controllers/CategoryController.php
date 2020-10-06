@@ -15,7 +15,7 @@ class CategoryController extends Controller
     }
 
     function getCategories() {
-        $data = Category::orderBy('id', 'desc')->get();
+        $data = Category::orderBy('id', 'desc')->with('products')->get();
         return $data;
     }
 

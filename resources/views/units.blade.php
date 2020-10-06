@@ -136,7 +136,7 @@
                         $('<tr>').html(
                             "<td>" + jsonData[i].id + "</td>" +
                             "<td>" + jsonData[i].name + "</td>" +
-                            "<td><a href='#' id='editUnit' title='Edit Unit' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> <a href='#' title='Delete Unit' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Unit' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a></td>" 
+                            "<td><a href='#' id='editUnit' title='Edit Unit' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> " + ((jsonData[i].products.length == 0) ? ("<a href='#' title='Delete Supplier' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Unit' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a>") : '') + "</td>" 
                         ).appendTo('#unitTableBody')
                     })
                 } 

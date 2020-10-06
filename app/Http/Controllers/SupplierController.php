@@ -16,13 +16,12 @@ class SupplierController extends Controller
     }
 
     function getSuppliers() {
-        $data = Supplier::orderBy('id', 'desc')->get();
-        // $count_supplier = Product::where();
+        $data = Supplier::orderBy('id', 'desc')->with('products')->get();
         return $data;
     }
 
     function deleteSupplier($id) {
-        $result = Supplier::find($id)->delete();
+        $result = Supplier::find($id)->delete();    
 
         if($result == true) {
             return 1;

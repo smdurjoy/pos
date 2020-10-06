@@ -17,4 +17,8 @@ class Product extends Model
     function unit() {
         return $this->belongsTo('App\Unit')->select('id', 'name');
     }
+
+    function purchase() {
+        return $this->hasMany('App\Purchase')->select('id', 'product_id');
+    }
 }

@@ -15,7 +15,7 @@ class UnitController extends Controller
     }
 
     function getUnits() {
-        $data = Unit::orderBy('id', 'desc')->get();
+        $data = Unit::orderBy('id', 'desc')->with('products')->get();
         return $data;
     }
 
