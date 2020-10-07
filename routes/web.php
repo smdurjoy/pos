@@ -69,7 +69,6 @@ Route::get('/delete-Category/{id}', 'CategoryController@deleteCategory');
 // Product Routes
 Route::get('/products', 'ProductController@index');
 Route::get('/getProducts', 'ProductController@getproducts');
-Route::get('/getProductInfo', 'ProductController@getProductInfo');
 Route::post('/addProduct', 'ProductController@addProduct');
 Route::get('/getProductDetails/{id}', 'ProductController@getProductDetails');
 Route::post('/updateProductDetails', 'ProductController@updateProductDetails');
@@ -83,12 +82,21 @@ Route::post('/addPurchase', 'PurchaseController@addPurchase');
 Route::get('/getPurchaseDetails/{id}', 'PurchaseController@getPurchaseDetails');
 Route::post('/updatePurchaseDetails', 'PurchaseController@updatePurchaseDetails');
 Route::get('/delete-Purchase/{id}', 'PurchaseController@deletePurchase');
-Route::post('/getCategories', 'DefaultController@getCategories');
-Route::post('/getProducts', 'DefaultController@getProducts');
 Route::get('/pending-purchase', 'PurchaseController@pendingPurchase');
 Route::get('/pendingPurchaseList', 'PurchaseController@pendingPurchaseList');
 Route::post('/update-Purchase-status', 'PurchaseController@updatePurchaseStatus');
 
-Auth::routes(); 
+// Default Routes
+Route::get('/getProductInfo', 'DefaultController@getProductInfo');
+Route::post('/getCategories', 'DefaultController@getCategories');
+Route::post('/getProducts', 'DefaultController@getProducts');
+Route::post('/getProductStock', 'DefaultController@getProductStock');
+Route::get('/getInvoiceNo', 'DefaultController@getInvoiceNo');
+
+// Invoice Routes
+Route::get('/invoice', 'InvoiceController@index');
+Route::get('/getInvoices', 'InvoiceController@getInvoices');
+
+Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

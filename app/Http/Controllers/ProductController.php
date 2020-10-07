@@ -22,21 +22,12 @@ class ProductController extends Controller
         return $data;
     }
 
-    function getProductInfo() {
-        $data['suppliers'] = Supplier::select('id', 'name')->get();
-        $data['categories'] = Category::select('id', 'name')->get();
-        $data['units'] = Unit::select('id', 'name')->get();
-        // $data = json_decode(json_encode($data), true);
-        // echo '<pre>'; print_r($data); die;
-        return $data;
-    }
-
     function deleteProduct($id) {
         $result = Product::find($id)->delete();
 
         if($result == true) {
             return 1;
-        } else { 
+        } else {
             return 0;
         }
     }
@@ -58,7 +49,7 @@ class ProductController extends Controller
 
         if($result == true) {
             return 1;
-        } else { 
+        } else {
             return 0;
         }
     }
@@ -90,7 +81,7 @@ class ProductController extends Controller
 
         if($result == true) {
             return 1;
-        } else { 
+        } else {
             return 0;
         }
     }

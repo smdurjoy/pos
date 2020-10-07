@@ -50,7 +50,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="purchaseTableBody">
-                                       
+
                                     </tbody>
                                 </table>
                                 <div class="loading text-center">
@@ -80,7 +80,7 @@
                 <form id="addPurchaseSelectItem">
                     <div class="modal-body purchaseItemSelectBox">
                         <h5 class="text-center mb-4">Add Purchase</h5>
-                        <div class="row">   
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="date">Date</label>
@@ -123,7 +123,7 @@
                 </form>
 
                 <form id="addPurchaseForm">
-                    <div class="modal-body">  
+                    <div class="modal-body">
                         <table>
                             <thead>
                                 <th>Category</th>
@@ -151,11 +151,11 @@
                         </table>
                     </div>
 
-                    <div class="modal-footer"> 
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
                         <button id="purchaseAddConfirmBtn" type="submit" class="btn btn-danger btn-sm">Save</button>
                     </div>
-                <form>
+                </form>
             </div>
         </div>
     </div>
@@ -199,7 +199,7 @@
     <!-- Custom js -->
     <script type="text/javascript">
         getPurchase();
-        
+
         // Get Purchase
         function getPurchase() {
             axios.get('/getPurchases').then((response) => {
@@ -212,20 +212,20 @@
                     $.each(jsonData, function (i, key) {
                         $('<tr>').html(
                             "<td>" + jsonData[i].id + "</td>" +
-                            "<td>" + jsonData[i].purchase_number + "</td>" + 
+                            "<td>" + jsonData[i].purchase_number + "</td>" +
                             "<td>" + jsonData[i].date + "</td>" +
                             "<td>" + jsonData[i].supplier.name + "</td>" +
                             "<td>" + jsonData[i].category.name + "</td>" +
-                            "<td>" + jsonData[i].product.name + "</td>" + 
+                            "<td>" + jsonData[i].product.name + "</td>" +
                             "<td>" + jsonData[i].buying_quantity + "</td>" +
                             "<td>" + jsonData[i].unit_price + "</td>" +
                             "<td>" + jsonData[i].buying_price + "</td>" +
                             "<td>" + ((jsonData[i].status == 0) ? ("<span class='badge badge-danger'>Pending</span>") : ("<span class='badge badge-success'>Approved</span>")) + "</td>" +
                             "<td>"+ ((jsonData[i].status == 1) ? '' : ("<button href='#' title='Delete Purchase' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Purchase' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </button>")) + " </td>" +
-                            "<td>" + jsonData[i].description + "</td>" 
-                        ).appendTo('#purchaseTableBody')  
+                            "<td>" + jsonData[i].description + "</td>"
+                        ).appendTo('#purchaseTableBody')
                     })
-                } 
+                }
 
                 $("#purchaseTable").DataTable({
                 "responsive": true,
@@ -238,11 +238,11 @@
             })
         }
 
-        //Date picker formate
+        // Date picker format
         $('#reservationdate').datetimepicker({
             format: 'L'
         });
-    
+
         // Add Purchase Modal Open
         function addPurchaseModalOpen() {
             $('#addPurchaseModal').modal('show');
@@ -252,7 +252,7 @@
 
             axios.get('/getProductInfo').then((response) => {
                 if(response.status == 200) {
-    
+
                     const suppliers = response.data.suppliers;
 
                     $('#addSupplierName').empty();
@@ -260,8 +260,8 @@
 
                     $.each(suppliers, function (i) {
                         $('#addSupplierName').append($("<option></option>").val(suppliers[i].id).html(suppliers[i].name));
-                    })  
-                } 
+                    })
+                }
 
             }).catch((error) => {
                 errorMessage(error.message)
@@ -290,9 +290,9 @@
                         });
                     }
                 }
-                
+
             }).catch((error) => {
-                errorMessage('Something Went Wrong !') 
+                errorMessage('Something Went Wrong !')
             })
         });
 
@@ -318,9 +318,9 @@
                         });
                     }
                 }
-                
+
             }).catch((error) => {
-                errorMessage('Something Went Wrong !') 
+                errorMessage('Something Went Wrong !')
             })
         });
 
@@ -420,8 +420,8 @@
         }
 
         // Add Purchase
-        $(document).on('submit', '#addPurchaseForm', function(e) {      
-            e.preventDefault();      
+        $(document).on('submit', '#addPurchaseForm', function(e) {
+            e.preventDefault();
             $('#purchaseAddConfirmBtn').html('<span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>Working...').addClass('disabled');
             const data = new FormData(this);
 
@@ -429,7 +429,7 @@
                 if(response.status == 200 && response.data == 0) {
                     $('#purchaseAddConfirmBtn').text('Save').removeClass('disabled');
                     warningMessage('You must select item first !');
-                } 
+                }
                 else if(response.status == 200 && response.data == 1) {
                     $('#purchaseAddConfirmBtn').text('Save').removeClass('disabled');
                     successMessage('Purchase Added Successfully.');
