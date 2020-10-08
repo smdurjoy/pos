@@ -45,3 +45,9 @@
     height: 550px !important;
     overflow-y: auto !important;
 }
+
+.tableTitle {
+    font-size: 14px;
+    margin-right: 5px;
+    margin-top: 5px;
+}

@@ -38,17 +38,19 @@ class DefaultController extends Controller
         return $stock;
     }
 
-    function getInvoiceNo(Request $request) {
+    function getInvoiceNoAndCurrentDate(Request $request) {
         $invoice_data = Invoice::orderBy('id', 'desc')->first();
 
         if($invoice_data == null) {
             $firstInvoiceNo = 100100;
-            $invoiceNo = $firstInvoiceNo+1;
+            $data['invoiceNo'] = $firstInvoiceNo+1;
         } else {
             $invoice_no = Invoice::orderBy('id', 'desc')->first()->invoice_no;
-            $invoiceNo = $invoice_no+1;
+            $data['invoiceNo'] = $invoice_no+1;
         }
 
-        return response()->json($invoiceNo);
+        $data['date'] = date('Y-m-d');
+
+        return response()->json($data);
     }
 }

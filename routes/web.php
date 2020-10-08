@@ -91,11 +91,12 @@ Route::get('/getProductInfo', 'DefaultController@getProductInfo');
 Route::post('/getCategories', 'DefaultController@getCategories');
 Route::post('/getProducts', 'DefaultController@getProducts');
 Route::post('/getProductStock', 'DefaultController@getProductStock');
-Route::get('/getInvoiceNo', 'DefaultController@getInvoiceNo');
+Route::get('/getInvoiceNoAndCurrentDate', 'DefaultController@getInvoiceNoAndCurrentDate');
 
 // Invoice Routes
 Route::get('/invoice', 'InvoiceController@index');
 Route::get('/getInvoices', 'InvoiceController@getInvoices');
+Route::post('/addInvoice', 'InvoiceController@addInvoice');
 
 Auth::routes();
 

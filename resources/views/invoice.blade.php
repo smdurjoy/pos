@@ -36,10 +36,12 @@
                                     <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>Customer Name</th>
+                                        <th>Customer Info</th>
                                         <th>Invoice No</th>
                                         <th>Date</th>
                                         <th>Description</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -78,7 +80,7 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="invoice_no">Invoice No</label>
-                                    <input type="text" id="invoiceNo" name="invoice_no" class="form-control" readonly style="background: #d8fdba">
+                                    <input type="text" id="invoiceNo" class="form-control" readonly style="background: #d8fdba">
                                 </div>
                             </div>
 
@@ -144,7 +146,7 @@
 
                             <tbody>
                                 <tr>
-                                    <td colspan="4">Discount</td>
+                                    <td colspan="4" class="text-right"><h5 class="tableTitle">Discount:</h5></td>
                                     <td>
                                         <input type="number" class="form-control form-control-sm text-right" name="discount_amount" id="discount_amount">
                                     </td>
@@ -154,7 +156,7 @@
 
                             <tbody>
                                 <tr>
-                                    <td colspan="4"></td>
+                                    <td colspan="4" class="text-right"><h5 class="tableTitle">Grand Total:</h5></td>
                                     <td>
                                         <input type="text" class="form-control form-control-sm text-right" name="estimated_amount" value="0" id="estimated_amount" readonly style="background: #d8fdba">
                                     </td>
@@ -165,7 +167,7 @@
 
                         <div class="form-row mt-2">
                             <div class="form-group col-md-12">
-                                <textarea class="form-control" id="description" placeholder="Write description .."></textarea>
+                                <textarea class="form-control" id="description" name="description" placeholder="Write description .."></textarea>
                             </div>
                         </div>
 
@@ -180,13 +182,13 @@
 
                         <div class="form-row customerInfo d-none">
                             <div class="col-md-4">
-                                <input type="text" class="form-control form-control-sm" placeholder="Customer Name" id="customerName">
+                                <input type="text" class="form-control form-control-sm" placeholder="Customer Name" id="customerName" name="customer_name">
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="form-control form-control-sm" placeholder="Customer Number" id="customerNumber">
+                                <input type="text" class="form-control form-control-sm" placeholder="Customer Number" id="customerNumber" name="customer_number">
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="form-control form-control-sm" placeholder="Customer Address" id="customerAddress">
+                                <input type="text" class="form-control form-control-sm" placeholder="Customer Address" id="customerAddress" name="customer_address">
                             </div>
                         </div>
 
@@ -198,7 +200,7 @@
                                     <option value="full_due">Full Due</option>
                                     <option value="partial_paid">Partial Paid</option>
                                 </select>
-                                <input type="number" class="form-control form-control-sm mt-2 d-none paidAmount" placeholder="Enter Paid Amount">
+                                <input type="number" class="form-control form-control-sm mt-2 d-none paidAmount" placeholder="Enter Paid Amount" name="paid_amount">
                             </div>
                         </div>
                     </div>
@@ -257,11 +259,13 @@
                     $.each(jsonData, function (i) {
                         $('<tr>').html(
                             "<td>" + jsonData[i].id + "</td>" +
-                            "<td>" + jsonData[i].name + "</td>" +
-                            "<td>" + ((jsonData[i].email == null) ? "Not Given" : jsonData[i].email) + "</td>" +
-                            "<td>" + jsonData[i].number + "</td>" +
-                            "<td>" + jsonData[i].address + "</td>" +
-                            "<td><a href='#' id='editInvoice' title='Edit Invoice' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> <a href='#' title='Delete Invoice' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Invoice' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a></td>"
+                            "<td>" + jsonData[i].payment.customer.name + ' (' + jsonData[i].payment.customer.number + ', '+ jsonData[i].payment.customer.address + ')' + "</td>" +
+                            "<td>" + jsonData[i].invoice_no + "</td>" +
+                            "<td>" + jsonData[i].date + "</td>" +
+                            "<td>" + jsonData[i].description + "</td>" +
+                            "<td>" + jsonData[i].payment.total_amount + "</td>" +
+                            "<td>" + ((jsonData[i].status == 0) ? ("<span class='badge badge-danger'>Pending</span>") : ("<span class='badge badge-success'>Approved</span>")) + "</td>" +
+                            "<td><a href='#' title='Delete Invoice' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Invoice' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a></td>"
                         ).appendTo('#invoiceTableBody')
                     })
                 }
@@ -279,7 +283,7 @@
 
         // Date picker format
         $('#reservationdate').datetimepicker({
-            format: 'L'
+            format: 'YYYY-MM-DD'
         });
 
         // Add Invoice Modal Open
@@ -307,9 +311,10 @@
             })
 
             // Get Invoice Number
-            axios.get('/getInvoiceNo').then((response) => {
+            axios.get('/getInvoiceNoAndCurrentDate').then((response) => {
                 if(response.status == 200) {
-                    $("#invoiceNo").val(response.data);
+                    $("#invoiceNo").val(response.data.invoiceNo);
+                    $("#date").val(response.data.date);
                 }
             }).catch((error) => {
                 errorMessage(error.message)
@@ -463,6 +468,7 @@
             const total_price = unit_price * selling_qty;
             $(this).closest('tr').find('input.selling_price').val(total_price);
             $('#discount_amount').trigger('keyup click')
+            totalAmount()
         });
 
         $(document).on('keyup click', '#discount_amount', function () {
@@ -498,11 +504,15 @@
                     $('#purchaseAddConfirmBtn').text('Save').removeClass('disabled');
                     warningMessage('You must select item first !');
                 }
+                else if(response.status == 200 && response.data == 2) {
+                    $('#purchaseAddConfirmBtn').text('Save').removeClass('disabled');
+                    warningMessage("Paid amount can't be greater than grand total !");
+                }
                 else if(response.status == 200 && response.data == 1) {
                     $('#purchaseAddConfirmBtn').text('Save').removeClass('disabled');
                     successMessage('Invoice Added Successfully.');
                     $('#addInvoiceModal').modal('hide');
-                    getInvoice();
+                    getInvoices();
                 } else {
                     $('#purchaseAddConfirmBtn').text('Save').removeClass('disabled');
                     errorMessage('Something Went Wrong !')
