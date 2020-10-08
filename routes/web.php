@@ -97,6 +97,11 @@ Route::get('/getInvoiceNoAndCurrentDate', 'DefaultController@getInvoiceNoAndCurr
 Route::get('/invoice', 'InvoiceController@index');
 Route::get('/getInvoices', 'InvoiceController@getInvoices');
 Route::post('/addInvoice', 'InvoiceController@addInvoice');
+Route::get('/pending-invoice', 'InvoiceController@pendingInvoice');
+Route::get('/pendingInvoiceList', 'InvoiceController@pendingInvoiceList');
+Route::get('/delete-Invoice/{id}', 'InvoiceController@deleteInvoice');
+Route::get('/getApproveInvoiceDetails/{id}', 'InvoiceController@getApproveInvoiceDetails');
+Route::post('/approveInvoice', 'InvoiceController@approveInvoice');
 
 Auth::routes();
 

@@ -51,3 +51,8 @@
     margin-right: 5px;
     margin-top: 5px;
 }
+
+.currentStock {
+    background: #ddd;
+    text-align: center;
+}

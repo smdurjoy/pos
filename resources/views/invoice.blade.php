@@ -265,9 +265,9 @@
                             "<td>" + jsonData[i].description + "</td>" +
                             "<td>" + jsonData[i].payment.total_amount + "</td>" +
                             "<td>" + ((jsonData[i].status == 0) ? ("<span class='badge badge-danger'>Pending</span>") : ("<span class='badge badge-success'>Approved</span>")) + "</td>" +
-                            "<td><a href='#' title='Delete Invoice' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Invoice' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a></td>"
+                            "<td>"+ ((jsonData[i].status == 1) ? '' : ("<a href='#' title='Delete Invoice' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Invoice' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a>")) + " </td>"
                         ).appendTo('#invoiceTableBody')
-                    })
+                    });
                 }
 
                 $("#invoiceTable").DataTable({
@@ -277,7 +277,7 @@
                 });
 
             }).catch((error) => {
-                errorMessage('Something Went Wrong !')
+                errorMessage(error.message)
             })
         }
 
@@ -496,29 +496,29 @@
         // Add Invoice
         $(document).on('submit', '#addInvoiceForm', function(e) {
             e.preventDefault();
-            $('#purchaseAddConfirmBtn').html('<span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>Working...').addClass('disabled');
+            $('#invoiceAddConfirmBtn').html('<span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>Working...').addClass('disabled');
             const data = new FormData(this);
 
             axios.post('/addInvoice', data).then((response) => {
                 if(response.status == 200 && response.data == 0) {
-                    $('#purchaseAddConfirmBtn').text('Save').removeClass('disabled');
+                    $('#invoiceAddConfirmBtn').text('Store').removeClass('disabled');
                     warningMessage('You must select item first !');
                 }
                 else if(response.status == 200 && response.data == 2) {
-                    $('#purchaseAddConfirmBtn').text('Save').removeClass('disabled');
+                    $('#invoiceAddConfirmBtn').text('Store').removeClass('disabled');
                     warningMessage("Paid amount can't be greater than grand total !");
                 }
                 else if(response.status == 200 && response.data == 1) {
-                    $('#purchaseAddConfirmBtn').text('Save').removeClass('disabled');
+                    $('#invoiceAddConfirmBtn').text('Store').removeClass('disabled');
                     successMessage('Invoice Added Successfully.');
                     $('#addInvoiceModal').modal('hide');
                     getInvoices();
                 } else {
-                    $('#purchaseAddConfirmBtn').text('Save').removeClass('disabled');
+                    $('#invoiceAddConfirmBtn').text('Store').removeClass('disabled');
                     errorMessage('Something Went Wrong !')
                 }
             }).catch((error) => {
-                $('#purchaseAddConfirmBtn').text('Save').removeClass('disabled');
+                $('#invoiceAddConfirmBtn').text('Save').removeClass('disabled');
                 errorMessage(error.message)
             })
         });

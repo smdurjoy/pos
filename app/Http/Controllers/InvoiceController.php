@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Customer;
-use App\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -99,5 +98,52 @@ class InvoiceController extends Controller
 
             return 1;
         }
+    }
+
+    function pendingInvoice() {
+        Session::put('page', 'pendingInvoice');
+        return view('pendingInvoice');
+    }
+
+    function pendingInvoiceList() {
+        return Invoice::where('status', 0)->with('payment')->orderBy('date', 'desc')->orderBy('id', 'desc')->get();
+    }
+
+    function deleteInvoice($id) {
+        $invoice = Invoice::find($id);
+        InvoiceDetail::where('invoice_id', $invoice->id)->delete();
+        Payment::where('invoice_id', $invoice->id)->delete();
+        PaymentDetail::where('invoice_id', $invoice->id)->delete();
+        $invoice->delete();
+
+        return 1;
+    }
+
+    function getApproveInvoiceDetails($id) {
+        return Invoice::with('payment', 'invoiceDetails')->find($id);
+    }
+
+    function approveInvoice(Request $request) {
+        foreach ($request->selling_qty as $key => $value) {
+            $invoice_details = InvoiceDetail::where('id', $key)->first();
+            $productQuantity = Product::where('id', $invoice_details->product_id)->first()->quantity;
+            if($productQuantity < $request->selling_qty[$key]) {
+                return 2;
+            }
+        }
+
+        $invoice = Invoice::find($request->id);
+        $invoice->approved_by = Auth::user()->id;
+        $invoice->status = '1';
+        DB::transaction(function () use($request, $invoice) {
+            foreach ($request->selling_qty as $key => $value) {
+                $invoice_details = InvoiceDetail::where('id', $key)->first();
+                $product = Product::where('id', $invoice_details->product_id)->first();
+                $product->quantity = ((float)$product->quantity) - ((float)$request->selling_qty[$key]);
+                $product->save();
+            }
+            $invoice->save();
+        });
+        return 1;
     }
 }

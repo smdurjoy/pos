@@ -18,7 +18,7 @@ $(document).on('click', '.confirmDelete', function() {
 
                     if(record == 'User') {
                         getUser();
-                    } 
+                    }
                     else if(record == 'Supplier') {
                         getSuppliers();
                     }
@@ -37,12 +37,15 @@ $(document).on('click', '.confirmDelete', function() {
                     else if(record == 'Purchase') {
                         getPurchase();
                     }
-                    
+                    else if(record == 'Invoice') {
+                        getInvoices();
+                    }
+
                 } else {
-                    errorMessage('Something Went Wrong !') 
+                    errorMessage('Something Went Wrong !')
                 }
             }).catch((error) => {
-                errorMessage(error.message) 
+                errorMessage(error.message)
             })
         }
     });
@@ -51,7 +54,7 @@ $(document).on('click', '.confirmDelete', function() {
 // Common status update method for all action !!
 $(document).on('click', '.updateStatus', function() {
     const record = $(this).attr("record");
-    const id = $(this).data("id");  
+    const id = $(this).data("id");
 
     Swal.fire({
         title: 'Are you sure?',
@@ -70,12 +73,12 @@ $(document).on('click', '.updateStatus', function() {
                     if(record == 'Purchase') {
                         getPurchase();
                     }
-                    
+
                 } else {
-                    errorMessage('Something Went Wrong !') 
+                    errorMessage('Something Went Wrong !')
                 }
             }).catch((error) => {
-                errorMessage('Something Went Wrong !') 
+                errorMessage('Something Went Wrong !')
             })
         }
     });
@@ -118,7 +121,7 @@ function validation(formId, rules, messages) {
     $(formId).validate({
         rules: rules,
         messages: messages,
-        
+
         errorElement: 'span',
         errorPlacement: function (error, element) {
         error.addClass('invalid-feedback');
