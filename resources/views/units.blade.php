@@ -32,7 +32,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="unitTable" class="table table-bordered table-striped">
+                                <table id="unitTable" class="table table-bordered table-sm">
                                     <thead>
                                         <tr>
                                             <th>Id</th>
@@ -41,7 +41,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="unitTableBody">
-                                       
+
                                     </tbody>
                                 </table>
                                 <div class="loading text-center">
@@ -80,7 +80,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer"> 
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
                         <button id="unitAddConfirmBtn" type="submit" class="btn btn-danger btn-sm">Save</button>
                     </div>
@@ -109,7 +109,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer"> 
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
                         <button id="unitEditConfirmBtn" data-id="" type="submit" class="btn btn-danger btn-sm">Update</button>
                     </div>
@@ -136,10 +136,10 @@
                         $('<tr>').html(
                             "<td>" + jsonData[i].id + "</td>" +
                             "<td>" + jsonData[i].name + "</td>" +
-                            "<td><a href='#' id='editUnit' title='Edit Unit' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> " + ((jsonData[i].products.length == 0) ? ("<a href='#' title='Delete Supplier' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Unit' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a>") : '') + "</td>" 
+                            "<td><a href='#' id='editUnit' title='Edit Unit' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> " + ((jsonData[i].products.length == 0) ? ("<a href='#' title='Delete Supplier' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Unit' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a>") : '') + "</td>"
                         ).appendTo('#unitTableBody')
                     })
-                } 
+                }
 
                 $("#unitTable").DataTable({
                 "responsive": true,
@@ -173,7 +173,7 @@
         // Add Unit
         $(document).on('click', '#unitAddConfirmBtn', function(e) {
             const name = $('#addUnitName').val();
-            
+
             if(name == '') {
                 validation('#addUnitForm', validationRules, validationMsg);
             } else {
@@ -188,14 +188,14 @@
                         $('#addUnitModal').modal('hide');
                         successMessage('Unit Added Successfully.')
                         getUnits();
-                    } else { 
+                    } else {
                         $('#unitAddConfirmBtn').text('Save').removeClass('disabled');
                         errorMessage('Something Went Wrong !')
                     }
                 }).catch((error) => {
                     $('#unitAddConfirmBtn').text('Save').removeClass('disabled');
                     errorMessage('Something Went Wrong !')
-                })  
+                })
             }
         });
 
@@ -227,7 +227,7 @@
         $(document).on('click', '#unitEditConfirmBtn', function(e) {
             const id = $(this).data('id');
             const name = $('#editUnitName').val();
-            
+
             if(name == '') {
                 validation('#editUnitForm', validationRules, validationMsg);
             } else {

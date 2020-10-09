@@ -31,7 +31,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="invoiceTable" class="table table-bordered table-striped">
+                                <table id="invoiceTable" class="table table-bordered table-sm">
                                     <thead>
                                     <tr>
                                         <th>Id</th>

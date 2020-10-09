@@ -32,7 +32,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="categoryTable" class="table table-bordered table-striped">
+                                <table id="categoryTable" class="table table-bordered table-sm">
                                     <thead>
                                         <tr>
                                             <th>Id</th>
@@ -41,7 +41,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="categoryTableBody">
-                                       
+
                                     </tbody>
                                 </table>
                                 <div class="loading text-center">
@@ -80,7 +80,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer"> 
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
                         <button id="categoryAddConfirmBtn" type="submit" class="btn btn-danger btn-sm">Save</button>
                     </div>
@@ -109,7 +109,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer"> 
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
                         <button id="categoryEditConfirmBtn" data-id="" type="submit" class="btn btn-danger btn-sm">Update</button>
                     </div>
@@ -136,10 +136,10 @@
                         $('<tr>').html(
                             "<td>" + jsonData[i].id + "</td>" +
                             "<td>" + jsonData[i].name + "</td>" +
-                            "<td><a href='#' id='editCategory' title='Edit Category' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> " + ((jsonData[i].products.length == 0) ? ("<a href='#' title='Delete Category' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Category' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a>") : '') + " </td>" 
+                            "<td><a href='#' id='editCategory' title='Edit Category' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> " + ((jsonData[i].products.length == 0) ? ("<a href='#' title='Delete Category' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Category' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a>") : '') + " </td>"
                         ).appendTo('#categoryTableBody')
                     })
-                } 
+                }
 
                 $("#categoryTable").DataTable({
                 "responsive": true,
@@ -173,7 +173,7 @@
         // Add Category
         $(document).on('click', '#categoryAddConfirmBtn', function(e) {
             const name = $('#addCategoryName').val();
-            
+
             if(name == '') {
                 validation('#addCategoryForm', validationRules, validationMsg);
             } else {
@@ -188,14 +188,14 @@
                         $('#addCategoryModal').modal('hide');
                         successMessage('Category Added Successfully.')
                         getCategories();
-                    } else { 
+                    } else {
                         $('#categoryAddConfirmBtn').text('Save').removeClass('disabled');
                         errorMessage('Something Went Wrong !')
                     }
                 }).catch((error) => {
                     $('#categoryAddConfirmBtn').text('Save').removeClass('disabled');
                     errorMessage('Something Went Wrong !')
-                })  
+                })
             }
         });
 
@@ -227,7 +227,7 @@
         $(document).on('click', '#categoryEditConfirmBtn', function(e) {
             const id = $(this).data('id');
             const name = $('#editCategoryName').val();
-            
+
             if(name == '') {
                 validation('#editCategoryForm', validationRules, validationMsg);
             } else {

@@ -347,6 +347,47 @@
                         </li>
                     </ul>
                 </li>
+
+                <!-- Stock -->
+                @if(Session::get('page') == "stockReport" || Session::get('page') == "stockReportProductOrSupplierWise")
+                    <?php $active = "active"; ?>
+                @else
+                    <?php $active = ""; ?>
+                @endif
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link {{ $active }}">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Stock
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        @if(Session::get('page') == "stockReport")
+                            <?php $active = "active"; ?>
+                        @else
+                            <?php $active = ""; ?>
+                        @endif
+                        <li class="nav-item active">
+                            <a href="{{ url('/stock-report') }}" class="nav-link {{ $active }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Stock Report</p>
+                            </a>
+                        </li>
+
+                        @if(Session::get('page') == "stockReportProductOrSupplierWise")
+                            <?php $active = "active"; ?>
+                        @else
+                            <?php $active = ""; ?>
+                        @endif
+                        <li class="nav-item active">
+                            <a href="{{ url('/stock-report-product-supplier-wise') }}" class="nav-link {{ $active }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Supplier/Product Wise</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

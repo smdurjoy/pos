@@ -32,7 +32,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="productTable" class="table table-bordered table-striped">
+                                <table id="productTable" class="table table-bordered table-sm">
                                     <thead>
                                         <tr>
                                             <th>Id</th>
@@ -44,7 +44,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="productTableBody">
-                                       
+
                                     </tbody>
                                 </table>
                                 <div class="loading text-center">
@@ -87,7 +87,7 @@
 
                             </select>
                         </div>
-    
+
                         <div class="form-group">
                             <label for="category">Select Category</label><br>
                             <select class="form-control select2" style="width: 100%;" id="addProductCategory" name="category">
@@ -98,9 +98,9 @@
                         <div class="form-group">
                             <label for="phone">Product Name</label>
                             <input type="text" id="addProductName" name="name" class="form-control" placeholder="Product Name">
-                        </div> 
+                        </div>
                     </div>
-                    <div class="modal-footer"> 
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
                         <button id="productAddConfirmBtn" type="submit" class="btn btn-danger btn-sm">Save</button>
                     </div>
@@ -135,7 +135,7 @@
 
                                     </select>
                                 </div>
-            
+
                                 <div class="form-group">
                                     <label for="category">Select Category</label><br>
                                     <select class="form-control select2" style="width: 100%;" id="editProductCategory" name="category">
@@ -146,11 +146,11 @@
                                 <div class="form-group">
                                     <label for="phone">Product Name</label>
                                     <input type="text" id="editProductName" name="name" class="form-control" placeholder="Product Name">
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer"> 
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
                         <button id="productEditConfirmBtn" data-id="" type="submit" class="btn btn-danger btn-sm">Update</button>
                     </div>
@@ -180,10 +180,10 @@
                             "<td>" + jsonData[i].category.name + "</td>" +
                             "<td>" + jsonData[i].name + "</td>" +
                             "<td>" + jsonData[i].unit.name + "</td>" +
-                            "<td><a href='#' id='editProduct' title='Edit Product' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> " + ((jsonData[i].purchase.length == 0) ? ("<a href='#' title='Delete Product' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Product' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a>") : '') + " </td>" 
-                        ).appendTo('#productTableBody')  
+                            "<td><a href='#' id='editProduct' title='Edit Product' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> " + ((jsonData[i].purchase.length == 0) ? ("<a href='#' title='Delete Product' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Product' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a>") : '') + " </td>"
+                        ).appendTo('#productTableBody')
                     })
-                } 
+                }
 
                 $("#productTable").DataTable({
                 "responsive": true,
@@ -211,7 +211,7 @@
 
             axios.get('/getProductInfo').then((response) => {
                 if(response.status == 200) {
-    
+
                     const suppliers = response.data.suppliers;
                     const categories = response.data.categories;
                     const units = response.data.units;
@@ -221,22 +221,22 @@
 
                     $.each(suppliers, function (i) {
                         $('#addProductSupplier').append($("<option data-id="+suppliers[i].id+"></option>").val(suppliers[i].name).html(suppliers[i].name));
-                    })  
+                    })
 
                     $('#addProductCategory').empty();
                     $('#addProductCategory').append($('<option></option>').val("").html("Select"));
 
                     $.each(categories, function (i) {
                         $('#addProductCategory').append($("<option data-id="+categories[i].id+"></option>").val(categories[i].name).html(categories[i].name));
-                    })  
+                    })
 
                     $('#addProductUnit').empty();
                     $('#addProductUnit').append($('<option></option>').val("").html("Select"));
 
                     $.each(units, function (i) {
                         $('#addProductUnit').append($("<option data-id="+units[i].id+"></option>").val(units[i].name).html(units[i].name));
-                    })  
-                } 
+                    })
+                }
 
             }).catch((error) => {
                 errorMessage(error.message)
@@ -275,7 +275,7 @@
         });
 
         // Add Product
-        $(document).on('click', '#productAddConfirmBtn', function(e) {            
+        $(document).on('click', '#productAddConfirmBtn', function(e) {
             const supplier = $('#addProductSupplier option:selected').data('id');
             const category = $('#addProductCategory option:selected').data('id');
             const unit = $('#addProductUnit option:selected').data('id');
@@ -302,14 +302,14 @@
                         $('#addProductModal').modal('hide');
                         successMessage('Product Added Successfully.')
                         getProducts();
-                    } else { 
+                    } else {
                         $('#productAddConfirmBtn').text('Save').removeClass('disabled');
                         errorMessage('Something Went Wrong !')
                     }
                 }).catch((error) => {
                     $('#productAddConfirmBtn').text('Save').removeClass('disabled');
                     errorMessage('Something Went Wrong !')
-                });  
+                });
             }
         });
 
@@ -342,21 +342,21 @@
 
                     $.each(suppliers, function (i) {
                         $('#editProductSupplier').append($("<option data-id="+suppliers[i].id+ " " + ((suppliers[i].id == supplier_id) ? 'selected' : '') + "></option>").val(suppliers[i].name).html(suppliers[i].name));
-                    })  
+                    })
 
                     $('#editProductCategory').empty();
                     $('#editProductCategory').append($('<option></option>').val("").html("Select"));
 
                     $.each(categories, function (i) {
                         $('#editProductCategory').append($("<option data-id="+categories[i].id+ " " + ((categories[i].id == category_id) ? 'selected' : '') + "></option>").val(categories[i].name).html(categories[i].name));
-                    })  
+                    })
 
                     $('#editProductUnit').empty();
                     $('#editProductUnit').append($('<option></option>').val("").html("Select"));
 
                     $.each(units, function (i) {
                         $('#editProductUnit').append($("<option data-id="+units[i].id+ " " + ((units[i].id == unit_id) ? 'selected' : '') + "></option>").val(units[i].name).html(units[i].name));
-                    })  
+                    })
 
                     $('#editProductName').val(name);
                     $('#productEditConfirmBtn').data('id', id);
@@ -398,14 +398,14 @@
                         $('#editProductModal').modal('hide');
                         successMessage('Product Updated Successfully.')
                         getProducts();
-                    } else { 
+                    } else {
                         $('#productEditConfirmBtn').text('Update').removeClass('disabled');
                         errorMessage('Something Went Wrong !')
                     }
                 }).catch((error) => {
                     $('#productEditConfirmBtn').text('Update').removeClass('disabled');
                     errorMessage('Something Went Wrong !')
-                });  
+                });
             }
         });
     </script>

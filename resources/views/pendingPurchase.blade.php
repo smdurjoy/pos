@@ -31,7 +31,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="purchaseTable" class="table table-bordered table-striped">
+                                <table id="purchaseTable" class="table table-bordered table-sm">
                                     <thead>
                                         <tr>
                                             <th>Id</th>
@@ -49,7 +49,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="purchaseTableBody">
-                                       
+
                                     </tbody>
                                 </table>
                                 <div class="loading text-center">
@@ -76,7 +76,7 @@
 @section('script')
     <script type="text/javascript">
         getPurchase();
-        
+
         // Get Purchase
         function getPurchase() {
             axios.get('/pendingPurchaseList').then((response) => {
@@ -90,20 +90,20 @@
                     $.each(jsonData, function (i) {
                         $('<tr>').html(
                             "<td>" + jsonData[i].id + "</td>" +
-                            "<td>" + jsonData[i].purchase_number + "</td>" + 
+                            "<td>" + jsonData[i].purchase_number + "</td>" +
                             "<td>" + jsonData[i].date + "</td>" +
                             "<td>" + jsonData[i].supplier.name + "</td>" +
                             "<td>" + jsonData[i].category.name + "</td>" +
-                            "<td>" + jsonData[i].product.name + "</td>" + 
+                            "<td>" + jsonData[i].product.name + "</td>" +
                             "<td>" + jsonData[i].buying_quantity + "</td>" +
                             "<td>" + jsonData[i].unit_price + "</td>" +
                             "<td>" + jsonData[i].buying_price + "</td>" +
                             "<td>" + ((jsonData[i].status == 0) ? ("<span class='badge badge-danger'>Pending</span>") : ("<span class='badge badge-success'>Approved</span>")) + "</td>" +
                             "<td>"+ ((jsonData[i].status == 1) ? '' : ("<button href='#' title='Approve Purchase' class='btn btn-success btn-sm actionBtn updateStatus' record='Purchase' data-id="+ jsonData[i].id +"> <i class='fa fa-check-circle'></i> </button>")) + " </td>" +
-                            "<td>" + jsonData[i].description + "</td>" 
-                        ).appendTo('#purchaseTableBody')  
+                            "<td>" + jsonData[i].description + "</td>"
+                        ).appendTo('#purchaseTableBody')
                     })
-                } 
+                }
 
                 $("#purchaseTable").DataTable({
                 "responsive": true,

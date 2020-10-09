@@ -8,12 +8,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Invoice</h1>
+                        <h1>Stock</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
-                            <li class="breadcrumb-item active"><a href=" {{url('/print-invoice')}} ">Print Invoice</a></li>
+                            <li class="breadcrumb-item active"><a href=" {{url('/stocks')}} ">Stock Report</a></li>
                         </ol>
                     </div>
                 </div>
@@ -27,34 +27,31 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Print Invoices</h3>
+                                <h3 class="card-title">Stock Report</h3>
+                                <a href="{{ url('/print/stock') }}" class="btn btn-dark btn-sm" style="float: right" target="_blank"><i class="fa fa-download"></i> Download PDF</a>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="printInvoiceTable" class="table table-bordered table-sm">
+                                <table id="stocksTable" class="table table-bordered table-sm">
                                     <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Customer Info</th>
-                                        <th>Invoice No</th>
-                                        <th>Date</th>
-                                        <th>Description</th>
-                                        <th>Amount</th>
-                                        <th>Action</th>
-                                    </tr>
+                                        <tr>
+                                            <th class="text-bold">SL.</th>
+                                            <th class="text-bold">Supplier Name</th>
+                                            <th class="text-bold">Category</th>
+                                            <th class="text-bold">Product Name</th>
+                                            <th class="text-bold">Stock</th>
+                                            <th class="text-bold">Unit</th>
+                                        </tr>
                                     </thead>
-                                    <tbody id="invoiceTableBody">
-                                        @foreach($invoices as $key => $invoice)
+                                    <tbody id="purchaseTableBody">
+                                        @foreach($stocks as $key => $stock)
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
-                                                <td>{{ $invoice['payment']['customer']['name'] }}</td>
-                                                <td>{{ $invoice['invoice_no'] }}</td>
-                                                <td>{{ $invoice['date'] }}</td>
-                                                <td>{{ $invoice['description'] }}</td>
-                                                <td>{{ $invoice['payment']['total_amount'] }}</td>
-                                                <td>
-                                                    <a href='{{url('print/invoice/'.$invoice['id'])}}' title='Print Invoice' class='btn btn-info btn-sm actionBtn' target="_blank"> <i class='fas fa-print deleteButton'></i> </a>
-                                                </td>
+                                                <td>{{ $stock['supplier']['name'] }}</td>
+                                                <td>{{ $stock['category']['name'] }}</td>
+                                                <td>{{ $stock['name'] }}</td>
+                                                <td>{{ $stock['quantity'] }}</td>
+                                                <td>{{ $stock['unit']['name'] }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -77,8 +74,8 @@
 @endsection
 
 @section('script')
-    <script>
-        $("#printInvoiceTable").DataTable({
+    <script type="text/javascript">
+        $("#stocksTable").DataTable({
             "responsive": true,
             "autoWidth": false,
             "order": false,

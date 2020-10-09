@@ -32,7 +32,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="purchaseTable" class="table table-bordered table-striped">
+                                <table id="purchaseTable" class="table table-bordered table-sm">
                                     <thead>
                                         <tr>
                                             <th>Id</th>

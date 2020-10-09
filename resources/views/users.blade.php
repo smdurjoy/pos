@@ -32,7 +32,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="userTable" class="table table-bordered table-striped">
+                                <table id="userTable" class="table table-bordered table-sm">
                                     <thead>
                                         <tr>
                                             <th>Id</th>
@@ -43,7 +43,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="userTableBody">
-                                       
+
                                     </tbody>
                                 </table>
                                 <div class="loading text-center">
@@ -101,7 +101,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer"> 
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
                         <button id="UserAddConfirmBtn" type="submit" class="btn btn-danger btn-sm">Save</button>
                     </div>
@@ -140,7 +140,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer"> 
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
                         <button id="UserEditConfirmBtn" data-id="" type="submit" class="btn btn-danger btn-sm">Update</button>
                     </div>
@@ -169,10 +169,10 @@
                             "<td>" + jsonData[i].role + "</td>" +
                             "<td>" + jsonData[i].name + "</td>" +
                             "<td>" + jsonData[i].email + "</td>" +
-                            "<td><a href='#' id='editUser' title='Edit User' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> <a href='#' title='Delete User' class='btn btn-danger btn-sm confirmDelete actionBtn' record='User' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a></td>" 
+                            "<td><a href='#' id='editUser' title='Edit User' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> <a href='#' title='Delete User' class='btn btn-danger btn-sm confirmDelete actionBtn' record='User' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a></td>"
                         ).appendTo('#userTableBody')
                     })
-                } 
+                }
 
                 $("#userTable").DataTable({
                 "responsive": true,
@@ -184,7 +184,7 @@
                 errorMessage('Something Went Wrong !')
             })
         }
-        
+
         // User add modal open
         function addUserModalOpen() {
             $('#addUserModal').modal('show');
@@ -240,7 +240,7 @@
                         equalTo: "Confirm password doesn't matched"
                     },
             });
-            
+
             if(role == '' || name == '' || email == '' || pass == '' || confPass == '' || pass != confPass || pass.length <= 5 || !(email.match(emailPattern))) {
                 validation('#addUserForm', validationRules, validationMsg);
             } else {
@@ -259,14 +259,14 @@
                         $('#addUserModal').modal('hide');
                         successMessage('User Added Successfully.')
                         getUser();
-                    } else { 
+                    } else {
                         $('#UserAddConfirmBtn').text('Save').removeClass('disabled');
                         errorMessage('Something Went Wrong !')
                     }
                 }).catch((error) => {
                     $('#UserAddConfirmBtn').text('Save').removeClass('disabled');
                     errorMessage('Something Went Wrong !')
-                })  
+                })
             }
         });
 
@@ -303,7 +303,7 @@
             const name = $('#editUserName').val();
             const email = $('#editUserEmail').val();
             const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-            
+
             const validationRules = Object.assign({
                     role: {
                         required: true,
@@ -356,5 +356,5 @@
                 });
             }
         });
-    </script>   
+    </script>
 @endsection

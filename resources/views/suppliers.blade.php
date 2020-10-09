@@ -32,7 +32,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="supplierTable" class="table table-bordered table-striped">
+                                <table id="supplierTable" class="table table-bordered table-sm">
                                     <thead>
                                         <tr>
                                             <th>Id</th>
@@ -44,7 +44,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="supplierTableBody">
-                                       
+
                                     </tbody>
                                 </table>
                                 <div class="loading text-center">
@@ -95,7 +95,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer"> 
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
                         <button id="supplierAddConfirmBtn" type="submit" class="btn btn-danger btn-sm">Save</button>
                     </div>
@@ -139,7 +139,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer"> 
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
                         <button id="supplierEditConfirmBtn" data-id="" type="submit" class="btn btn-danger btn-sm">Update</button>
                     </div>
@@ -169,7 +169,7 @@
                             "<td>" + ((jsonData[i].email == null) ? "Not Given" : jsonData[i].email) + "</td>" +
                             "<td>" + jsonData[i].number + "</td>" +
                             "<td>" + jsonData[i].address + "</td>" +
-                            "<td><a href='#' id='editSupplier' title='Edit Supplier' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> " + ((jsonData[i].products.length == 0) ? ("<a href='#' title='Delete Supplier' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Supplier' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a>") : '') + "</td>" 
+                            "<td><a href='#' id='editSupplier' title='Edit Supplier' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> " + ((jsonData[i].products.length == 0) ? ("<a href='#' title='Delete Supplier' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Supplier' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a>") : '') + "</td>"
                         ).appendTo('#supplierTableBody')
                     })
                 }
@@ -228,7 +228,7 @@
             const supplierEmail = $('#addSupplierEmail').val();
             const supplierAddress = $('#addSupplierAddress').val();
             const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-            
+
             if(supplierName == '' || supplierNumber == '' || supplierAddress == '' || !(supplierEmail.match(emailPattern))) {
                 validation('#addSupplierForm', validationRules, validationMsg);
             } else {
@@ -246,14 +246,14 @@
                         $('#addSupplierModal').modal('hide');
                         successMessage('Supplier Added Successfully.')
                         getSuppliers();
-                    } else { 
+                    } else {
                         $('#supplierAddConfirmBtn').text('Save').removeClass('disabled');
                         errorMessage('Something Went Wrong !')
                     }
                 }).catch((error) => {
                     $('#supplierAddConfirmBtn').text('Save').removeClass('disabled');
                     errorMessage('Something Went Wrong !')
-                })  
+                })
             }
         });
 
@@ -292,7 +292,7 @@
             const email = $('#editSupplierEmail').val();
             const address = $('#editSupplierAddress').val();
             const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-            
+
             if(name == '' || number == '' || address == '' || !(email.match(emailPattern))) {
                 validation('#editSupplierForm', validationRules, validationMsg);
             } else {

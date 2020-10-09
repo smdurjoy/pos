@@ -104,12 +104,16 @@ Route::get('/getApproveInvoiceDetails/{id}', 'InvoiceController@getApproveInvoic
 Route::post('/approveInvoice', 'InvoiceController@approveInvoice');
 Route::get('/print-invoice', 'InvoiceController@printInvoicePage');
 Route::get('/printInvoiceList', 'InvoiceController@printInvoiceList');
+Route::get('invoicePdf', 'InvoiceController@invoicePdf');
 Route::get('/print/invoice/{id}', 'InvoiceController@printInvoice');
 Route::get('/daily-invoice', 'InvoiceController@dailyInvoice');
 Route::get('/print/dailyInvoice', 'InvoiceController@dailyInvoicePdf');
 
-// PDF Routes
-Route::get('invoicePdf', 'InvoiceController@invoicePdf');
+// Stock Routes
+Route::get('/stock-report','StockController@stockReport');
+Route::get('/print/stock','StockController@printStock');
+Route::get('/stock-report-product-supplier-wise','StockController@supplierOrProductWise');
+Route::get('/print/supplier-product-wise-stock','StockController@supplierOrProductWisePdf');
 
 Auth::routes();
 
