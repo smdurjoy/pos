@@ -102,6 +102,12 @@ Route::get('/pendingInvoiceList', 'InvoiceController@pendingInvoiceList');
 Route::get('/delete-Invoice/{id}', 'InvoiceController@deleteInvoice');
 Route::get('/getApproveInvoiceDetails/{id}', 'InvoiceController@getApproveInvoiceDetails');
 Route::post('/approveInvoice', 'InvoiceController@approveInvoice');
+Route::get('/print-invoice', 'InvoiceController@printInvoicePage');
+Route::get('/printInvoiceList', 'InvoiceController@printInvoiceList');
+Route::get('/print/invoice/{id}', 'InvoiceController@printInvoice');
+
+// PDF Routes
+Route::get('invoicePdf', 'InvoiceController@invoicePdf');
 
 Auth::routes();
 

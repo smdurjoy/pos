@@ -12,6 +12,7 @@ use App\InvoiceDetail;
 use App\Payment;
 use App\PaymentDetail;
 use Auth;
+use PDF;
 
 class InvoiceController extends Controller
 {
@@ -145,5 +146,22 @@ class InvoiceController extends Controller
             $invoice->save();
         });
         return 1;
+    }
+
+    function printInvoicePage() {
+        Session::put('page', 'printInvoice');
+        $invoices = Invoice::where('status', 1)->with('payment')->orderBy('date', 'desc')->orderBy('id', 'desc')->get();
+        return view('printInvoice')->with(compact('invoices'));
+    }
+
+    function printInvoiceList() {
+        return Invoice::where('status', 1)->with('payment')->orderBy('date', 'desc')->orderBy('id', 'desc')->get();
+    }
+
+    function printInvoice($id) {
+        $data = Invoice::with('invoiceDetails', 'payment')->find($id);
+        $pdf = PDF::loadView('pdf.invoice-pdf', $data);
+        $pdf->SetProtection(['copy', 'print'], '', 'pass');
+        return $pdf->stream('document.pdf');
     }
 }

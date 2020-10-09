@@ -21,7 +21,7 @@
             <div class="info">
                 <a href="#" class="d-block">{{ Auth::user()->name }}</a>
             </div>
-        </div>  
+        </div>
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
@@ -70,7 +70,7 @@
                                 </a>
                             </li>
                         @endif
-                        
+
                         @if(Session::get('page') == "profile")
                             <?php $active = "active"; ?>
                         @else
@@ -282,9 +282,9 @@
                         </li>
                     </ul>
                 </li>
-                
+
                 <!-- Invoice -->
-                @if(Session::get('page') == "invoice" || Session::get('page') == "pendingInvoice")
+                @if(Session::get('page') == "invoice" || Session::get('page') == "pendingInvoice" || Session::get('page') == "printInvoice")
                     <?php $active = "active"; ?>
                 @else
                     <?php $active = ""; ?>
@@ -319,6 +319,18 @@
                             <a href="{{ url('/pending-invoice') }}" class="nav-link {{ $active }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Pending Invoice</p>
+                            </a>
+                        </li>
+
+                        @if(Session::get('page') == "printInvoice")
+                            <?php $active = "active"; ?>
+                        @else
+                            <?php $active = ""; ?>
+                        @endif
+                        <li class="nav-item active">
+                            <a href="{{ url('/print-invoice') }}" class="nav-link {{ $active }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Print Invoice</p>
                             </a>
                         </li>
                     </ul>
