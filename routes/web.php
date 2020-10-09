@@ -105,6 +105,8 @@ Route::post('/approveInvoice', 'InvoiceController@approveInvoice');
 Route::get('/print-invoice', 'InvoiceController@printInvoicePage');
 Route::get('/printInvoiceList', 'InvoiceController@printInvoiceList');
 Route::get('/print/invoice/{id}', 'InvoiceController@printInvoice');
+Route::get('/daily-invoice', 'InvoiceController@dailyInvoice');
+Route::get('/print/dailyInvoice', 'InvoiceController@dailyInvoicePdf');
 
 // PDF Routes
 Route::get('invoicePdf', 'InvoiceController@invoicePdf');

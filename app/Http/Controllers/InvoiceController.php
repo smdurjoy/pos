@@ -13,6 +13,7 @@ use App\Payment;
 use App\PaymentDetail;
 use Auth;
 use PDF;
+use function GuzzleHttp\Psr7\str;
 
 class InvoiceController extends Controller
 {
@@ -161,6 +162,22 @@ class InvoiceController extends Controller
     function printInvoice($id) {
         $data = Invoice::with('invoiceDetails', 'payment')->find($id);
         $pdf = PDF::loadView('pdf.invoice-pdf', $data);
+        $pdf->SetProtection(['copy', 'print'], '', 'pass');
+        return $pdf->stream('document.pdf');
+    }
+
+    function dailyInvoice() {
+        return view('dailyInvoice');
+    }
+
+    function dailyInvoicePdf(Request $request) {
+        $startDate = $request->start_date;
+        $endtDate = $request->end_date;
+        $data['data'] = Invoice::whereBetween('date', [$startDate, $endtDate])->where('status', 1)->with('payment')->get();
+        $data['start_date'] = date('d-m-Y', strtotime($request->start_date));
+        $data['end_date'] = date('d-m-Y', strtotime($request->end_date));
+//        return $data;
+        $pdf = PDF::loadView('pdf.daily-invoice-report', $data);
         $pdf->SetProtection(['copy', 'print'], '', 'pass');
         return $pdf->stream('document.pdf');
     }

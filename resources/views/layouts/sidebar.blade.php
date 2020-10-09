@@ -333,6 +333,18 @@
                                 <p>Print Invoice</p>
                             </a>
                         </li>
+
+                        @if(Session::get('page') == "dailyInvoice")
+                            <?php $active = "active"; ?>
+                        @else
+                            <?php $active = ""; ?>
+                        @endif
+                        <li class="nav-item active">
+                            <a href="{{ url('/daily-invoice') }}" class="nav-link {{ $active }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Daily Invoice Report</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
             </ul>
