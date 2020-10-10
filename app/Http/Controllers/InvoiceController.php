@@ -13,7 +13,6 @@ use App\Payment;
 use App\PaymentDetail;
 use Auth;
 use PDF;
-use function GuzzleHttp\Psr7\str;
 
 class InvoiceController extends Controller
 {

@@ -127,7 +127,7 @@
                 </li>
 
                 <!-- Customers -->
-                @if(Session::get('page') == "customers")
+                @if(Session::get('page') == "customers" || Session::get('page') == 'creditCustomers')
                     <?php $active = "active"; ?>
                 @else
                     <?php $active = ""; ?>
@@ -150,6 +150,18 @@
                             <a href="{{ url('/customers') }}" class="nav-link {{ $active }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Manage Customers</p>
+                            </a>
+                        </li>
+
+                        @if(Session::get('page') == "creditCustomers")
+                            <?php $active = "active"; ?>
+                        @else
+                            <?php $active = ""; ?>
+                        @endif
+                        <li class="nav-item active">
+                            <a href="{{ url('/credit-customers') }}" class="nav-link {{ $active }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Credit Customers</p>
                             </a>
                         </li>
                     </ul>

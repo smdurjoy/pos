@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Invoice;
+use App\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Customer;
 use Auth;
+use PDF;
 
 class CustomerController extends Controller
 {
@@ -24,7 +27,7 @@ class CustomerController extends Controller
 
         if($result == true) {
             return 1;
-        } else { 
+        } else {
             return 0;
         }
     }
@@ -46,7 +49,7 @@ class CustomerController extends Controller
 
         if($result == true) {
             return 1;
-        } else { 
+        } else {
             return 0;
         }
     }
@@ -73,8 +76,24 @@ class CustomerController extends Controller
 
         if($result == true) {
             return 1;
-        } else { 
+        } else {
             return 0;
         }
+    }
+
+    function creditCustomers() {
+        Session::put('page', 'creditCustomers');
+        return view('creditCustomers');
+    }
+
+    function getCreditCustomers() {
+        return Payment::whereIn('paid_status', ['full_due', 'partial_paid'])->with('invoice', 'customer')->get();
+    }
+
+    function creditCustomersPdf() {
+        $data['data'] = Payment::whereIn('paid_status', ['full_due', 'partial_paid'])->with('invoice', 'customer')->get();
+        $pdf = PDF::loadView('pdf.credit-customers-pdf', $data);
+        $pdf->SetProtection(['copy', 'print'], '', 'pass');
+        return $pdf->stream('document.pdf');
     }
 }
