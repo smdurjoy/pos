@@ -5,11 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Purchase;
-use App\Supplier;
-use App\Category;
 use App\Product;
-use App\Unit;
 use Auth;
+use PDF;
 
 class PurchaseController extends Controller
 {
@@ -28,7 +26,7 @@ class PurchaseController extends Controller
 
         if($result == true) {
             return 1;
-        } else { 
+        } else {
             return 0;
         }
     }
@@ -79,5 +77,22 @@ class PurchaseController extends Controller
         if($updateProductQuantity == true) {
             Purchase::where('id', $id)->update(['status' => 1]);
         }
+    }
+
+    function dailyPurchase() {
+        Session::put('page', 'dailyPurchase');
+        return view('dailyPurchase');
+    }
+
+    function dailyPurchasePdf(Request $request) {
+        $startDate = $request->start_date;
+        $endtDate = $request->end_date;
+        $data['data'] = Purchase::orderBy('date', 'asc')->orderBy('id', 'asc')->whereBetween('date', [$startDate, $endtDate])->where('status', 1)->with('product', 'supplier', 'category')->get();
+//        return $data;
+        $data['start_date'] = date('d-m-Y', strtotime($request->start_date));
+        $data['end_date'] = date('d-m-Y', strtotime($request->end_date));
+        $pdf = PDF::loadView('pdf.daily-purchase-report', $data);
+        $pdf->SetProtection(['copy', 'print'], '', 'pass');
+        return $pdf->stream('document.pdf');
     }
 }

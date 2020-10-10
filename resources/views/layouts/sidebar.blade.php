@@ -243,7 +243,7 @@
                 </li>
 
                 <!-- Purchase -->
-                @if(Session::get('page') == "purchase" || Session::get('page') == "pendingPurchase")
+                @if(Session::get('page') == "purchase" || Session::get('page') == "pendingPurchase" || Session::get('page') == 'dailyPurchase')
                     <?php $active = "active"; ?>
                 @else
                     <?php $active = ""; ?>
@@ -278,6 +278,18 @@
                             <a href="{{ url('/pending-purchase') }}" class="nav-link {{ $active }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Pending Purchase</p>
+                            </a>
+                        </li>
+
+                        @if(Session::get('page') == "dailyPurchase")
+                            <?php $active = "active"; ?>
+                        @else
+                            <?php $active = ""; ?>
+                        @endif
+                        <li class="nav-item active">
+                            <a href="{{ url('/daily-purchase') }}" class="nav-link {{ $active }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Daily Purchase Report</p>
                             </a>
                         </li>
                     </ul>

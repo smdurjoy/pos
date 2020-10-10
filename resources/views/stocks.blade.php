@@ -24,7 +24,7 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-12">    
+                    <div class="col-12">
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Stock Report</h3>
@@ -39,19 +39,27 @@
                                             <th class="text-bold">Supplier Name</th>
                                             <th class="text-bold">Category</th>
                                             <th class="text-bold">Product Name</th>
+                                            <th class="text-bold">In.Qty</th>
+                                            <th class="text-bold">Out.Qty</th>
                                             <th class="text-bold">Stock</th>
                                             <th class="text-bold">Unit</th>
                                         </tr>
                                     </thead>
                                     <tbody id="purchaseTableBody">
-                                        @foreach($stocks as $key => $stock)
+                                        @foreach($stocks as $key => $product)
+                                            @php
+                                                $total_buy = App\Purchase::where('category_id', $product->category_id)->where('product_id', $product->id)->where('status', 1)->sum('buying_quantity');
+                                                $total_sell = App\InvoiceDetail::where('category_id', $product->category_id)->where('product_id', $product->id)->where('status', 1)->sum('selling_quantity');
+                                            @endphp
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
-                                                <td>{{ $stock['supplier']['name'] }}</td>
-                                                <td>{{ $stock['category']['name'] }}</td>
-                                                <td>{{ $stock['name'] }}</td>
-                                                <td>{{ $stock['quantity'] }}</td>
-                                                <td>{{ $stock['unit']['name'] }}</td>
+                                                <td>{{ $product['supplier']['name'] }}</td>
+                                                <td>{{ $product['category']['name'] }}</td>
+                                                <td>{{ $product['name'] }}</td>
+                                                <td>{{ $total_buy  }}</td>
+                                                <td>{{ $total_sell }}</td>
+                                                <td>{{ $product['quantity'] }}</td>
+                                                <td>{{ $product['unit']['name'] }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>

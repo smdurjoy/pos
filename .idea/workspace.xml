@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -20,12 +23,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5a28175c-96f2-4eab-95f9-413686fed1af" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/pdf/product-wise-stock-pdf.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/dailyPurchase.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/layouts/pdf-report.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/pdf/daily-purchase-report.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/StockController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/StockController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/InvoiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/InvoiceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PurchaseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PurchaseController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Purchase.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Purchase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/sidebar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/sidebar.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pdf/daily-invoice-report.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pdf/daily-invoice-report.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pdf/invoice-pdf.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pdf/invoice-pdf.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pdf/product-wise-stock-pdf.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pdf/product-wise-stock-pdf.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pdf/stock-pdf.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pdf/stock-pdf.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/pdf/supplier-wise-stock-pdf.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pdf/supplier-wise-stock-pdf.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/stocks.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/stocks.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/supplierOrProductWiseStock.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/supplierOrProductWiseStock.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -198,6 +209,8 @@
       <workItem from="1602218562757" duration="4921000" />
       <workItem from="1602230763601" duration="27593000" />
       <workItem from="1602304357218" duration="5667000" />
+      <workItem from="1602312516375" duration="1812000" />
+      <workItem from="1602317446186" duration="3459000" />
     </task>
     <servers />
   </component>
@@ -217,21 +230,21 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="413" y="119" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1602258967909">
+    <state x="413" y="119" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1602319611159">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="413" y="119" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.728@0.0.1366.728" timestamp="1602258967909" />
+    <state x="413" y="119" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.728@0.0.1366.728" timestamp="1602319611159" />
     <state x="489" y="87" key="NewPhpClassDialog" timestamp="1602256156459">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="489" y="87" key="NewPhpClassDialog/0.0.1366.728@0.0.1366.728" timestamp="1602256156459" />
-    <state x="517" y="287" key="NewPhpFileDialog" timestamp="1602309076129">
+    <state x="517" y="287" key="NewPhpFileDialog" timestamp="1602320041554">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="517" y="287" key="NewPhpFileDialog/0.0.1366.728@0.0.1366.728" timestamp="1602309076129" />
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1602246019603">
+    <state x="517" y="287" key="NewPhpFileDialog/0.0.1366.728@0.0.1366.728" timestamp="1602320041554" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1602320540763">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1602246019603" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1602320540763" />
   </component>
 </project>

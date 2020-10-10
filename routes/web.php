@@ -85,6 +85,8 @@ Route::get('/delete-Purchase/{id}', 'PurchaseController@deletePurchase');
 Route::get('/pending-purchase', 'PurchaseController@pendingPurchase');
 Route::get('/pendingPurchaseList', 'PurchaseController@pendingPurchaseList');
 Route::post('/update-Purchase-status', 'PurchaseController@updatePurchaseStatus');
+Route::get('/daily-purchase', 'PurchaseController@dailyPurchase');
+Route::get('/print/dailyPurchase', 'PurchaseController@dailyPurchasePdf');
 
 // Default Routes
 Route::get('/getProductInfo', 'DefaultController@getProductInfo');
