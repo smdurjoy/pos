@@ -31,19 +31,19 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <form id="pOrSReport" method="get" action="{{ url('/print/supplier-product-wise-stock') }}" target="_blank">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-6">
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="searchValue" value="supplier_wise">
-                                                <label class="form-check-label" for="inlineRadio1">Supplier Wise Report</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="searchValue" value="product_wise">
-                                                <label class="form-check-label" for="inlineRadio2">Product Wise Report</label>
-                                            </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-6">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="searchValue" value="supplier_wise">
+                                            <label class="form-check-label" for="supplierWise">Supplier Wise Report</label>
                                         </div>
-                                        <div class="col-md-6 supplierDropdown d-none">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="searchValue" value="product_wise">
+                                            <label class="form-check-label" for="productWise">Product Wise Report</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 supplierDropdown d-none">
+                                        <form id="supplierReport" method="get" action="{{ url('/print/supplier-wise-stock') }}" target="_blank">
                                             <div class="form-group">
                                                 <label for="supplier_name">Supplier</label>
                                                 <select class="form-control select2" style="width: 100%;" name="supplier_id">
@@ -54,18 +54,29 @@
                                                 </select>
                                             </div>
                                             <button class="btn btn-dark btn-sm" type="submit">Search</button>
-                                        </div>
-                                        <div class="col-md-6 productDropdown d-none">
+                                        </form>
+                                    </div>
+                                    <div class="col-md-6 productDropdown d-none">
+                                        <form id="productReport" method="get" action="{{ url('/print/product-wise-stock') }}" target="_blank">
                                             <div class="form-group">
-                                                <label for="product_name">Supplier</label>
-                                                <select class="form-control select2" style="width: 100%;" name="product_name">
-                                                    <option value="">Select Product</option>
+                                                <label for="category">Category</label>
+                                                <select class="form-control select2" style="width: 100%;" name="category_id" id="category">
+                                                    <option value="">Select Product Category</option>
+                                                    @foreach($categories as $category)
+                                                        <option value="{{ $category['id'] }}">{{ $category['name'] }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="category">Product</label>
+                                                <select class="form-control select2" style="width: 100%;" name="product_id" id="product">
+                                                    <option value="">Select Category First</option>
                                                 </select>
                                             </div>
                                             <button class="btn btn-dark btn-sm" type="submit">Search</button>
-                                        </div>
+                                        </form>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
@@ -95,13 +106,19 @@
             } else {
                 $('.supplierDropdown').addClass('d-none');
             }
+
+            if(searchValue == 'product_wise') {
+                $('.productDropdown').removeClass('d-none');
+            } else {
+                $('.productDropdown').addClass('d-none');
+            }
         });
 
         $(document).ready(function () {
-            $('#pOrSReport').validate({
+            $('#supplierReport').validate({
                 ignore:[],
                 errorPlacement: function (error, element) {
-                    if(element.attr('name') == 'supplier_name'){ error.insertAfter(
+                    if(element.attr('name') == 'supplier_id'){ error.insertAfter(
                       element.next()); }
                     else{error.insertAfter(element);}
                 },
@@ -111,12 +128,24 @@
                 rules: {
                     supplier_id : {
                         required: true,
-                    }
+                    },
+                    category_id : {
+                        required: true,
+                    },
+                    product_id : {
+                        required: true,
+                    },
                 },
                 messages : {
                     supplier_id: {
                         required: "Please Select Supplier",
-                    }
+                    },
+                    category_id: {
+                        required: "Please Select Category",
+                    },
+                    product_id: {
+                        required: "Please Select Product",
+                    },
                 },
                 errorElement: 'span',
                 errorPlacement: function (error, element) {
@@ -130,6 +159,75 @@
                     $(element).removeClass('is-invalid');
                 }
             });
-        })
+        });
+
+        $(document).ready(function () {
+            $('#productReport').validate({
+                ignore:[],
+                errorPlacement: function (error, element) {
+                    if(element.attr('name') == 'category_id', 'product_id'){ error.insertAfter(
+                      element.next()); }
+                    else{error.insertAfter(element);}
+                },
+                errorClass: 'text-danger',
+                validClass: 'text-success',
+
+                rules: {
+                    category_id : {
+                        required: true,
+                    },
+                    product_id : {
+                        required: true,
+                    },
+                },
+                messages : {
+                    category_id: {
+                        required: "Please Select Category",
+                    },
+                    product_id: {
+                        required: "Please Select Product",
+                    },
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+        });
+
+        // Get products on category select
+        $(document).on('change', '#category', function() {
+            const category_id = $('#category option:selected').val();
+
+            axios.post('/getProducts', {category_id: category_id}).then((response) => {
+                $('#product').empty();
+                $('#product').append($('<option></option>').html('Loading ..'));
+
+                if(response.status == 200) {
+                    const data = response.data;
+
+                    if(data.length < 1 ) {
+                        $('#product').empty()
+                        $('#product').append($('<option></option>').val("").html("No Products Available"))
+                    } else {
+                        $('#product').empty()
+                        $('#product').append($('<option></option>').val("").html("Select Product"))
+                        $.each(data, function (i) {
+                            $('#product').append($('<option></option>').val(data[i].id).html(data[i].name))
+                        });
+                    }
+                }
+
+            }).catch((error) => {
+                errorMessage('Something Went Wrong !')
+            })
+        });
     </script>
 @endsection

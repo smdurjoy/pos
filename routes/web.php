@@ -113,7 +113,8 @@ Route::get('/print/dailyInvoice', 'InvoiceController@dailyInvoicePdf');
 Route::get('/stock-report','StockController@stockReport');
 Route::get('/print/stock','StockController@printStock');
 Route::get('/stock-report-product-supplier-wise','StockController@supplierOrProductWise');
-Route::get('/print/supplier-product-wise-stock','StockController@supplierOrProductWisePdf');
+Route::get('/print/supplier-wise-stock','StockController@supplierWisePdf');
+Route::get('/print/product-wise-stock','StockController@productWisePdf');
 
 Auth::routes();
 

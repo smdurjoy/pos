@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Product;
 use App\Supplier;
 use Illuminate\Http\Request;
@@ -25,17 +26,21 @@ class StockController extends Controller
 
     function supplierOrProductWise() {
         $data['suppliers'] = Supplier::all();
+        $data['categories'] = Category::all();
         return view('supplierOrProductWiseStock', $data);
     }
 
-    function supplierOrProductWisePdf(Request $request) {
-        if($request->product_name == '') {
-            $data['suppliers'] = Product::orderBy('supplier_id', 'asc')->orderBy('category_id', 'asc')->with('supplier', 'category', 'unit')->where('supplier_id', $request->supplier_id)->get();
-            $pdf = PDF::loadView('pdf.supplier-wise-stock-pdf', $data);
-            $pdf->SetProtection(['copy', 'print'], '', 'pass');
-            return $pdf->stream('document.pdf');
-        } else {
+    function supplierWisePdf(Request $request) {
+        $data['suppliers'] = Product::orderBy('supplier_id', 'asc')->orderBy('category_id', 'asc')->with('supplier', 'category', 'unit')->where('supplier_id', $request->supplier_id)->get();
+        $pdf = PDF::loadView('pdf.supplier-wise-stock-pdf', $data);
+        $pdf->SetProtection(['copy', 'print'], '', 'pass');
+        return $pdf->stream('document.pdf');
+    }
 
-        }
+    function productWisePdf(Request $request) {
+        $data['product'] = Product::orderBy('supplier_id', 'asc')->orderBy('category_id', 'asc')->with('supplier', 'category', 'unit')->where('id', $request->product_id)->first();
+        $pdf = PDF::loadView('pdf.product-wise-stock-pdf', $data);
+        $pdf->SetProtection(['copy', 'print'], '', 'pass');
+        return $pdf->stream('document.pdf');
     }
 }

@@ -56,11 +56,10 @@
 
         <div class="col-md-12">
             <h5 class="title">Stock Report</h5>
-            <strong>Supplier Name: </strong> {{ $suppliers[0]['supplier']['name'] }}
-            <table width="100%" class="table table-bordered mt-2">
+            <table width="100%" class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>Supplier Name</th>
                         <th>Category</th>
                         <th>Product Name</th>
                         <th>Stock</th>
@@ -69,15 +68,13 @@
                 </thead>
 
                 <tbody>
-                @foreach($suppliers as $key => $supplier)
                     <tr>
-                        <td>{{ $key + 1 }}</td>
-                        <td>{{ $supplier['category']['name'] }}</td>
-                        <td>{{ $supplier['name'] }}</td>
-                        <td>{{ $supplier['quantity'] }}</td>
-                        <td>{{ $supplier['unit']['name'] }}</td>
+                        <td>{{ $product['supplier']['name'] }}</td>
+                        <td>{{ $product['category']['name'] }}</td>
+                        <td>{{ $product['name'] }}</td>
+                        <td>{{ $product['quantity'] }}</td>
+                        <td>{{ $product['unit']['name'] }}</td>
                     </tr>
-                @endforeach
                 </tbody>
             </table>
             @php
@@ -105,4 +102,5 @@
 </div>
 </body>
 </html>
+
 
