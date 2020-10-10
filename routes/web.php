@@ -52,6 +52,8 @@ Route::get('/delete-Customer/{id}', 'CustomerController@deleteCustomer');
 Route::get('/credit-customers', 'CustomerController@creditCustomers');
 Route::get('/getCreditCustomers', 'CustomerController@getCreditCustomers');
 Route::get('/print/credit-customers', 'CustomerController@creditCustomersPdf');
+Route::post('/getEditInvoiceDetails', 'CustomerController@getEditInvoiceDetails');
+Route::post('/updateCustomerInvoice', 'CustomerController@updateCustomerInvoice');
 
 // Unit Routes
 Route::get('/units', 'UnitController@index');

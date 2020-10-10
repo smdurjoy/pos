@@ -36,11 +36,11 @@
                                     <thead>
                                     <tr>
                                         <th class="text-bold">SL.</th>
-                                        <th>Customer Info</th>
-                                        <th>Invoice No</th>
-                                        <th>Date</th>
-                                        <th>Due Amount</th>
-                                        <th>Action</th>
+                                        <th class="text-bold">Customer Info</th>
+                                        <th class="text-bold">Invoice No</th>
+                                        <th class="text-bold">Date</th>
+                                        <th class="text-bold">Due Amount</th>
+                                        <th class="text-bold">Action</th>
                                     </tr>
                                     </thead>
                                     <tbody id="creditCustomerTableBody">
@@ -50,7 +50,7 @@
                                 <div class="loading text-center">
                                     <img src="{{ asset('images/loading.svg') }}" alt="loading .."/>
                                 </div>
-                                <table class="table table-bordered table-hover">
+                                <table class="table table-bordered" style="background: #eee">
                                     <tr>
                                         <td style="text-align: right; font-weight: bold">Total Due </td>
                                         <td><strong class="text-bold totalDue"></strong></td>
@@ -71,6 +71,58 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+
+    <!-- Edit Due -->
+    <div class="modal fade" id="editDueModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content modalContent">
+                <form id="editCustomerInvoice">
+                    <div class="modal-body p-4">
+                        <h5 class="text-center mb-4">Edit Invoice</h5>
+                        <h5 class="d-none" id="CustomerId"></h5>
+                        <div class="loadingEdit text-center">
+                            <img src="{{ asset('images/loading.svg') }}" alt="loading .."/>
+                        </div>
+                        <div class="row d-none" id="dueEditDetails">
+                            <div class="col-md-12 details">
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="paid_status">Paid Status</label>
+                                    <select class='form-control select2' style='width: 100%;' id='paidStatus' name='paid_status'>
+                                        <option value="">Select</option>
+                                        <option value="full_paid">Full Paid</option>
+                                        <option value="partial_paid">Partial Paid</option>
+                                    </select>
+                                    <input type="number" class="form-control form-control-sm mt-2 d-none paidAmount" placeholder="Enter Paid Amount" name="paid_amount">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="date">Date</label>
+                                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                                        <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" placeholder="YYYY-MM-DD" id="date" name="date"/>
+                                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
+                        <button id="invoiceUpdateBtn" data-id="" type="submit" class="btn btn-danger btn-sm">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')
@@ -87,9 +139,10 @@
                     $('#creditCustomerTableBody').empty();
 
                     let total_due = 0;
+                    let index = 1;
                     $.each(jsonData, function (i) {
                         $('<tr>').html(
-                            "<td>" + jsonData[i].id + "</td>" +
+                            "<td>" + index++ + "</td>" +
                             "<td>" + jsonData[i].customer.name + ' ('+ jsonData[i].customer.number + ', '+ jsonData[i].customer.address+ ')' + "</td>" +
                             "<td>" + '#' + jsonData[i].invoice.invoice_no + "</td>" +
                             "<td>" + jsonData[i].invoice.date + "</td>" +
@@ -112,5 +165,109 @@
                 errorMessage('Something Went Wrong !')
             })
         }
+
+        $(document).on('click', '#editDue', function () {
+            const id = $(this).data('id');
+            $('#editDueModal').modal('show');
+            getEditInvoiceDetails(id)
+        });
+
+        function getEditInvoiceDetails(id) {
+            axios.post('/getEditInvoiceDetails', {id: id}).then(response => {
+                if(response.status == 200) {
+                    $('#dueEditDetails').removeClass('d-none');
+                    $('.loadingEdit').addClass('d-none')
+                    $('#invoiceUpdateBtn').data('id', id);
+                    const invoiceDetails = response.data[0]['invoice_details'];
+                    const paymentDetails = response.data[0]['payment'];
+
+                    $('.details').html(
+                        " <table class='table table-bordered table-sm'><tr><td class='customerName'><span style='font-weight: bold;'>Customer:</span> "+ paymentDetails.customer.name +"</td><td><span style='font-weight: bold;'>Invoice No:</span> #101</td></tr><tr><td><span style='font-weight: bold;'>Mobile:</span> "+ paymentDetails.customer.number +"</td><td><span style='font-weight: bold;'>Date:</span> 10-08-2020 </td></tr><tr><td><span style='font-weight: bold;'>Address:</span> "+ paymentDetails.customer.address +"</td></tr></table><table width='100%' class='table table-bordered table-sm'><thead><tr><th>SL.</th><th>Category</th><th>Product Name</th><th>Qty</th><th>Unit Price</th><th>Amount</th></tr></thead><tbody id='invoiceDetails'></tbody><tbody><tr><td colspan='5' class='text-bold'><span>Total Amount</span></td><td><span style='font-weight: bold;'>100000</span></td></tr><tr><td colspan='5'>Less Discount</td><td>"+ paymentDetails.discount_amount +"</td></tr><tr><td colspan='5'>Paid Amount</td><td>"+ paymentDetails.paid_amount +"</td></tr><tr><td colspan='5'>Due Amount</td><td>"+ paymentDetails.due_amount +"</td></tr><tr><td colspan='5'><span style='font-weight: bold;'>Net Payable Amount</span></td><td><span style='font-weight: bold;'>"+ paymentDetails.total_amount +"</span></td></tr></tbody></table><input type='hidden' name='due_amount' value='"+ paymentDetails.due_amount +"'>"
+                    )
+
+                    $.each(invoiceDetails, function (i) {
+                        $('<tr>').html(
+                            "<td>" + invoiceDetails[i].id + "</td>" +
+                            "<td>" + invoiceDetails[i].category.name + "</td>" +
+                            "<td>" + invoiceDetails[i].product.name + "</td>" +
+                            "<td>" + invoiceDetails[i].selling_quantity + "</td>" +
+                            "<td>" + invoiceDetails[i].unit_price + ' Tk' + "</td>" +
+                            "<td>" + invoiceDetails[i].selling_price + ' Tk' + "</td>"
+                        ).appendTo('#invoiceDetails');
+                    });
+
+                    $('.customerName').html("<span style='font-weight: bold;'>Customer:</span> "+ paymentDetails.customer.name + " ")
+                }
+            }).catch(error => {
+                errorMessage(error.message);
+            })
+        }
+
+        // Date picker format
+        $('#reservationdate').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+
+        // If customer paid partial amount
+        $(document).on('change', '#paidStatus', function () {
+            const status = $(this).val();
+            if(status == 'partial_paid') {
+                $('.paidAmount').removeClass('d-none');
+            } else {
+                $('.paidAmount').addClass('d-none');
+            }
+        });
+
+        // Invoice edit validation rules and messages
+        const validationRules = Object.assign({
+            paid_status: {
+                required: true,
+            },
+            paid_amount: {
+                required: true,
+            },
+            date: {
+                required: true,
+            },
+        });
+
+        const validationMsg = Object.assign({
+            paid_status: {
+                required: "Please select paid status",
+            },
+            paid_amount: {
+                required: "Please select paid status",
+            },
+            date: {
+                required: "Please pick a date",
+            },
+        });
+
+        validation('#editCustomerInvoice', validationRules, validationMsg)
+
+        $(document).on('submit', '#editCustomerInvoice', function (e) {
+            e.preventDefault();
+            $('#invoiceUpdateBtn').html('<span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>Working...').addClass('disabled');
+            const id = $('#invoiceUpdateBtn').data('id');
+            const data = new FormData(this);
+            data.append('invoice_id', id);
+            axios.post('/updateCustomerInvoice', data).then(response => {
+                if(response.status == 200 & response.data == 2) {
+                    $('#invoiceUpdateBtn').text('Update').removeClass('disabled');
+                    warningMessage("Paid amount can't be greater than due amount !")
+                } else if(response.status == 200 && response.data == 1) {
+                    successMessage('Invoice Updated Successfully.')
+                    $('#invoiceUpdateBtn').text('Update').removeClass('disabled');
+                    $('#editDueModal').modal('hide');
+                    getCreditCustomers();
+                } else {
+                    $('#invoiceUpdateBtn').text('Update').removeClass('disabled');
+                    errorMessage('Something Went Wrong !')
+                }
+            }).catch(error => {
+                $('#invoiceUpdateBtn').text('Update').removeClass('disabled');
+                errorMessage(error.message)
+            })
+        })
     </script>
 @endsection

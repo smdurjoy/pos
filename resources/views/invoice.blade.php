@@ -403,7 +403,7 @@
             }
         });
 
-        // Invoice and edit validation rules and messages
+        // Invoice add validation rules and messages
         const validationRules = Object.assign({
             date: {
                 required: true,
