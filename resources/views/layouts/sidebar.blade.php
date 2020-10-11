@@ -50,7 +50,7 @@
                 @endif
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link {{ $active }}">
-                        <i class="nav-icon fas fa-book"></i>
+                        <i class="nav-icon fas fa-cog"></i>
                         <p>
                             Settings
                             <i class="fas fa-angle-left right"></i>
@@ -105,7 +105,7 @@
                 @endif
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link {{ $active }}">
-                        <i class="nav-icon fas fa-book"></i>
+                        <i class="nav-icon fas fa-boxes"></i>
                         <p>
                             Suppliers
                             <i class="fas fa-angle-left right"></i>
@@ -134,7 +134,7 @@
                 @endif
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link {{ $active }}">
-                        <i class="nav-icon fas fa-book"></i>
+                        <i class="nav-icon fas fa-money-check-alt"></i>
                         <p>
                             Customers
                             <i class="fas fa-angle-left right"></i>
@@ -187,7 +187,7 @@
                 @endif
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link {{ $active }}">
-                        <i class="nav-icon fas fa-book"></i>
+                        <i class="nav-icon fas fa-flask"></i>
                         <p>
                             Units
                             <i class="fas fa-angle-left right"></i>
@@ -216,7 +216,7 @@
                 @endif
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link {{ $active }}">
-                        <i class="nav-icon fas fa-book"></i>
+                        <i class="nav-icon fas fa-layer-group"></i>
                         <p>
                             Categories
                             <i class="fas fa-angle-left right"></i>
@@ -245,7 +245,7 @@
                 @endif
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link {{ $active }}">
-                        <i class="nav-icon fas fa-book"></i>
+                        <i class="nav-icon fab fa-palfed"></i>
                         <p>
                             Products
                             <i class="fas fa-angle-left right"></i>
@@ -274,7 +274,7 @@
                 @endif
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link {{ $active }}">
-                        <i class="nav-icon fas fa-book"></i>
+                        <i class="nav-icon fas fa-funnel-dollar"></i>
                         <p>
                             Purchase
                             <i class="fas fa-angle-left right"></i>
@@ -327,7 +327,7 @@
                 @endif
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link {{ $active }}">
-                        <i class="nav-icon fas fa-book"></i>
+                        <i class="nav-icon fas fa-euro-sign"></i>
                         <p>
                             Invoice
                             <i class="fas fa-angle-left right"></i>
@@ -392,9 +392,9 @@
                 @endif
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link {{ $active }}">
-                        <i class="nav-icon fas fa-book"></i>
+                        <i class="nav-icon fas fa-database"></i>
                         <p>
-                            Stock
+                            Stocks
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>

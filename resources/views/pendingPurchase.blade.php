@@ -13,7 +13,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
-                            <li class="breadcrumb-item active"><a href=" {{url('/purchase')}} ">Purchase</a></li>
+                            <li class="breadcrumb-item active"><a href=" {{url('/pending-purchase')}} ">Pending Purchase</a></li>
                         </ol>
                     </div>
                 </div>
@@ -34,18 +34,18 @@
                                 <table id="purchaseTable" class="table table-bordered table-sm">
                                     <thead>
                                         <tr>
-                                            <th>Id</th>
-                                            <th>Purchase No</th>
-                                            <th>Date</th>
-                                            <th>Supplier</th>
-                                            <th>Category</th>
-                                            <th>Product Name</th>
-                                            <th>Quantity</th>
-                                            <th>Unit Price</th>
-                                            <th>Buying Price</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
-                                            <th>Description</th>
+                                            <th class="text-bold">SL.</th>
+                                            <th class="text-bold">Purchase No</th>
+                                            <th class="text-bold">Date</th>
+                                            <th class="text-bold">Supplier</th>
+                                            <th class="text-bold">Category</th>
+                                            <th class="text-bold">Product Name</th>
+                                            <th class="text-bold">Quantity</th>
+                                            <th class="text-bold">Unit Price</th>
+                                            <th class="text-bold">Buying Price</th>
+                                            <th class="text-bold">Status</th>
+                                            <th class="text-bold">Description</th>
+                                            <th class="text-bold">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="purchaseTableBody">
@@ -87,9 +87,10 @@
                     $("#purchaseTable").DataTable().destroy();
                     $('#purchaseTableBody').empty();
 
+                    let index = 1;
                     $.each(jsonData, function (i) {
                         $('<tr>').html(
-                            "<td>" + jsonData[i].id + "</td>" +
+                            "<td>" + index++ + "</td>" +
                             "<td>" + jsonData[i].purchase_number + "</td>" +
                             "<td>" + jsonData[i].date + "</td>" +
                             "<td>" + jsonData[i].supplier.name + "</td>" +
@@ -99,8 +100,8 @@
                             "<td>" + jsonData[i].unit_price + "</td>" +
                             "<td>" + jsonData[i].buying_price + "</td>" +
                             "<td>" + ((jsonData[i].status == 0) ? ("<span class='badge badge-danger'>Pending</span>") : ("<span class='badge badge-success'>Approved</span>")) + "</td>" +
-                            "<td>"+ ((jsonData[i].status == 1) ? '' : ("<button href='#' title='Approve Purchase' class='btn btn-success btn-sm actionBtn updateStatus' record='Purchase' data-id="+ jsonData[i].id +"> <i class='fa fa-check-circle'></i> </button>")) + " </td>" +
-                            "<td>" + jsonData[i].description + "</td>"
+                            "<td>" + ((jsonData[i].description == null) ? '' : jsonData[i].description) + "</td>" +
+                            "<td>"+ ((jsonData[i].status == 1) ? '' : ("<button href='#' title='Approve Purchase' class='btn btn-success btn-sm actionBtn updateStatus' record='Purchase' data-id="+ jsonData[i].id +"> <i class='fa fa-check-circle'></i> </button>")) + " </td>"
                         ).appendTo('#purchaseTableBody')
                     })
                 }

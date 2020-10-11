@@ -35,18 +35,18 @@
                                 <table id="purchaseTable" class="table table-bordered table-sm">
                                     <thead>
                                         <tr>
-                                            <th>Id</th>
-                                            <th>Purchase No</th>
-                                            <th>Date</th>
-                                            <th>Supplier</th>
-                                            <th>Category</th>
-                                            <th>Product Name</th>
-                                            <th>Quantity</th>
-                                            <th>Unit Price</th>
-                                            <th>Buying Price</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
-                                            <th>Description</th>
+                                            <th class="text-bold">SL.</th>
+                                            <th class="text-bold">Purchase No</th>
+                                            <th class="text-bold">Date</th>
+                                            <th class="text-bold">Supplier</th>
+                                            <th class="text-bold">Category</th>
+                                            <th class="text-bold">Product Name</th>
+                                            <th class="text-bold">Quantity</th>
+                                            <th class="text-bold">Unit Price</th>
+                                            <th class="text-bold">Buying Price</th>
+                                            <th class="text-bold">Status</th>
+                                            <th class="text-bold">Description</th>
+                                            <th class="text-bold">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="purchaseTableBody">
@@ -126,13 +126,13 @@
                     <div class="modal-body">
                         <table>
                             <thead>
-                                <th>Category</th>
-                                <th>Product Name</th>
-                                <th width="10%">Unit</th>
-                                <th width="10%">Unit Price</th>
-                                <th>Description</th>
-                                <th width="10%">Total Price</th>
-                                <th>Action</th>
+                                <th class="text-bold">Category</th>
+                                <th class="text-bold">Product Name</th>
+                                <th width="10%" class="text-bold">Unit</th>
+                                <th width="10%" class="text-bold">Unit Price</th>
+                                <th class="text-bold">Description</th>
+                                <th width="10%" class="text-bold">Total Price</th>
+                                <th class="text-bold">Action</th>
                             </thead>
 
                             <tbody id="addRow">
@@ -206,23 +206,25 @@
                 if(response.status == 200) {
                     $('.loading').addClass('d-none');
                     const jsonData = response.data;
+                    console.log(jsonData)
                     $("#purchaseTable").DataTable().destroy();
                     $('#purchaseTableBody').empty();
 
-                    $.each(jsonData, function (i, key) {
+                    let index = 1;
+                    $.each(jsonData, function (i) {
                         $('<tr>').html(
-                            "<td>" + jsonData[i].id + "</td>" +
+                            "<td>" + index++ + "</td>" +
                             "<td>" + jsonData[i].purchase_number + "</td>" +
                             "<td>" + jsonData[i].date + "</td>" +
                             "<td>" + jsonData[i].supplier.name + "</td>" +
                             "<td>" + jsonData[i].category.name + "</td>" +
                             "<td>" + jsonData[i].product.name + "</td>" +
-                            "<td>" + jsonData[i].buying_quantity + "</td>" +
+                            "<td>" + jsonData[i].buying_quantity + ' ' + jsonData[i].product.unit.name +"</td>" +
                             "<td>" + jsonData[i].unit_price + "</td>" +
                             "<td>" + jsonData[i].buying_price + "</td>" +
                             "<td>" + ((jsonData[i].status == 0) ? ("<span class='badge badge-danger'>Pending</span>") : ("<span class='badge badge-success'>Approved</span>")) + "</td>" +
-                            "<td>"+ ((jsonData[i].status == 1) ? '' : ("<button href='#' title='Delete Purchase' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Purchase' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </button>")) + " </td>" +
-                            "<td>" + jsonData[i].description + "</td>"
+                            "<td>" + ((jsonData[i].description == null) ? '' : jsonData[i].description) + "</td>" +
+                            "<td>"+ ((jsonData[i].status == 1) ? ("<button type='button' class='btn btn-danger btn-sm actionBtn' disabled><i class='far fa-trash-alt deleteButton'></i></button>") : ("<button href='#' title='Delete Purchase' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Purchase' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </button>")) + " </td>"
                         ).appendTo('#purchaseTableBody')
                     })
                 }

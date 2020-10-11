@@ -12,7 +12,7 @@ use PDF;
 class StockController extends Controller
 {
     function stockReport() {
-        Session::put('page', 'stocks');
+        Session::put('page', 'stockReport');
         $stocks = Product::orderBy('supplier_id', 'asc')->orderBy('category_id', 'asc')->with('supplier', 'category', 'unit')->get();
         return view('stocks', compact('stocks'));
     }
@@ -25,6 +25,7 @@ class StockController extends Controller
     }
 
     function supplierOrProductWise() {
+        Session::put('page', 'stockReportProductOrSupplierWise');
         $data['suppliers'] = Supplier::all();
         $data['categories'] = Category::all();
         return view('supplierOrProductWiseStock', $data);

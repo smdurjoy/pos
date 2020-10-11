@@ -13,7 +13,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
-                            <li class="breadcrumb-item active"><a href=" {{url('/invoice')}} ">Invoice</a></li>
+                            <li class="breadcrumb-item active"><a href=" {{url('/pending-invoice')}} ">Pending Invoice</a></li>
                         </ol>
                     </div>
                 </div>
@@ -27,20 +27,20 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Pending Invoice</h3>
+                                <h3 class="card-title">Pending Invoices</h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table id="invoiceTable" class="table table-bordered table-sm">
                                     <thead>
                                     <tr>
-                                        <th>Id</th>
-                                        <th>Customer Info</th>
-                                        <th>Invoice No</th>
-                                        <th>Date</th>
-                                        <th>Description</th>
-                                        <th>Amount</th>
-                                        <th>Action</th>
+                                        <th class="text-bold">SL.</th>
+                                        <th class="text-bold">Customer Info</th>
+                                        <th class="text-bold">Invoice No</th>
+                                        <th class="text-bold">Date</th>
+                                        <th class="text-bold">Description</th>
+                                        <th class="text-bold">Amount</th>
+                                        <th class="text-bold">Action</th>
                                     </tr>
                                     </thead>
                                     <tbody id="invoiceTableBody">
@@ -156,9 +156,10 @@
                     $("#invoiceTable").DataTable().destroy();
                     $('#invoiceTableBody').empty();
 
+                    let index = 1;
                     $.each(jsonData, function (i) {
                         $('<tr>').html(
-                            "<td>" + jsonData[i].id + "</td>" +
+                            "<td>" + index++ + "</td>" +
                             "<td>" + jsonData[i].payment.customer.name + ' (' + jsonData[i].payment.customer.number + ', '+ jsonData[i].payment.customer.address + ')' + "</td>" +
                             "<td>" + jsonData[i].invoice_no + "</td>" +
                             "<td>" + jsonData[i].date + "</td>" +

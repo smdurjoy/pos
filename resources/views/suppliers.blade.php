@@ -35,12 +35,12 @@
                                 <table id="supplierTable" class="table table-bordered table-sm">
                                     <thead>
                                         <tr>
-                                            <th>Id</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Mobile</th>
-                                            <th>Address</th>
-                                            <th>Action</th>
+                                            <th class="text-bold">SL.</th>
+                                            <th class="text-bold">Name</th>
+                                            <th class="text-bold">Email</th>
+                                            <th class="text-bold">Mobile</th>
+                                            <th class="text-bold">Address</th>
+                                            <th class="text-bold">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="supplierTableBody">
@@ -162,14 +162,15 @@
                     $("#supplierTable").DataTable().destroy();
                     $('#supplierTableBody').empty();
 
+                    let index = 1;
                     $.each(jsonData, function (i) {
                         $('<tr>').html(
-                            "<td>" + jsonData[i].id + "</td>" +
+                            "<td>" + index++ + "</td>" +
                             "<td>" + jsonData[i].name + "</td>" +
                             "<td>" + ((jsonData[i].email == null) ? "Not Given" : jsonData[i].email) + "</td>" +
                             "<td>" + jsonData[i].number + "</td>" +
                             "<td>" + jsonData[i].address + "</td>" +
-                            "<td><a href='#' id='editSupplier' title='Edit Supplier' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> " + ((jsonData[i].products.length == 0) ? ("<a href='#' title='Delete Supplier' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Supplier' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a>") : '') + "</td>"
+                            "<td><a href='#' id='editSupplier' title='Edit Supplier' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> " + ((jsonData[i].products.length == 0) ? ("<a href='#' title='Delete Supplier' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Supplier' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a>") : ("<button type='button' class='btn btn-danger btn-sm actionBtn disableBtn' disabled><i class='far fa-trash-alt deleteButton'></i></button>")) + "</td>"
                         ).appendTo('#supplierTableBody')
                     })
                 }
@@ -220,41 +221,27 @@
                     email: "Please enter a valid email address",
                 },
         });
+        validation('#addSupplierForm', validationRules, validationMsg);
 
         // Add Supplier
-        $(document).on('click', '#supplierAddConfirmBtn', function(e) {
-            const supplierName = $('#addSupplierName').val();
-            const supplierNumber = $('#addSupplierNumber').val();
-            const supplierEmail = $('#addSupplierEmail').val();
-            const supplierAddress = $('#addSupplierAddress').val();
-            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-
-            if(supplierName == '' || supplierNumber == '' || supplierAddress == '' || !(supplierEmail.match(emailPattern))) {
-                validation('#addSupplierForm', validationRules, validationMsg);
-            } else {
-                e.preventDefault();
-                $('#supplierAddConfirmBtn').html('<span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>Working...').addClass('disabled');
-
-                axios.post('/addSupplier', {
-                    name: supplierName,
-                    number: supplierNumber,
-                    email: supplierEmail,
-                    address: supplierAddress,
-                }).then((response) => {
-                    if(response.status == 200 && response.data == 1) {
-                        $('#supplierAddConfirmBtn').text('Save').removeClass('disabled');
-                        $('#addSupplierModal').modal('hide');
-                        successMessage('Supplier Added Successfully.')
-                        getSuppliers();
-                    } else {
-                        $('#supplierAddConfirmBtn').text('Save').removeClass('disabled');
-                        errorMessage('Something Went Wrong !')
-                    }
-                }).catch((error) => {
+        $(document).on('submit', '#addSupplierForm', function(e) {
+            e.preventDefault();
+            $('#supplierAddConfirmBtn').html('<span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>Working...').addClass('disabled');
+            const data = new FormData(this);
+            axios.post('/addSupplier', data).then((response) => {
+                if(response.status == 200 && response.data == 1) {
+                    $('#supplierAddConfirmBtn').text('Save').removeClass('disabled');
+                    $('#addSupplierModal').modal('hide');
+                    successMessage('Supplier Added Successfully.')
+                    getSuppliers();
+                } else {
                     $('#supplierAddConfirmBtn').text('Save').removeClass('disabled');
                     errorMessage('Something Went Wrong !')
-                })
-            }
+                }
+            }).catch((error) => {
+                $('#supplierAddConfirmBtn').text('Save').removeClass('disabled');
+                errorMessage('Something Went Wrong !')
+            })
         });
 
         // Edit Supplier Modal Open
@@ -283,42 +270,29 @@
                 errorMessage('Something Went Wrong !')
             })
         }
+        validation('#editSupplierForm', validationRules, validationMsg);
 
         // Supplier Edit Confirm Method
-        $(document).on('click', '#supplierEditConfirmBtn', function(e) {
-            const id = $(this).data('id');
-            const name = $('#editSupplierName').val();
-            const number = $('#editSupplierNumber').val();
-            const email = $('#editSupplierEmail').val();
-            const address = $('#editSupplierAddress').val();
-            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-
-            if(name == '' || number == '' || address == '' || !(email.match(emailPattern))) {
-                validation('#editSupplierForm', validationRules, validationMsg);
-            } else {
-                e.preventDefault();
-                $('#supplierEditConfirmBtn').html('<span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>Working...').addClass('disabled');
-                axios.post('/updateSupplierDetails', {
-                    id: id,
-                    name: name,
-                    number: number,
-                    address: address,
-                    email: email,
-                }).then((response) => {
-                    if(response.status == 200 && response.data == 1) {
-                        successMessage('Supplier Updated Successfully.')
-                        $('#editSupplierModal').modal('hide');
-                        $('#supplierEditConfirmBtn').text('Update').removeClass('disabled');
-                        getSuppliers();
-                    } else {
-                        errorMessage('Something Went Wrong !')
-                        $('#supplierEditConfirmBtn').text('Update').removeClass('disabled');
-                    }
-                }).catch((error) => {
+        $(document).on('submit', '#editSupplierForm', function(e) {
+            e.preventDefault();
+            const id = $('#supplierEditConfirmBtn').data('id');
+            const data = new FormData(this);
+            data.append('id', id);
+            $('#supplierEditConfirmBtn').html('<span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>Working...').addClass('disabled');
+            axios.post('/updateSupplierDetails', data).then((response) => {
+                if(response.status == 200 && response.data == 1) {
+                    successMessage('Supplier Updated Successfully.')
+                    $('#editSupplierModal').modal('hide');
+                    $('#supplierEditConfirmBtn').text('Update').removeClass('disabled');
+                    getSuppliers();
+                } else {
                     errorMessage('Something Went Wrong !')
                     $('#supplierEditConfirmBtn').text('Update').removeClass('disabled');
-                });
-            }
+                }
+            }).catch((error) => {
+                errorMessage('Something Went Wrong !')
+                $('#supplierEditConfirmBtn').text('Update').removeClass('disabled');
+            });
         });
     </script>
 @endsection

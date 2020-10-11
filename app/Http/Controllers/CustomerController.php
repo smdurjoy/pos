@@ -20,7 +20,7 @@ class CustomerController extends Controller
     }
 
     function getCustomers() {
-        $data = Customer::orderBy('id', 'desc')->get();
+        $data = Customer::orderBy('id', 'desc')->with('payments')->get();
         return $data;
     }
 
@@ -41,18 +41,24 @@ class CustomerController extends Controller
         $address = $request->address;
         $created_by = Auth::user()->id;
 
-        $result = Customer::insert([
-            'name' => $name,
-            'number' => $number,
-            'email' => $email,
-            'address' => $address,
-            'created_by' => $created_by,
-        ]);
+        $userEmail = Customer::where('email', $email);
 
-        if($result == true) {
-            return 1;
+        if($userEmail->exists()) {
+            return 2;
         } else {
-            return 0;
+            $result = Customer::insert([
+                'name' => $name,
+                'number' => $number,
+                'email' => $email,
+                'address' => $address,
+                'created_by' => $created_by,
+            ]);
+
+            if($result == true) {
+                return 1;
+            } else {
+                return 0;
+            }
         }
     }
 

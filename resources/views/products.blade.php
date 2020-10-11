@@ -35,12 +35,12 @@
                                 <table id="productTable" class="table table-bordered table-sm">
                                     <thead>
                                         <tr>
-                                            <th>Id</th>
-                                            <th>Supplier</th>
-                                            <th>Category</th>
-                                            <th>Name</th>
-                                            <th>Unit</th>
-                                            <th>Action</th>
+                                            <th class="text-bold">SL.</th>
+                                            <th class="text-bold">Supplier</th>
+                                            <th class="text-bold">Category</th>
+                                            <th class="text-bold">Name</th>
+                                            <th class="text-bold">Unit</th>
+                                            <th class="text-bold">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="productTableBody">
@@ -173,14 +173,15 @@
                     $("#productTable").DataTable().destroy();
                     $('#productTableBody').empty();
 
+                    let index = 1;
                     $.each(jsonData, function (i) {
                         $('<tr>').html(
-                            "<td>" + jsonData[i].id + "</td>" +
+                            "<td>" + index++ + "</td>" +
                             "<td>" + jsonData[i].supplier.name + "</td>" +
                             "<td>" + jsonData[i].category.name + "</td>" +
                             "<td>" + jsonData[i].name + "</td>" +
                             "<td>" + jsonData[i].unit.name + "</td>" +
-                            "<td><a href='#' id='editProduct' title='Edit Product' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> " + ((jsonData[i].purchase.length == 0) ? ("<a href='#' title='Delete Product' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Product' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a>") : '') + " </td>"
+                            "<td><a href='#' id='editProduct' title='Edit Product' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> " + ((jsonData[i].purchase.length == 0) ? ("<a href='#' title='Delete Product' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Product' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a>") : ("<button type='button' class='btn btn-danger btn-sm actionBtn disableBtn' disabled><i class='far fa-trash-alt deleteButton'></i></button>")) + " </td>"
                         ).appendTo('#productTableBody')
                     })
                 }

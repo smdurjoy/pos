@@ -14,10 +14,6 @@ class Purchase extends Model
         return $this->belongsTo('App\Category')->select('id', 'name');
     }
 
-    function unit() {
-        return $this->belongsTo('App\Unit', 'unit_id', 'id');
-    }
-
     function product() {
         return $this->belongsTo('App\Product')->select('id', 'name', 'unit_id')->with('unit');
     }

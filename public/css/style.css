@@ -56,3 +56,7 @@
     background: #ddd;
     text-align: center;
 }
+
+.disableBtn {
+    margin-left: -0px !important;
+}

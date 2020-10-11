@@ -35,12 +35,12 @@
                                 <table id="customerTable" class="table table-bordered table-sm">
                                     <thead>
                                         <tr>
-                                            <th>Id</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Mobile</th>
-                                            <th>Address</th>
-                                            <th>Action</th>
+                                            <th class="text-bold">SL.</th>
+                                            <th class="text-bold">Name</th>
+                                            <th class="text-bold">Email</th>
+                                            <th class="text-bold">Mobile</th>
+                                            <th class="text-bold">Address</th>
+                                            <th class="text-bold">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="customerTableBody">
@@ -159,17 +159,19 @@
                 if(response.status == 200) {
                     $('.loading').addClass('d-none');
                     const jsonData = response.data;
+                    console.log(jsonData);
                     $("#customerTable").DataTable().destroy();
                     $('#customerTableBody').empty();
 
+                    let index = 1;
                     $.each(jsonData, function (i) {
                         $('<tr>').html(
-                            "<td>" + jsonData[i].id + "</td>" +
+                            "<td>" + index++ + "</td>" +
                             "<td>" + jsonData[i].name + "</td>" +
                             "<td>" + ((jsonData[i].email == null) ? "Not Given" : jsonData[i].email) + "</td>" +
                             "<td>" + jsonData[i].number + "</td>" +
                             "<td>" + jsonData[i].address + "</td>" +
-                            "<td><a href='#' id='editCustomer' title='Edit Customer' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> <a href='#' title='Delete Customer' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Customer' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a></td>"
+                            "<td><a href='#' id='editCustomer' title='Edit Customer' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a>" + ((jsonData[i].payments.length == 0) ? ("<a href='javascript:void(0)' title='Delete Customer' class='btn btn-danger btn-sm confirmDelete actionBtn ml-1' record='Customer' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a>") : ("<button type='button' class='btn btn-danger btn-sm actionBtn' disabled><i class='far fa-trash-alt deleteButton'></i></button>")) + " </td>"
                         ).appendTo('#customerTableBody')
                     })
                 }
@@ -214,41 +216,31 @@
                     required: "Please enter Customer address",
                 },
         });
+        validation('#addCustomerForm', validationRules, validationMsg);
 
         // Add Customer
-        $(document).on('click', '#customerAddConfirmBtn', function(e) {
-            const name = $('#addCustomerName').val();
-            const number = $('#addCustomerNumber').val();
-            const email = $('#addCustomerEmail').val();
-            const address = $('#addCustomerAddress').val();
-
-            if(name == '' || number == '' || address == '' ) {
-                validation('#addCustomerForm', validationRules, validationMsg);
-            }
-            else {
-                e.preventDefault();
-                $('#customerAddConfirmBtn').html('<span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>Working...').addClass('disabled');
-
-                axios.post('/addCustomer', {
-                    name: name,
-                    number: number,
-                    email: email,
-                    address: address,
-                }).then((response) => {
-                    if(response.status == 200 && response.data == 1) {
-                        $('#customerAddConfirmBtn').text('Save').removeClass('disabled');
-                        $('#addCustomerModal').modal('hide');
-                        successMessage('Customer Added Successfully.')
-                        getCustomers();
-                    } else {
-                        $('#customerAddConfirmBtn').text('Save').removeClass('disabled');
-                        errorMessage('Something Went Wrong !')
-                    }
-                }).catch((error) => {
+        $(document).on('submit', '#addCustomerForm', function(e) {
+            e.preventDefault();
+            $('#customerAddConfirmBtn').html('<span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>Working...').addClass('disabled');
+            const data = new FormData(this);
+            axios.post('/addCustomer', data).then((response) => {
+                if(response.status == 200 && response.data == 1) {
+                    $('#customerAddConfirmBtn').text('Save').removeClass('disabled');
+                    $('#addCustomerModal').modal('hide');
+                    successMessage('Customer Added Successfully.')
+                    getCustomers();
+                } else if(response.status == 200 && response.data == 2) {
+                    $('#customerAddConfirmBtn').text('Save').removeClass('disabled');
+                    warningMessage('Email address already exists !')
+                }
+                else {
                     $('#customerAddConfirmBtn').text('Save').removeClass('disabled');
                     errorMessage('Something Went Wrong !')
-                })
-            }
+                }
+            }).catch((error) => {
+                $('#customerAddConfirmBtn').text('Save').removeClass('disabled');
+                errorMessage('Something Went Wrong !')
+            })
         });
 
         // Edit Customer Modal Open

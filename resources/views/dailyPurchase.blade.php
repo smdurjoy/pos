@@ -13,7 +13,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
-                            <li class="breadcrumb-item active"><a href=" {{url('/daily-invoice')}} ">Daily Purchase</a></li>
+                            <li class="breadcrumb-item active"><a href=" {{url('/daily-purchase')}} ">Daily Purchase</a></li>
                         </ol>
                     </div>
                 </div>

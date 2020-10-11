@@ -13,7 +13,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
-                            <li class="breadcrumb-item active"><a href=" {{url('/paidCustomers')}} ">Paid Customers</a></li>
+                            <li class="breadcrumb-item active"><a href=" {{url('/paid-customers')}} ">Paid Customers</a></li>
                         </ol>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                                 </div>
                                 <table class="table table-bordered" style="background: #eee">
                                     <tr>
-                                        <td style="text-align: right; font-weight: bold">Total Paid Amount </td>
+                                        <td style="text-align: right; font-weight: bold; width: 50%">Total Paid Amount </td>
                                         <td><strong class="text-bold totalPaid"></strong></td>
                                     </tr>
                                 </table>

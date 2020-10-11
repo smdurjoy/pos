@@ -35,14 +35,14 @@
                                 <table id="invoiceTable" class="table table-bordered table-sm">
                                     <thead>
                                     <tr>
-                                        <th>Id</th>
-                                        <th>Customer Info</th>
-                                        <th>Invoice No</th>
-                                        <th>Date</th>
-                                        <th>Description</th>
-                                        <th>Amount</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
+                                        <th class="text-bold">SL.</th>
+                                        <th class="text-bold">Customer Info</th>
+                                        <th class="text-bold">Invoice No</th>
+                                        <th class="text-bold">Date</th>
+                                        <th class="text-bold">Description</th>
+                                        <th class="text-bold">Amount</th>
+                                        <th class="text-bold">Status</th>
+                                        <th class="text-bold">Action</th>
                                     </tr>
                                     </thead>
                                     <tbody id="invoiceTableBody">
@@ -132,12 +132,12 @@
                     <div class="modal-body">
                         <table class="table-bordered">
                             <thead>
-                                <th>Category</th>
-                                <th>Product Name</th>
-                                <th width="10%">Unit</th>
-                                <th width="10%">Unit Price</th>
-                                <th width="17%">Total Price</th>
-                                <th width="11%">Action</th>
+                                <th class="text-bold">Category</th>
+                                <th class="text-bold">Product Name</th>
+                                <th class="text-bold" width="10%">Unit</th>
+                                <th class="text-bold" width="10%">Unit Price</th>
+                                <th class="text-bold" width="17%">Total Price</th>
+                                <th class="text-bold" width="11%">Action</th>
                             </thead>
 
                             <tbody id="addRow">
@@ -256,16 +256,17 @@
                     $("#invoiceTable").DataTable().destroy();
                     $('#invoiceTableBody').empty();
 
+                    let index = 1;
                     $.each(jsonData, function (i) {
                         $('<tr>').html(
-                            "<td>" + jsonData[i].id + "</td>" +
+                            "<td>" + index++ + "</td>" +
                             "<td>" + jsonData[i].payment.customer.name + ' (' + jsonData[i].payment.customer.number + ', '+ jsonData[i].payment.customer.address + ')' + "</td>" +
                             "<td>" + jsonData[i].invoice_no + "</td>" +
                             "<td>" + jsonData[i].date + "</td>" +
                             "<td>" + jsonData[i].description + "</td>" +
                             "<td>" + jsonData[i].payment.total_amount + "</td>" +
                             "<td>" + ((jsonData[i].status == 0) ? ("<span class='badge badge-danger'>Pending</span>") : ("<span class='badge badge-success'>Approved</span>")) + "</td>" +
-                            "<td>"+ ((jsonData[i].status == 1) ? '' : ("<a href='#' title='Delete Invoice' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Invoice' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a>")) + " </td>"
+                            "<td>"+ ((jsonData[i].status == 1) ? ("<button type='button' class='btn btn-danger btn-sm actionBtn' disabled><i class='far fa-trash-alt deleteButton'></i></button>") : ("<a href='#' title='Delete Invoice' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Invoice' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a>")) + " </td>"
                         ).appendTo('#invoiceTableBody')
                     });
                 }
