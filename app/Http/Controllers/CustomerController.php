@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Customer;
 use Auth;
+use Illuminate\Validation\Rules\In;
 use PDF;
 
 class CustomerController extends Controller
@@ -131,9 +132,29 @@ class CustomerController extends Controller
         return Invoice::where('id', $request->id)->with('payment', 'paymentDetails')->get();
     }
 
-    function paymentSummaryPdf($id) {
-        $data = Invoice::where('id', $id)->with('payment', 'paymentDetails')->first();
+    function paymentSummaryPdf($id, $invoiceNo) {
+        $data = Invoice::where('id', $id)->where('invoice_no', $invoiceNo)->with('payment', 'paymentDetails')->first();
         $pdf = PDF::loadView('pdf.customer-payment-summary-pdf', $data);
+        $pdf->SetProtection(['copy', 'print'], '', 'pass');
+        return $pdf->stream('document.pdf');
+    }
+
+    function paidCustomers() {
+        Session::put('page', 'paidCustomers');
+        return view('paidCustomers');
+    }
+
+    function getPaidCustomers() {
+        return Payment::where('paid_status', 'full_paid')->with('invoice', 'customer')->get();
+    }
+
+    function getPaidCustomersDetails(Request $request) {
+        return Invoice::where('id', $request->id)->with('invoiceDetails', 'payment')->get();
+    }
+
+    function paidCustomerInvoiceReport($id, $invoiceNo) {
+        $data = Invoice::where('id', $id)->where('invoice_no', $invoiceNo)->with('payment', 'invoiceDetails')->first();
+        $pdf = PDF::loadView('pdf.paid-customer-invoice-pdf', $data);
         $pdf->SetProtection(['copy', 'print'], '', 'pass');
         return $pdf->stream('document.pdf');
     }

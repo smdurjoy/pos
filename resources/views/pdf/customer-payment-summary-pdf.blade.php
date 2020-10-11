@@ -6,11 +6,11 @@
         <tbody>
             <tr>
                 <td><span style="font-weight: bold">Customer: </span> {{ $payment['customer']['name'] }}</td>
-                <td><span style="font-weight: bold">Invoice No:</span> {{ $invoice_no }}</td>
+                <td><span style="font-weight: bold">Invoice No:</span> #{{ $invoice_no }}</td>
             </tr>
             <tr>
                 <td><span style="font-weight: bold">Mobile: </span>{{ $payment['customer']['number'] }}</td>
-                <td><span style="font-weight: bold">Date: </span>{{ $date }}</td>
+                <td><span style="font-weight: bold">Date: </span> {{ date('d-m-Y', strtotime($date)) }}</td>
             </tr>
             <tr>
                 <td><span style="font-weight: bold">Address: </span>{{ $payment['customer']['address'] }}</td>
@@ -31,21 +31,21 @@
                 <tr>
                     <td>{{ $key+1 }}</td>
                     <td>{{ date('d-m-Y', strtotime($summary['date'])) }}</td>
-                    <td>{{ $summary['current_paid_amount'] }}</td>
+                    <td>{{ $summary['current_paid_amount'] }} Tk</td>
                 </tr>
             @endforeach
         <tr><td colspan="3"></td></tr><tr><td colspan="3"></td></tr>
         <tr>
-            <td colspan="2" style="text-align: right"><span style="font-weight: bold;">Total Paid Amount: </span></td>
+            <td colspan="2" style="text-align: right; font-weight: bold;">Total Paid Amount: </td>
             <td><span style="font-weight: bold;"> {{ $payment['paid_amount'] }} Tk</span></td>
         </tr>
         <tr>
-            <td colspan="2" style="text-align: right"><span>Due Amount: </span></td>
-            <td><span> {{ $payment['due_amount'] }} Tk</span></td>
+            <td colspan="2" style="text-align: right">Due Amount: </td>
+            <td>{{ $payment['due_amount'] }} Tk</td>
         </tr>
         <tr>
-            <td colspan="2" style="text-align: right"><span style="font-weight: bold;">Net Payble Amount: </span></td>
-            <td><span style="font-weight: bold;"> {{ $payment['total_amount'] }} Tk</span></td>
+            <td colspan="2" style="text-align: right; font-weight: bold;">Net Payble Amount: </td>
+            <td style="font-weight: bold;">{{ $payment['total_amount'] }} Tk</td>
         </tr>
         </tbody>
     </table>
@@ -62,7 +62,7 @@
                     </td>
                     <td style="width: 20%"></td>
                     <td style="width: 40%; text-align: right">
-                        <p style="text-align: right">Seller Signature</p>
+                        <p style="text-align: right">Owner Signature</p>
                     </td>
                 </tr>
             </table>

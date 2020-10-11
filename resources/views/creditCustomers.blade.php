@@ -13,7 +13,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
-                            <li class="breadcrumb-item active"><a href=" {{url('/customers')}} ">Customers</a></li>
+                            <li class="breadcrumb-item active"><a href=" {{url('/credit-customers')}} ">Credit Customers</a></li>
                         </ol>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                                 </div>
                                 <table class="table table-bordered" style="background: #eee">
                                     <tr>
-                                        <td style="text-align: right; font-weight: bold">Total Due </td>
+                                        <td style="text-align: right; font-weight: bold; width: 50%">Total Due Amount</td>
                                         <td><strong class="text-bold totalDue"></strong></td>
                                     </tr>
                                 </table>
@@ -146,7 +146,6 @@
                     <div class="pdfUrl">
 
                     </div>
-{{--                    <a href="/print/customer-payment-summary/1" target="_blank" id="generatePdf" data-id="" class="btn btn-danger btn-sm">Generate PDF</a>--}}
                 </div>
             </div>
         </div>
@@ -175,7 +174,7 @@
                             "<td>" + '#' + jsonData[i].invoice.invoice_no + "</td>" +
                             "<td>" + jsonData[i].invoice.date + "</td>" +
                             "<td>" + jsonData[i].due_amount + ' Tk' + "</td>" +
-                            "<td><a href='javascript:void(0)' id='editDue' title='Edit Due' data-id=" + jsonData[i].invoice_id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> <a href='javascript:void(0)' id='paymentDetails' title='Payment Summary' class='btn btn-success btn-sm actionBtn' data-id="+ jsonData[i].id +"> <i class='far fa-eye'></i> </a></td>"
+                            "<td><a href='javascript:void(0)' id='editDue' title='Edit Due' data-id=" + jsonData[i].invoice_id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> <a href='javascript:void(0)' id='paymentDetails' title='Payment Summary' class='btn btn-success btn-sm actionBtn' data-id="+ jsonData[i].invoice_id +"> <i class='far fa-eye'></i> </a></td>"
                         ).appendTo('#creditCustomerTableBody')
                         total_due += jsonData[i].due_amount;
                     })
@@ -329,8 +328,9 @@
                         ).appendTo('#payInvoiceDetails');
                     });
 
-                    let url = '{{ url('/print/customer-payment-summary/:id') }}';
+                    let url = '{{ url('/print/customer-payment-summary/:id/:invoiceNum') }}';
                     url = url.replace(':id', id);
+                    url = url.replace(':invoiceNum', data[0]['invoice_no']);
                     $('.pdfUrl').html(
                         " <a href='"+ url +"' target='_blank' id='generatePdf' class='btn btn-danger btn-sm'>Generate PDF</a> "
                     )

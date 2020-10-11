@@ -55,7 +55,11 @@ Route::get('/print/credit-customers', 'CustomerController@creditCustomersPdf');
 Route::post('/getEditInvoiceDetails', 'CustomerController@getEditInvoiceDetails');
 Route::post('/updateCustomerInvoice', 'CustomerController@updateCustomerInvoice');
 Route::post('/getInvoiceDetails', 'CustomerController@getInvoiceDetails');
-Route::get('/print/customer-payment-summary/{id}', 'CustomerController@paymentSummaryPdf');
+Route::get('/print/customer-payment-summary/{id}/{invoice}', 'CustomerController@paymentSummaryPdf');
+Route::get('/paid-customers', 'CustomerController@paidCustomers');
+Route::get('/getPaidCustomers', 'CustomerController@getPaidCustomers');
+Route::post('/getPaidCustomersDetails', 'CustomerController@getPaidCustomersDetails');
+Route::get('/print/paid-customer-invoice/{id}/{invoiceNo}', 'CustomerController@paidCustomerInvoiceReport');
 
 // Unit Routes
 Route::get('/units', 'UnitController@index');
@@ -63,7 +67,7 @@ Route::get('/getUnits', 'UnitController@getUnits');
 Route::post('/addUnit', 'UnitController@addUnit');
 Route::get('/getUnitDetails/{id}', 'UnitController@getUnitDetails');
 Route::post('/updateUnitDetails', 'UnitController@updateUnitDetails');
-Route::get('/delete-Unit/{id}', 'UnitController@deleteUnit');
+Route::get('/delete-Unit/{id}/', 'UnitController@deleteUnit');
 
 // Category Routes
 Route::get('/categories', 'CategoryController@index');
