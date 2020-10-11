@@ -11,6 +11,6 @@ class Payment extends Model
     }
 
     function invoice() {
-        return $this->belongsTo('App\Invoice');
+        return $this->belongsTo('App\Invoice')->with('paymentDetails');
     }
 }

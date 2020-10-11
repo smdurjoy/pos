@@ -13,5 +13,9 @@ class Invoice extends Model
     function invoiceDetails() {
         return $this->hasMany('App\InvoiceDetail', 'invoice_id', 'id')->with('category', 'product');
     }
+
+    function paymentDetails() {
+        return $this->hasMany('App\PaymentDetail');
+    }
 }
 

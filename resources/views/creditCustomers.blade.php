@@ -72,7 +72,7 @@
     </div>
     <!-- /.content-wrapper -->
 
-    <!-- Edit Due -->
+    <!-- Edit Invoice Modal -->
     <div class="modal fade" id="editDueModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -123,6 +123,34 @@
             </div>
         </div>
     </div>
+
+    <!-- Payment Details Modal -->
+    <div class="modal fade" id="paymentDetailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content modalContent">
+                <div class="modal-body p-4">
+                    <h5 class="text-center mb-4">Payment Summary</h5>
+                    <div class="pDetailsLoading text-center">
+                        <img src="{{ asset('images/loading.svg') }}" alt="loading .."/>
+                    </div>
+                    <div class="row d-none" id="paymentSummary">
+                        <div class="col-md-12 paymentDetails">
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
+                    <div class="pdfUrl">
+
+                    </div>
+{{--                    <a href="/print/customer-payment-summary/1" target="_blank" id="generatePdf" data-id="" class="btn btn-danger btn-sm">Generate PDF</a>--}}
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')
@@ -147,7 +175,7 @@
                             "<td>" + '#' + jsonData[i].invoice.invoice_no + "</td>" +
                             "<td>" + jsonData[i].invoice.date + "</td>" +
                             "<td>" + jsonData[i].due_amount + ' Tk' + "</td>" +
-                            "<td><a href='#' id='editDue' title='Edit Due' data-id=" + jsonData[i].invoice_id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> <a href='#' title='View Details' class='btn btn-success btn-sm actionBtn' data-id="+ jsonData[i].id +"> <i class='far fa-eye'></i> </a></td>"
+                            "<td><a href='javascript:void(0)' id='editDue' title='Edit Due' data-id=" + jsonData[i].invoice_id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> <a href='javascript:void(0)' id='paymentDetails' title='Payment Summary' class='btn btn-success btn-sm actionBtn' data-id="+ jsonData[i].id +"> <i class='far fa-eye'></i> </a></td>"
                         ).appendTo('#creditCustomerTableBody')
                         total_due += jsonData[i].due_amount;
                     })
@@ -178,16 +206,18 @@
                     $('#dueEditDetails').removeClass('d-none');
                     $('.loadingEdit').addClass('d-none')
                     $('#invoiceUpdateBtn').data('id', id);
+                    const data = response.data;
                     const invoiceDetails = response.data[0]['invoice_details'];
                     const paymentDetails = response.data[0]['payment'];
 
                     $('.details').html(
-                        " <table class='table table-bordered table-sm'><tr><td class='customerName'><span style='font-weight: bold;'>Customer:</span> "+ paymentDetails.customer.name +"</td><td><span style='font-weight: bold;'>Invoice No:</span> #101</td></tr><tr><td><span style='font-weight: bold;'>Mobile:</span> "+ paymentDetails.customer.number +"</td><td><span style='font-weight: bold;'>Date:</span> 10-08-2020 </td></tr><tr><td><span style='font-weight: bold;'>Address:</span> "+ paymentDetails.customer.address +"</td></tr></table><table width='100%' class='table table-bordered table-sm'><thead><tr><th>SL.</th><th>Category</th><th>Product Name</th><th>Qty</th><th>Unit Price</th><th>Amount</th></tr></thead><tbody id='invoiceDetails'></tbody><tbody><tr><td colspan='5' class='text-bold'><span>Total Amount</span></td><td><span style='font-weight: bold;'>100000</span></td></tr><tr><td colspan='5'>Less Discount</td><td>"+ paymentDetails.discount_amount +"</td></tr><tr><td colspan='5'>Paid Amount</td><td>"+ paymentDetails.paid_amount +"</td></tr><tr><td colspan='5'>Due Amount</td><td>"+ paymentDetails.due_amount +"</td></tr><tr><td colspan='5'><span style='font-weight: bold;'>Net Payable Amount</span></td><td><span style='font-weight: bold;'>"+ paymentDetails.total_amount +"</span></td></tr></tbody></table><input type='hidden' name='due_amount' value='"+ paymentDetails.due_amount +"'>"
+                        " <table class='table table-bordered table-sm'><tr><td class='customerName'><span style='font-weight: bold;'>Customer:</span> "+ paymentDetails.customer.name +"</td><td><span style='font-weight: bold;'>Invoice No:</span> #"+ data[0]['invoice_no'] +" </td></tr><tr><td><span style='font-weight: bold;'>Mobile:</span> "+ paymentDetails.customer.number +"</td><td><span style='font-weight: bold;'>Date:</span> "+ data[0]['date'] +" </td></tr><tr><td><span style='font-weight: bold;'>Address:</span> "+ paymentDetails.customer.address +"</td></tr></table><table width='100%' class='table table-bordered table-sm'><thead><tr><th class='text-bold'>SL.</th><th class='text-bold'>Category</th><th class='text-bold'>Product Name</th><th class='text-bold'>Qty</th><th class='text-bold'>Unit Price</th><th class='text-bold'>Amount</th></tr></thead><tbody id='invoiceDetails'></tbody><tbody><tr><td colspan='5' class='text-bold'><span>Total Amount</span></td><td><span style='font-weight: bold;'>100000</span></td></tr><tr><td colspan='5'>Less Discount</td><td>"+ paymentDetails.discount_amount +"</td></tr><tr><td colspan='5'>Paid Amount</td><td>"+ paymentDetails.paid_amount +"</td></tr><tr><td colspan='5'>Due Amount</td><td>"+ paymentDetails.due_amount +"</td></tr><tr><td colspan='5'><span style='font-weight: bold;'>Net Payable Amount</span></td><td><span style='font-weight: bold;'>"+ paymentDetails.total_amount +"</span></td></tr></tbody></table><input type='hidden' name='due_amount' value='"+ paymentDetails.due_amount +"'>"
                     )
 
+                    let index = 1;
                     $.each(invoiceDetails, function (i) {
                         $('<tr>').html(
-                            "<td>" + invoiceDetails[i].id + "</td>" +
+                            "<td>" + index++ + "</td>" +
                             "<td>" + invoiceDetails[i].category.name + "</td>" +
                             "<td>" + invoiceDetails[i].product.name + "</td>" +
                             "<td>" + invoiceDetails[i].selling_quantity + "</td>" +
@@ -269,5 +299,45 @@
                 errorMessage(error.message)
             })
         })
+
+        $(document).on('click', '#paymentDetails', function () {
+            const id = $(this).data('id');
+            $('#paymentDetailsModal').modal('show');
+            getPaymentDetails(id);
+        })
+
+        function getPaymentDetails(id) {
+            axios.post('/getInvoiceDetails', {id: id}).then(response => {
+                if(response.status == 200) {
+                    $('#paymentSummary').removeClass('d-none');
+                    $('.pDetailsLoading').addClass('d-none')
+                    const data = response.data;
+                    const paymentDetails = response.data[0]['payment_details'];
+                    const payment = response.data[0]['payment'];
+                    console.log(data);
+
+                    $('.paymentDetails').html(
+                        " <table class='table table-bordered table-sm'><tr><td class='customerName'><span style='font-weight: bold;'>Customer:</span> "+ payment.customer.name +"</td><td><span style='font-weight: bold;'>Invoice No:</span> #"+ data[0]['invoice_no'] +" </td></tr><tr><td><span style='font-weight: bold;'>Mobile:</span> "+ payment.customer.number +"</td><td><span style='font-weight: bold;'>Date:</span> "+ data[0]['date'] +" </td></tr><tr><td><span style='font-weight: bold;'>Address:</span> "+ payment.customer.address +"</td></tr></table><table width='100%' class='table table-bordered table-sm'><thead><tr><th class='text-bold'>SL.</th><th class='text-bold'>Date</th><th class='text-bold'>Amount</th></tr></thead><tbody id='payInvoiceDetails'></tbody><tbody><tr><td colspan='2' class='text-bold'>Paid Amount</td><td class='text-bold'>"+ payment.paid_amount +"</td></tr><tr><td colspan='2'>Due Amount</td><td>"+ payment.due_amount +"</td></tr><tr><td colspan='2'><span style='font-weight: bold;'>Net Payable Amount</span></td><td><span style='font-weight: bold;'>"+ payment.total_amount +"</span></td></tr></tbody></table><input type='hidden' name='due_amount' value='"+ payment.due_amount +"'>"
+                    )
+
+                    let index = 1;
+                    $.each(paymentDetails, function (i) {
+                        $('<tr>').html(
+                            "<td>" + index++ + "</td>" +
+                            "<td>" + paymentDetails[i].date + "</td>" +
+                            "<td>" + paymentDetails[i].current_paid_amount + "</td>"
+                        ).appendTo('#payInvoiceDetails');
+                    });
+
+                    let url = '{{ url('/print/customer-payment-summary/:id') }}';
+                    url = url.replace(':id', id);
+                    $('.pdfUrl').html(
+                        " <a href='"+ url +"' target='_blank' id='generatePdf' class='btn btn-danger btn-sm'>Generate PDF</a> "
+                    )
+                }
+            }).catch(error => {
+                errorMessage(error.message)
+            })
+        }
     </script>
 @endsection

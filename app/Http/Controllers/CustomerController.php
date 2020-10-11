@@ -109,13 +109,13 @@ class CustomerController extends Controller
             $payment = Payment::where('invoice_id', $request->invoice_id)->first();
             $payment_details = new PaymentDetail();
             if($request->paid_status == 'full_paid') {
-                $payment->paid_amount = Payment::where('invoice_id', $request->invoice_id)->first()['paid_amount']+$request->due_amount;
+                $payment->paid_amount += $request->due_amount;
                 $payment->due_amount = 0;
                 $payment_details->current_paid_amount = $request->deu_amount;
                 $payment->paid_status = 'full_paid';
             } else if($request->paid_status == 'partial_paid') {
-                $payment->paid_amount = $payment['paid_amount']+$request->paid_amount;
-                $payment->due_amount = $payment['due_amount']-$request->paid_amount;
+                $payment->paid_amount += $request->paid_amount;
+                $payment->due_amount -= $request->paid_amount;
                 $payment_details->current_paid_amount = $request->paid_amount;
             }
             $payment->save();
@@ -125,5 +125,16 @@ class CustomerController extends Controller
 
             return 1;
         }
+    }
+
+    function getInvoiceDetails(Request $request) {
+        return Invoice::where('id', $request->id)->with('payment', 'paymentDetails')->get();
+    }
+
+    function paymentSummaryPdf($id) {
+        $data = Invoice::where('id', $id)->with('payment', 'paymentDetails')->first();
+        $pdf = PDF::loadView('pdf.customer-payment-summary-pdf', $data);
+        $pdf->SetProtection(['copy', 'print'], '', 'pass');
+        return $pdf->stream('document.pdf');
     }
 }
