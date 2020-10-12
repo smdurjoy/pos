@@ -31,7 +31,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="purchaseTable" class="table table-bordered table-sm">
+                                <table id="purchaseTable" class="table table-bordered table-sm table-hover">
                                     <thead>
                                         <tr>
                                             <th class="text-bold">SL.</th>
@@ -89,16 +89,18 @@
 
                     let index = 1;
                     $.each(jsonData, function (i) {
+                        const date = jsonData[i].date;
+                        const newDateFormat = date.split("-").reverse().join("-");
                         $('<tr>').html(
                             "<td>" + index++ + "</td>" +
                             "<td>" + jsonData[i].purchase_number + "</td>" +
-                            "<td>" + jsonData[i].date + "</td>" +
+                            "<td>" + newDateFormat + "</td>" +
                             "<td>" + jsonData[i].supplier.name + "</td>" +
                             "<td>" + jsonData[i].category.name + "</td>" +
                             "<td>" + jsonData[i].product.name + "</td>" +
-                            "<td>" + jsonData[i].buying_quantity + "</td>" +
-                            "<td>" + jsonData[i].unit_price + "</td>" +
-                            "<td>" + jsonData[i].buying_price + "</td>" +
+                            "<td>" + jsonData[i].buying_quantity + ' ' + jsonData[i].product.unit.name + "</td>" +
+                            "<td>" + jsonData[i].unit_price + " Tk</td>" +
+                            "<td>" + jsonData[i].buying_price + " Tk</td>" +
                             "<td>" + ((jsonData[i].status == 0) ? ("<span class='badge badge-danger'>Pending</span>") : ("<span class='badge badge-success'>Approved</span>")) + "</td>" +
                             "<td>" + ((jsonData[i].description == null) ? '' : jsonData[i].description) + "</td>" +
                             "<td>"+ ((jsonData[i].status == 1) ? '' : ("<button href='#' title='Approve Purchase' class='btn btn-success btn-sm actionBtn updateStatus' record='Purchase' data-id="+ jsonData[i].id +"> <i class='fa fa-check-circle'></i> </button>")) + " </td>"

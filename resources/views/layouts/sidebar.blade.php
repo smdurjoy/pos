@@ -320,7 +320,7 @@
                 </li>
 
                 <!-- Invoice -->
-                @if(Session::get('page') == "invoice" || Session::get('page') == "pendingInvoice" || Session::get('page') == "printInvoice")
+                @if(Session::get('page') == "invoice" || Session::get('page') == "pendingInvoice" || Session::get('page') == "printInvoice" || Session::get('page') == 'dailyInvoice')
                     <?php $active = "active"; ?>
                 @else
                     <?php $active = ""; ?>

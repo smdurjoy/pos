@@ -32,14 +32,14 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="userTable" class="table table-bordered table-sm">
+                                <table id="userTable" class="table table-bordered table-sm table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Id</th>
-                                            <th>Role</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Action</th>
+                                            <th class="text-bold">SL.</th>
+                                            <th class="text-bold">Role</th>
+                                            <th class="text-bold">Name</th>
+                                            <th class="text-bold">Email</th>
+                                            <th class="text-bold">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="userTableBody">
@@ -163,13 +163,15 @@
                     $("#userTable").DataTable().destroy();
                     $('#userTableBody').empty();
 
+                    const userName = '{{Auth::user()->name}}';
+                    let index = 1;
                     $.each(jsonData, function (i) {
                         $('<tr>').html(
-                            "<td>" + jsonData[i].id + "</td>" +
+                            "<td>" + index++ + "</td>" +
                             "<td>" + jsonData[i].role + "</td>" +
                             "<td>" + jsonData[i].name + "</td>" +
                             "<td>" + jsonData[i].email + "</td>" +
-                            "<td><a href='#' id='editUser' title='Edit User' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> <a href='#' title='Delete User' class='btn btn-danger btn-sm confirmDelete actionBtn' record='User' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a></td>"
+                            "<td><a href='#' id='editUser' title='Edit User' data-id=" + jsonData[i].id + " class='btn btn-primary btn-sm actionBtn'> <i class='far fa-edit'></i> </a> " + ((jsonData[i].name == userName) ? ("<button type='button' class='btn btn-danger btn-sm actionBtn disableBtn' disabled><i class='far fa-trash-alt deleteButton'></i></button>") : ("<a href='#' title='Delete User' class='btn btn-danger btn-sm confirmDelete actionBtn' record='User' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a>") ) + "</td>"
                         ).appendTo('#userTableBody')
                     })
                 }

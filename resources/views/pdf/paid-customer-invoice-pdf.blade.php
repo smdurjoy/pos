@@ -38,9 +38,9 @@
                 <td>{{ $key+1 }}</td>
                 <td>{{ $details['category']['name'] }}</td>
                 <td>{{ $details['product']['name'] }}</td>
-                <td>{{ $details['selling_quantity'] }}</td>
-                <td>{{ $details['unit_price'] }}</td>
-                <td>{{ $details['selling_price'] }}</td>
+                <td class="text-right">{{ $details['selling_quantity'] }}</td>
+                <td class="text-right">{{ $details['unit_price'] }}</td>
+                <td class="text-right">{{ $details['selling_price'] }}</td>
             </tr>
             @php
               $total_amount += $details['selling_price'];
@@ -49,15 +49,15 @@
         <tr><td colspan="5"></td></tr><tr><td colspan="5"></td></tr>
         <tr>
             <td colspan="5" style="text-align: right; font-weight: bold;">Total Amount: </td>
-            <td><span style="font-weight: bold;"> {{ $total_amount }} Tk</span></td>
+            <td class="text-right"><span style="font-weight: bold;"> {{ $total_amount }}</span></td>
         </tr>
         <tr>
             <td colspan="5" style="text-align: right">Discount Amount: </td>
-            <td>{{ $payment['discount_amount'] }} Tk</td>
+            <td class="text-right">{{ $payment['discount_amount'] }}</td>
         </tr>
         <tr>
             <td colspan="5" style="text-align: right; font-weight: bold;">Paid Amount: </td>
-            <td style="font-weight: bold;">{{ $payment['paid_amount'] }} Tk</td>
+            <td class="text-right" style="font-weight: bold;">{{ $payment['paid_amount'] }}</td>
         </tr>
         </tbody>
     </table>

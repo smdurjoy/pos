@@ -32,7 +32,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="supplierTable" class="table table-bordered table-sm">
+                                <table id="supplierTable" class="table table-bordered table-sm table-hover">
                                     <thead>
                                         <tr>
                                             <th class="text-bold">SL.</th>
@@ -233,6 +233,7 @@
                     $('#supplierAddConfirmBtn').text('Save').removeClass('disabled');
                     $('#addSupplierModal').modal('hide');
                     successMessage('Supplier Added Successfully.')
+                    $("#addSupplierForm").trigger("reset");
                     getSuppliers();
                 } else {
                     $('#supplierAddConfirmBtn').text('Save').removeClass('disabled');

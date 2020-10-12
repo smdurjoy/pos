@@ -32,7 +32,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="purchaseTable" class="table table-bordered table-sm">
+                                <table id="purchaseTable" class="table table-bordered table-sm table-hover">
                                     <thead>
                                         <tr>
                                             <th class="text-bold">SL.</th>
@@ -85,7 +85,7 @@
                                 <div class="form-group">
                                     <label for="date">Date</label>
                                     <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                        <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" placeholder="MM-DD-YYYY" id="date" name="date"/>
+                                        <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" placeholder="DD-MM-YYYY" id="date" name="date"/>
                                         <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                         </div>
@@ -182,7 +182,7 @@
                 <input type="number" min="1" class="form-control form-control-sm text-right buying_qt" name="buying_qt[]" value="1"/>
             </td>
             <td>
-                <input type="number" min="1" class="form-control form-control-sm text-right unit_price" name="unit_price[]" value=""/>
+                <input type="number" min="1" class="form-control form-control-sm text-right unit_price" name="unit_price[]" value="" required/>
             </td>
             <td>
                 <input type="text" class="form-control form-control-sm" name="description[]"/>
@@ -212,16 +212,18 @@
 
                     let index = 1;
                     $.each(jsonData, function (i) {
+                        const date = jsonData[i].date;
+                        const newDateFormat = date.split("-").reverse().join("-");
                         $('<tr>').html(
                             "<td>" + index++ + "</td>" +
                             "<td>" + jsonData[i].purchase_number + "</td>" +
-                            "<td>" + jsonData[i].date + "</td>" +
+                            "<td>" + newDateFormat + "</td>" +
                             "<td>" + jsonData[i].supplier.name + "</td>" +
                             "<td>" + jsonData[i].category.name + "</td>" +
                             "<td>" + jsonData[i].product.name + "</td>" +
                             "<td>" + jsonData[i].buying_quantity + ' ' + jsonData[i].product.unit.name +"</td>" +
-                            "<td>" + jsonData[i].unit_price + "</td>" +
-                            "<td>" + jsonData[i].buying_price + "</td>" +
+                            "<td>" + jsonData[i].unit_price + " Tk</td>" +
+                            "<td>" + jsonData[i].buying_price + " Tk</td>" +
                             "<td>" + ((jsonData[i].status == 0) ? ("<span class='badge badge-danger'>Pending</span>") : ("<span class='badge badge-success'>Approved</span>")) + "</td>" +
                             "<td>" + ((jsonData[i].description == null) ? '' : jsonData[i].description) + "</td>" +
                             "<td>"+ ((jsonData[i].status == 1) ? ("<button type='button' class='btn btn-danger btn-sm actionBtn' disabled><i class='far fa-trash-alt deleteButton'></i></button>") : ("<button href='#' title='Delete Purchase' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Purchase' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </button>")) + " </td>"
@@ -242,7 +244,7 @@
 
         // Date picker format
         $('#reservationdate').datetimepicker({
-            format: 'L'
+            format: 'DD-MM-YYYY'
         });
 
         // Add Purchase Modal Open
@@ -326,23 +328,26 @@
             })
         });
 
-        // Purchase and edit validation rules and messages
+        // Purchase add edit validation rules and messages
         const validationRules = Object.assign({
-                    date: {
-                        required: true,
-                    },
-                    supplier_name: {
-                        required: true,
-                    },
-                    category_name: {
-                        required: true,
-                    },
-                    product_name: {
-                        required: true,
-                    },
-                    purchase_no: {
-                        required: true,
-                    },
+                date: {
+                    required: true,
+                },
+                supplier_name: {
+                    required: true,
+                },
+                category_name: {
+                    required: true,
+                },
+                product_name: {
+                    required: true,
+                },
+                purchase_no: {
+                    required: true,
+                },
+                unit_price: {
+                    required: true,
+                },
         });
 
         const validationMsg = Object.assign({
@@ -435,6 +440,7 @@
                 else if(response.status == 200 && response.data == 1) {
                     $('#purchaseAddConfirmBtn').text('Save').removeClass('disabled');
                     successMessage('Purchase Added Successfully.');
+                    $("#addPurchaseForm").trigger("reset");
                     $('#addPurchaseModal').modal('hide');
                     getPurchase();
                 } else {

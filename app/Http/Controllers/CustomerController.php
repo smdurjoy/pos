@@ -43,7 +43,7 @@ class CustomerController extends Controller
 
         $userEmail = Customer::where('email', $email);
 
-        if($userEmail->exists()) {
+        if($email != null && $userEmail->exists()) {
             return 2;
         } else {
             $result = Customer::insert([

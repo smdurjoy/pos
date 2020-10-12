@@ -37,8 +37,8 @@
                     <td>{{ $details['category']['name'] }}</td>
                     <td>{{ $details['product']['name'] }}</td>
                     <td>{{ $details['selling_quantity'] }}</td>
-                    <td>{{ $details['unit_price'] }}</td>
-                    <td>{{ $details['selling_price'] }}</td>
+                    <td class="text-right">{{ $details['unit_price'] }}</td>
+                    <td class="text-right">{{ $details['selling_price'] }}</td>
                 </tr>
                 @php
                     $total_amount += $details['selling_price'];
@@ -48,24 +48,24 @@
             <tr><td colspan="6"></td></tr><tr><td colspan="6"></td></tr>
 
             <tr>
-                <td colspan="5"><span style="font-weight: bold;">Total Amount</span></td>
-                <td><span style="font-weight: bold;">{{ $total_amount }}</span></td>
+                <td class="text-right" colspan="5"><span style="font-weight: bold">Total Amount: </span></td>
+                <td class="text-right"><span style="font-weight: bold">{{ $total_amount }}</span></td>
             </tr>
             <tr>
-                <td colspan="5">Less Discount</td>
-                <td>{{ $payment['discount_amount'] }}</td>
+                <td class="text-right" colspan="5">Less Discount: </td>
+                <td class="text-right">{{ $payment['discount_amount'] }}</td>
             </tr>
             <tr>
-                <td colspan="5">Paid Amount</td>
-                <td>{{ $payment['paid_amount'] }}</td>
+                <td class="text-right" colspan="5">Paid Amount: </td>
+                <td class="text-right">{{ $payment['paid_amount'] }}</td>
             </tr>
             <tr>
-                <td colspan="5">Due Amount</td>
-                <td>{{ $payment['due_amount'] }}</td>
+                <td class="text-right" colspan="5">Due Amount: </td>
+                <td class="text-right">{{ $payment['due_amount'] }}</td>
             </tr>
             <tr>
-                <td colspan="5"><span style="font-weight: bold;">Net Payable Amount</span></td>
-                <td><span style="font-weight: bold;">{{ $payment['total_amount'] }}</span></td>
+                <td class="text-right" colspan="5"><span style="font-weight: bold">Net Payable Amount: </span></td>
+                <td class="text-right"><span style="font-weight: bold">{{ $payment['total_amount'] }}</span></td>
             </tr>
         </tbody>
     </table>

@@ -22,7 +22,7 @@
         <tr>
             <th>SL.</th>
             <th>Date</th>
-            <th>Amount</th>
+            <th class="text-right">Amount</th>
         </tr>
         </thead>
 
@@ -31,21 +31,21 @@
                 <tr>
                     <td>{{ $key+1 }}</td>
                     <td>{{ date('d-m-Y', strtotime($summary['date'])) }}</td>
-                    <td>{{ $summary['current_paid_amount'] }} Tk</td>
+                    <td class="text-right">{{ $summary['current_paid_amount'] }} Tk</td>
                 </tr>
             @endforeach
         <tr><td colspan="3"></td></tr><tr><td colspan="3"></td></tr>
         <tr>
             <td colspan="2" style="text-align: right; font-weight: bold;">Total Paid Amount: </td>
-            <td><span style="font-weight: bold;"> {{ $payment['paid_amount'] }} Tk</span></td>
+            <td class="text-right"><span style="font-weight: bold;"> {{ $payment['paid_amount'] }} Tk</span></td>
         </tr>
         <tr>
             <td colspan="2" style="text-align: right">Due Amount: </td>
-            <td>{{ $payment['due_amount'] }} Tk</td>
+            <td class="text-right">{{ $payment['due_amount'] }} Tk</td>
         </tr>
         <tr>
             <td colspan="2" style="text-align: right; font-weight: bold;">Net Payble Amount: </td>
-            <td style="font-weight: bold;">{{ $payment['total_amount'] }} Tk</td>
+            <td class="text-right" style="font-weight: bold;">{{ $payment['total_amount'] }} Tk</td>
         </tr>
         </tbody>
     </table>

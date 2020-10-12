@@ -85,10 +85,9 @@ class PurchaseController extends Controller
     }
 
     function dailyPurchasePdf(Request $request) {
-        $startDate = $request->start_date;
-        $endtDate = $request->end_date;
+        $startDate = date('Y-m-d', strtotime($request->start_date));
+        $endtDate = date('Y-m-d', strtotime($request->end_date));
         $data['data'] = Purchase::orderBy('date', 'asc')->orderBy('id', 'asc')->whereBetween('date', [$startDate, $endtDate])->where('status', 1)->with('product', 'supplier', 'category')->get();
-//        return $data;
         $data['start_date'] = date('d-m-Y', strtotime($request->start_date));
         $data['end_date'] = date('d-m-Y', strtotime($request->end_date));
         $pdf = PDF::loadView('pdf.daily-purchase-report', $data);

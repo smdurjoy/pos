@@ -32,7 +32,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="productTable" class="table table-bordered table-sm">
+                                <table id="productTable" class="table table-bordered table-sm table-hover">
                                     <thead>
                                         <tr>
                                             <th class="text-bold">SL.</th>
@@ -301,6 +301,7 @@
                     if(response.status == 200 && response.data == 1) {
                         $('#productAddConfirmBtn').text('Save').removeClass('disabled');
                         $('#addProductModal').modal('hide');
+                        $("#addProductForm").trigger("reset");
                         successMessage('Product Added Successfully.')
                         getProducts();
                     } else {

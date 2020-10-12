@@ -32,7 +32,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="invoiceTable" class="table table-bordered table-sm">
+                                <table id="invoiceTable" class="table table-bordered table-sm table-hover">
                                     <thead>
                                     <tr>
                                         <th class="text-bold">SL.</th>
@@ -196,6 +196,7 @@
                             <div class="form-group col-md-8">
                                 <label for="paid_status">Paid Status</label>
                                 <select class='form-control select2' style='width: 100%;' id='paidStatus' name='paid_status'>
+                                    <option value="">Select</option>
                                     <option value="full_paid">Full Paid</option>
                                     <option value="full_due">Full Due</option>
                                     <option value="partial_paid">Partial Paid</option>
@@ -234,7 +235,7 @@
                 <input type="number" min="1" class="form-control form-control-sm text-right selling_qty" name="selling_qty[]" value="1"/>
             </td>
             <td>
-                <input type="number" min="1" class="form-control form-control-sm text-right unit_price" name="unit_price[]" value=""/>
+                <input type="number" min="1" class="form-control form-control-sm text-right unit_price" name="unit_price[]" value="" required/>
             </td>
             <td>
                 <input type="text" class="form-control form-control-sm text-right selling_price" name="selling_price[]" value="0" readonly/>
@@ -258,15 +259,17 @@
 
                     let index = 1;
                     $.each(jsonData, function (i) {
+                        const date = jsonData[i].date;
+                        const newDateFormat = date.split("-").reverse().join("-");
                         $('<tr>').html(
                             "<td>" + index++ + "</td>" +
                             "<td>" + jsonData[i].payment.customer.name + ' (' + jsonData[i].payment.customer.number + ', '+ jsonData[i].payment.customer.address + ')' + "</td>" +
-                            "<td>" + jsonData[i].invoice_no + "</td>" +
-                            "<td>" + jsonData[i].date + "</td>" +
-                            "<td>" + jsonData[i].description + "</td>" +
-                            "<td>" + jsonData[i].payment.total_amount + "</td>" +
+                            "<td>#" + jsonData[i].invoice_no + "</td>" +
+                            "<td>" + newDateFormat + "</td>" +
+                            "<td>" + ((jsonData[i].description == null) ? '' : jsonData[i].description) + "</td>" +
+                            "<td>" + jsonData[i].payment.total_amount + " Tk</td>" +
                             "<td>" + ((jsonData[i].status == 0) ? ("<span class='badge badge-danger'>Pending</span>") : ("<span class='badge badge-success'>Approved</span>")) + "</td>" +
-                            "<td>"+ ((jsonData[i].status == 1) ? ("<button type='button' class='btn btn-danger btn-sm actionBtn' disabled><i class='far fa-trash-alt deleteButton'></i></button>") : ("<a href='#' title='Delete Invoice' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Invoice' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a>")) + " </td>"
+                            "<td>"+ ((jsonData[i].status == 1) ? ("<button type='button' class='btn btn-danger btn-sm actionBtn disableBtn' disabled><i class='far fa-trash-alt deleteButton'></i></button>") : ("<a href='#' title='Delete Invoice' class='btn btn-danger btn-sm confirmDelete actionBtn' record='Invoice' data-id="+ jsonData[i].id +"> <i class='far fa-trash-alt deleteButton'></i> </a>")) + " </td>"
                         ).appendTo('#invoiceTableBody')
                     });
                 }
@@ -284,7 +287,7 @@
 
         // Date picker format
         $('#reservationdate').datetimepicker({
-            format: 'YYYY-MM-DD'
+            format: 'DD-MM-YYYY'
         });
 
         // Add Invoice Modal Open
@@ -415,6 +418,27 @@
             product_name: {
                 required: true,
             },
+            customer: {
+                required: true,
+            },
+            customer_name: {
+                required: true,
+            },
+            customer_number: {
+                required: true,
+            },
+            customer_address: {
+                required: true,
+            },
+            paid_status: {
+                required: true,
+            },
+            paid_amount: {
+                required: true,
+            },
+            unit_price: {
+                required: true,
+            },
         });
 
         const validationMsg = Object.assign({
@@ -494,6 +518,7 @@
             $('#estimated_amount').val(totalAmount);
         }
 
+        validation('#addInvoiceForm', validationRules, validationMsg);
         // Add Invoice
         $(document).on('submit', '#addInvoiceForm', function(e) {
             e.preventDefault();

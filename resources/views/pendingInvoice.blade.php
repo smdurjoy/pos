@@ -31,7 +31,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="invoiceTable" class="table table-bordered table-sm">
+                                <table id="invoiceTable" class="table table-bordered table-sm table-hover">
                                     <thead>
                                     <tr>
                                         <th class="text-bold">SL.</th>
@@ -70,7 +70,7 @@
     <div class="modal fade" id="invoiceApproveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
+            <div class="modal-content modalContent">
                 <form id="invoiceApproveForm">
                     <div class="modal-body p-4">
                         <h5 class="text-center mb-4" id="invoiceNum"></h5>
@@ -78,12 +78,8 @@
                             <img src="{{ asset('images/loading.svg') }}" alt="loading .."/>
                         </div>
                         <div class="row d-none" id="approveDetails">
-                            <div class="col-md-12">
-                                <table>
-                                    <tbody id="invoiceInfo">
+                            <div class="col-md-12 invoiceInfo">
 
-                                    </tbody>
-                                </table>
                             </div>
                             <div class="col-md-12 mt-4">
                                 <table style="width: 100%" class="table table-bordered table-sm text-center">
@@ -158,13 +154,15 @@
 
                     let index = 1;
                     $.each(jsonData, function (i) {
+                        let date = jsonData[i].date;
+                        let newDateFormat = date.split("-").reverse().join("-");
                         $('<tr>').html(
                             "<td>" + index++ + "</td>" +
                             "<td>" + jsonData[i].payment.customer.name + ' (' + jsonData[i].payment.customer.number + ', '+ jsonData[i].payment.customer.address + ')' + "</td>" +
-                            "<td>" + jsonData[i].invoice_no + "</td>" +
-                            "<td>" + jsonData[i].date + "</td>" +
-                            "<td>" + jsonData[i].description + "</td>" +
-                            "<td>" + jsonData[i].payment.total_amount + "</td>" +
+                            "<td>#" + jsonData[i].invoice_no + "</td>" +
+                            "<td>" + newDateFormat + "</td>" +
+                            "<td>" + ((jsonData[i].description == null) ? '' : jsonData[i].description) + "</td>" +
+                            "<td>" + jsonData[i].payment.total_amount + " Tk</td>" +
                             "<td><button href='#' title='Approve Invoice' class='btn btn-success btn-sm actionBtn approveInvoice' data-id="+ jsonData[i].id +"> <i class='fa fa-check-circle'></i> </button></td>"
                         ).appendTo('#invoiceTableBody')
                     })
@@ -192,18 +190,21 @@
 
                     const data = response.data;
 
-                    $('#invoiceNum').text('Invoice No #'+data.invoice_no+' ('+data.date+')')
+                    let date = data.date;
+                    let newDateFormat = date.split("-").reverse().join("-");
+                    $('#invoiceNum').text('Invoice No #'+data.invoice_no+' ('+newDateFormat+')')
 
-                    $('#invoiceInfo').html(
-                        "<tr><td width='15%'></td><td width='25%'><b class='text-bold'>Name: </b>" + data.payment.customer.name + "</td><td width='25%'><b class='text-bold'>Mobile No: </b> " + data.payment.customer.number + "</td><td width='35%'><b class='text-bold'>Address: </b> " + data.payment.customer.address + "</td></tr><tr><td><u class='text-bold mr-2'>Customer Info:</u></td><td colspan='3'></td></tr><tr><td></td><td><b class='text-bold'>Description: </b>" + data.description + "</td><td colspan='2'></td></tr>"
+                    $('.invoiceInfo').html(
+                        "<table class='table table-bordered table-sm'><tr><td><span style='font-weight: bold;'>Customer: </span>" + data.payment.customer.name + "</td><td><span style='font-weight: bold;'>Address: </span>" + data.payment.customer.address + "</td></tr><tr><td><span style='font-weight: bold;'>Mobile:</span> " + data.payment.customer.number + "</td><td><span style='font-weight: bold;'>Description: </span> " + ((data.description == null) ? '' : data.description) + " </td></tr></table>"
                     )
 
                     const invoiceDetails = response.data.invoice_details;
                     $('#invoiceDetails').empty();
                     let subTotal = 0;
+                    let index = 1;
                     $.each(invoiceDetails, function (i) {
                         $('<tr>').html(
-                            "<td>" + invoiceDetails[i].id + "</td>" +
+                            "<td>" + index++ + "</td>" +
                             "<td>" + invoiceDetails[i].category.name + "</td>" +
                             "<td>" + invoiceDetails[i].product.name  + "</td>" +
                             "<td class='currentStock'>" + invoiceDetails[i].product.quantity  + "</td>" +
@@ -219,7 +220,7 @@
                     });
 
                     $('#subTotal').text(subTotal);
-                    $('#discount').text(data.payment.discount_amount);
+                    $('#discount').text(((data.payment.discount_amount == null) ? 0 : data.payment.discount_amount));
                     $('#paidAmount').text(data.payment.paid_amount);
                     $('#dueAmount').text(data.payment.due_amount);
                     $('#grandTotal').text(data.payment.total_amount);

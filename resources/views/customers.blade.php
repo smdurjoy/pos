@@ -32,7 +32,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="customerTable" class="table table-bordered table-sm">
+                                <table id="customerTable" class="table table-bordered table-sm table-hover">
                                     <thead>
                                         <tr>
                                             <th class="text-bold">SL.</th>
@@ -203,6 +203,9 @@
                     address: {
                         required: true,
                     },
+                    email: {
+                        email: true,
+                    },
             });
 
         const validationMsg = Object.assign({
@@ -215,8 +218,14 @@
                 address: {
                     required: "Please enter Customer address",
                 },
+                email: {
+                    email: "Please enter a valid email address",
+                },
         });
+        // Add customer validation
         validation('#addCustomerForm', validationRules, validationMsg);
+        // Update customer validation
+        validation('#editCustomerForm', validationRules, validationMsg);
 
         // Add Customer
         $(document).on('submit', '#addCustomerForm', function(e) {
@@ -228,6 +237,7 @@
                     $('#customerAddConfirmBtn').text('Save').removeClass('disabled');
                     $('#addCustomerModal').modal('hide');
                     successMessage('Customer Added Successfully.')
+                    $("#addCustomerForm").trigger("reset");
                     getCustomers();
                 } else if(response.status == 200 && response.data == 2) {
                     $('#customerAddConfirmBtn').text('Save').removeClass('disabled');
@@ -271,40 +281,27 @@
         }
 
         // Customer Edit Confirm Method
-        $(document).on('click', '#customerEditConfirmBtn', function(e) {
-            const id = $(this).data('id');
-            const name = $('#editCustomerName').val();
-            const number = $('#editCustomerNumber').val();
-            const email = $('#editCustomerEmail').val();
-            const address = $('#editCustomerAddress').val();
-            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+        $(document).on('submit', '#editCustomerForm', function(e) {
+            e.preventDefault();
+            const id = $('#customerEditConfirmBtn').data('id');
+            const data = new FormData(this);
+            data.append('id', id)
 
-            if(name == '' || number == '' || address == '' || !(email.match(emailPattern))) {
-                validation('#editCustomerForm', validationRules, validationMsg);
-            } else {
-                e.preventDefault();
-                $('#customerEditConfirmBtn').html('<span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>Working...').addClass('disabled');
-                axios.post('/updateCustomerDetails', {
-                    id: id,
-                    name: name,
-                    number: number,
-                    address: address,
-                    email: email,
-                }).then((response) => {
-                    if(response.status == 200 && response.data == 1) {
-                        successMessage('Customer Updated Successfully.')
-                        $('#editCustomerModal').modal('hide');
-                        $('#customerEditConfirmBtn').text('Update').removeClass('disabled');
-                        getCustomers();
-                    } else {
-                        errorMessage('Something Went Wrong !')
-                        $('#customerEditConfirmBtn').text('Update').removeClass('disabled');
-                    }
-                }).catch((error) => {
+            $('#customerEditConfirmBtn').html('<span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>Working...').addClass('disabled');
+            axios.post('/updateCustomerDetails', data).then((response) => {
+                if(response.status == 200 && response.data == 1) {
+                    successMessage('Customer Updated Successfully.')
+                    $('#editCustomerModal').modal('hide');
+                    $('#customerEditConfirmBtn').text('Update').removeClass('disabled');
+                    getCustomers();
+                } else {
                     errorMessage('Something Went Wrong !')
                     $('#customerEditConfirmBtn').text('Update').removeClass('disabled');
-                });
-            }
+                }
+            }).catch((error) => {
+                errorMessage('Something Went Wrong !')
+                $('#customerEditConfirmBtn').text('Update').removeClass('disabled');
+            });
         });
     </script>
 @endsection

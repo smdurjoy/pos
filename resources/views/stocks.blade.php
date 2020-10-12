@@ -28,11 +28,11 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Stock Report</h3>
-                                <a href="{{ url('/print/stock') }}" class="btn btn-dark btn-sm" style="float: right" target="_blank"><i class="fa fa-download"></i> Download PDF</a>
+                                <a href="{{ url('/print/stock') }}" class="btn btn-dark btn-sm" style="float: right" target="_blank"><i class="fa fa-download"></i> Print Stocks</a>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="stocksTable" class="table table-bordered table-sm">
+                                <table id="stocksTable" class="table table-bordered table-sm table-hover">
                                     <thead>
                                         <tr>
                                             <th class="text-bold">SL.</th>

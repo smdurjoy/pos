@@ -46,7 +46,7 @@ class InvoiceController extends Controller
                     $count_category = count($request->category_id);
                     for ($i = 0; $i < $count_category; $i++) {
                         $invoice_details = new InvoiceDetail();
-                        $invoice_details->date = $request->date;
+                        $invoice_details->date = date('Y-m-d', strtotime($request->date));
                         $invoice_details->invoice_id = $invoice->id;
                         $invoice_details->category_id = $request->category_id[$i];
                         $invoice_details->product_id = $request->product_id[$i];
@@ -151,28 +151,32 @@ class InvoiceController extends Controller
 
     function printInvoicePage() {
         Session::put('page', 'printInvoice');
-        $invoices = Invoice::where('status', 1)->with('payment')->orderBy('date', 'desc')->orderBy('id', 'desc')->get();
-        return view('printInvoice')->with(compact('invoices'));
+        return view('printInvoice');
+    }
+
+    function getPrintInvoices() {
+        return Invoice::where('status', 1)->with('payment')->orderBy('date', 'desc')->orderBy('id', 'desc')->get();
     }
 
     function printInvoiceList() {
         return Invoice::where('status', 1)->with('payment')->orderBy('date', 'desc')->orderBy('id', 'desc')->get();
     }
 
-    function printInvoice($id) {
-        $data = Invoice::with('invoiceDetails', 'payment')->find($id);
+    function printInvoice($invoiceNo) {
+        $data = Invoice::where('invoice_no', $invoiceNo)->with('invoiceDetails', 'payment')->first();
         $pdf = PDF::loadView('pdf.invoice-pdf', $data);
         $pdf->SetProtection(['copy', 'print'], '', 'pass');
         return $pdf->stream('document.pdf');
     }
 
     function dailyInvoice() {
+        Session::put('page', 'dailyInvoice');
         return view('dailyInvoice');
     }
 
     function dailyInvoicePdf(Request $request) {
-        $startDate = $request->start_date;
-        $endtDate = $request->end_date;
+        $startDate = date('Y-m-d', strtotime($request->start_date));
+        $endtDate = date('Y-m-d', strtotime($request->end_date));
         $data['data'] = Invoice::whereBetween('date', [$startDate, $endtDate])->where('status', 1)->with('payment')->get();
         $data['start_date'] = date('d-m-Y', strtotime($request->start_date));
         $data['end_date'] = date('d-m-Y', strtotime($request->end_date));

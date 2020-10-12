@@ -22,10 +22,10 @@
             <tr>
                 <td>{{ $key+1 }}</td>
                 <td>{{ $details['payment']['customer']['name'] }}</td>
-                <td>{{ $details['invoice_no'] }}</td>
-                <td>{{ $details['date'] }}</td>
+                <td>#{{ $details['invoice_no'] }}</td>
+                <td>{{ date('d-m-Y', strtotime($details['date'])) }}</td>
                 <td>{{ $details['description'] }}</td>
-                <td>{{ $details['payment']['total_amount'] }}</td>
+                <td class="text-right">{{ $details['payment']['total_amount'] }}</td>
             </tr>
             @php
                 $total_amount += $details['payment']['total_amount'];
@@ -33,8 +33,8 @@
         @endforeach
             <tr><td colspan="6"></td></tr><tr><td colspan="6"></td></tr>
             <tr>
-                <td colspan="5"><span style="font-weight: bold;">Total Amount</span></td>
-                <td><span style="font-weight: bold;">{{ $total_amount }}</span></td>
+                <td colspan="5" style="font-weight: bold; text-align: right";>Total Amount: </td>
+                <td class="text-right"><span style="font-weight: bold;"> {{ $total_amount }}</span></td>
             </tr>
         </tbody>
     </table>

@@ -32,7 +32,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="categoryTable" class="table table-bordered table-sm">
+                                <table id="categoryTable" class="table table-bordered table-sm table-hover">
                                     <thead>
                                         <tr>
                                             <th class="text-bold">SL.</th>
@@ -188,6 +188,7 @@
                         $('#categoryAddConfirmBtn').text('Save').removeClass('disabled');
                         $('#addCategoryModal').modal('hide');
                         successMessage('Category Added Successfully.')
+                        $("#addCategoryForm").trigger("reset");
                         getCategories();
                     } else {
                         $('#categoryAddConfirmBtn').text('Save').removeClass('disabled');

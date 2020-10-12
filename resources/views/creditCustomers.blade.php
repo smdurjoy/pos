@@ -32,7 +32,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="creditCustomerTable" class="table table-bordered table-sm">
+                                <table id="creditCustomerTable" class="table table-bordered table-sm table-hover">
                                     <thead>
                                     <tr>
                                         <th class="text-bold">SL.</th>
@@ -210,7 +210,7 @@
                     const paymentDetails = response.data[0]['payment'];
 
                     $('.details').html(
-                        " <table class='table table-bordered table-sm'><tr><td class='customerName'><span style='font-weight: bold;'>Customer:</span> "+ paymentDetails.customer.name +"</td><td><span style='font-weight: bold;'>Invoice No:</span> #"+ data[0]['invoice_no'] +" </td></tr><tr><td><span style='font-weight: bold;'>Mobile:</span> "+ paymentDetails.customer.number +"</td><td><span style='font-weight: bold;'>Date:</span> "+ data[0]['date'] +" </td></tr><tr><td><span style='font-weight: bold;'>Address:</span> "+ paymentDetails.customer.address +"</td></tr></table><table width='100%' class='table table-bordered table-sm'><thead><tr><th class='text-bold'>SL.</th><th class='text-bold'>Category</th><th class='text-bold'>Product Name</th><th class='text-bold'>Qty</th><th class='text-bold'>Unit Price</th><th class='text-bold'>Amount</th></tr></thead><tbody id='invoiceDetails'></tbody><tbody><tr><td colspan='5' class='text-bold'><span>Total Amount</span></td><td><span style='font-weight: bold;'>100000</span></td></tr><tr><td colspan='5'>Less Discount</td><td>"+ paymentDetails.discount_amount +"</td></tr><tr><td colspan='5'>Paid Amount</td><td>"+ paymentDetails.paid_amount +"</td></tr><tr><td colspan='5'>Due Amount</td><td>"+ paymentDetails.due_amount +"</td></tr><tr><td colspan='5'><span style='font-weight: bold;'>Net Payable Amount</span></td><td><span style='font-weight: bold;'>"+ paymentDetails.total_amount +"</span></td></tr></tbody></table><input type='hidden' name='due_amount' value='"+ paymentDetails.due_amount +"'>"
+                        " <table class='table table-bordered table-sm'><tr><td class='customerName'><span style='font-weight: bold;'>Customer:</span> "+ paymentDetails.customer.name +"</td><td><span style='font-weight: bold;'>Invoice No:</span> #"+ data[0]['invoice_no'] +" </td></tr><tr><td><span style='font-weight: bold;'>Mobile:</span> "+ paymentDetails.customer.number +"</td><td><span style='font-weight: bold;'>Date:</span> "+ data[0]['date'] +" </td></tr><tr><td><span style='font-weight: bold;'>Address:</span> "+ paymentDetails.customer.address +"</td></tr></table><table width='100%' class='table table-bordered table-sm'><thead><tr><th class='text-bold'>SL.</th><th class='text-bold'>Category</th><th class='text-bold'>Product Name</th><th class='text-bold'>Qty</th><th class='text-bold'>Unit Price</th><th class='text-bold'>Amount</th></tr></thead><tbody id='invoiceDetails'></tbody><tbody><tr><td colspan='5' class='text-bold'><span>Total Amount</span></td><td><span style='font-weight: bold;'>100000</span></td></tr><tr><td colspan='5'>Less Discount</td><td>"+ ((paymentDetails.discount_amount == null) ? 0 : paymentDetails.discount_amount) +"</td></tr><tr><td colspan='5'>Paid Amount</td><td>"+ paymentDetails.paid_amount +"</td></tr><tr><td colspan='5'>Due Amount</td><td>"+ paymentDetails.due_amount +"</td></tr><tr><td colspan='5'><span style='font-weight: bold;'>Net Payable Amount</span></td><td><span style='font-weight: bold;'>"+ paymentDetails.total_amount +"</span></td></tr></tbody></table><input type='hidden' name='due_amount' value='"+ paymentDetails.due_amount +"'>"
                     )
 
                     let index = 1;
@@ -321,9 +321,11 @@
 
                     let index = 1;
                     $.each(paymentDetails, function (i) {
+                        const date = paymentDetails[i].date;
+                        const newDateFormat = date.split("-").reverse().join("-");
                         $('<tr>').html(
                             "<td>" + index++ + "</td>" +
-                            "<td>" + paymentDetails[i].date + "</td>" +
+                            "<td>" + newDateFormat + "</td>" +
                             "<td>" + paymentDetails[i].current_paid_amount + "</td>"
                         ).appendTo('#payInvoiceDetails');
                     });

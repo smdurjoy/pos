@@ -37,7 +37,7 @@
                                             <div class="form-group">
                                                 <label for="date">Start Date</label>
                                                 <div class="input-group date" id="startDate" data-target-input="nearest">
-                                                    <input type="text" class="form-control datetimepicker-input" data-target="#startDate" placeholder="YYYY-MM-DD" id="date" name="start_date"/>
+                                                    <input type="text" class="form-control datetimepicker-input" data-target="#startDate" placeholder="DD-MM-YYYY" id="date" name="start_date"/>
                                                     <div class="input-group-append" data-target="#startDate" data-toggle="datetimepicker">
                                                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                     </div>
@@ -49,7 +49,7 @@
                                             <div class="form-group">
                                                 <label for="date">End Date</label>
                                                 <div class="input-group date" id="endDate" data-target-input="nearest">
-                                                    <input type="text" class="form-control datetimepicker-input" data-target="#endDate" placeholder="YYYY-MM-DD" id="date" name="end_date"/>
+                                                    <input type="text" class="form-control datetimepicker-input" data-target="#endDate" placeholder="DD-MM-YYYY" id="date" name="end_date"/>
                                                     <div class="input-group-append" data-target="#endDate" data-toggle="datetimepicker">
                                                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                     </div>
@@ -81,7 +81,7 @@
     <script>
         // Date picker format
         $('#startDate, #endDate').datetimepicker({
-            format: 'YYYY-MM-DD'
+            format: 'DD-MM-YYYY'
         });
 
         // Category and edit validation rules and messages

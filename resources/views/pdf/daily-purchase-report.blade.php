@@ -2,16 +2,16 @@
 
 @section('content')
     <h5 class="title">Daily Invoice Report ({{ $start_date }} to {{ $end_date }})</h5>
-    <table width="100%" class="table table-bordered">
+    <table width="100%" class="table table-bordered text-center">
         <thead>
             <tr>
-                <th>SL.</th>
-                <th>Purchase No</th>
-                <th>Date</th>
-                <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Unit Price</th>
-                <th>Total Price</th>
+                <th class="text-center">SL.</th>
+                <th class="text-center">Purchase No</th>
+                <th class="text-center">Date</th>
+                <th class="text-center">Product Name</th>
+                <th class="text-center">Qty</th>
+                <th class="text-center">Unit Price</th>
+                <th class="text-center">Amount</th>
             </tr>
         </thead>
 
@@ -26,8 +26,8 @@
                     <td>{{ date('d-m-Y', strtotime($details['date'])) }}</td>
                     <td>{{ $details['product']['name'] }}</td>
                     <td>{{ $details['buying_quantity'] }} {{ $details['product']['unit']['name'] }}</td>
-                    <td>{{ $details['unit_price'] }}</td>
-                    <td>{{ $details['buying_price'] }}</td>
+                    <td>{{ $details['unit_price'] }} Tk</td>
+                    <td>{{ $details['buying_price'] }} Tk</td>
                 </tr>
                 @php
                     $total_amount += $details['buying_price'];
@@ -36,7 +36,7 @@
             <tr><td colspan="7"></td></tr><tr><td colspan="6"></td></tr>
             <tr>
                 <td colspan="6" style="text-align: right"><span style="font-weight: bold;">Total Amount: </span></td>
-                <td><span style="font-weight: bold;">{{ $total_amount }}</span></td>
+                <td><span style="font-weight: bold;">{{ $total_amount }} Tk</span></td>
             </tr>
         </tbody>
     </table>

@@ -2,16 +2,16 @@
 
 @section('content')
     <h5 class="title">Stock Report</h5>
-    <table width="100%" class="table table-bordered">
+    <table width="100%" class="table table-bordered text-center">
         <thead>
             <tr>
-                <th>Supplier Name</th>
-                <th>Category</th>
-                <th>Product Name</th>
-                <th>In.Qty</th>
-                <th>Out.Qty</th>
-                <th>Stock</th>
-                <th>Unit</th>
+                <th class="text-center">Supplier Name</th>
+                <th class="text-center">Category</th>
+                <th class="text-center">Product Name</th>
+                <th class="text-center">In.Qty</th>
+                <th class="text-center">Out.Qty</th>
+                <th class="text-center">Stock</th>
+                <th class="text-center">Unit</th>
             </tr>
         </thead>
 

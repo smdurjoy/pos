@@ -43,7 +43,7 @@
             <div class="houseDetails">
                 <table width="100%">
                     <tr>
-                        <td>Mobile: 01881068188, 01646614411</td>
+                        <td>Mobile: +880 1784996428, +880 1646614411</td>
                         <td>Phone: 0521-52222</td>
                     </tr>
                     <tr>

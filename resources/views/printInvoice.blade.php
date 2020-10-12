@@ -31,34 +31,25 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="printInvoiceTable" class="table table-bordered table-sm">
+                                <table id="printInvoiceTable" class="table table-bordered table-sm table-hover">
                                     <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Customer Info</th>
-                                        <th>Invoice No</th>
-                                        <th>Date</th>
-                                        <th>Description</th>
-                                        <th>Amount</th>
-                                        <th>Action</th>
-                                    </tr>
+                                        <tr>
+                                            <th class="text-bold">Id</th>
+                                            <th class="text-bold">Customer Info</th>
+                                            <th class="text-bold">Invoice No</th>
+                                            <th class="text-bold">Date</th>
+                                            <th class="text-bold">Description</th>
+                                            <th class="text-bold">Amount</th>
+                                            <th class="text-bold">Action</th>
+                                        </tr>
                                     </thead>
-                                    <tbody id="invoiceTableBody">
-                                        @foreach($invoices as $key => $invoice)
-                                            <tr>
-                                                <td>{{ $key + 1 }}</td>
-                                                <td>{{ $invoice['payment']['customer']['name'] }}</td>
-                                                <td>{{ $invoice['invoice_no'] }}</td>
-                                                <td>{{ $invoice['date'] }}</td>
-                                                <td>{{ $invoice['description'] }}</td>
-                                                <td>{{ $invoice['payment']['total_amount'] }}</td>
-                                                <td>
-                                                    <a href='{{url('print/invoice/'.$invoice['id'])}}' title='Print Invoice' class='btn btn-info btn-sm actionBtn' target="_blank"> <i class='fas fa-print deleteButton'></i> </a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                    <tbody id="printInvoiceTableBody">
+
                                     </tbody>
                                 </table>
+                                <div class="loadingPrintInvoice text-center">
+                                    <img src="{{ asset('images/loading.svg') }}" alt="loading .."/>
+                                </div>
                             </div>
                             <!-- /.card-body -->
                         </div>
@@ -78,10 +69,43 @@
 
 @section('script')
     <script>
-        $("#printInvoiceTable").DataTable({
-            "responsive": true,
-            "autoWidth": false,
-            "order": false,
-        });
+        getInvoice();
+        // Get Invoice
+        function getInvoice() {
+            axios.get('/getPrintInvoices').then((response) => {
+                if(response.status == 200) {
+                    $('.loadingPrintInvoice').addClass('d-none');
+                    const jsonData = response.data;
+                    $("#printInvoiceTable").DataTable().destroy();
+                    $('#printInvoiceTableBody').empty();
+
+                    let index = 1;
+                    $.each(jsonData, function (i) {
+                        let url = '{{ url('/print/invoice/:invoiceNum') }}';
+                        url = url.replace(':invoiceNum', jsonData[i].invoice_no);
+                        const date = jsonData[i].date;
+                        const newDateFormat = date.split("-").reverse().join("-");
+                        $('<tr>').html(
+                            "<td>" + index++ + "</td>" +
+                            "<td>" + jsonData[i].payment.customer.name + "</td>" +
+                            "<td>#" + jsonData[i].invoice_no + "</td>" +
+                            "<td>" + newDateFormat + "</td>" +
+                            "<td>" + ((jsonData[i].description == null) ? '' : jsonData[i].description) + "</td>" +
+                            "<td>" + jsonData[i].payment.total_amount + " Tk</td>" +
+                            "<td><a href='"+ url +"' title='Print Invoice' class='btn btn-info btn-sm actionBtn' target='_blank'> <i class='fas fa-print deleteButton'></i> </a></td>"
+                        ).appendTo('#printInvoiceTableBody')
+                    })
+                }
+
+                $("#printInvoiceTable").DataTable({
+                    "responsive": true,
+                    "autoWidth": false,
+                    "order": false,
+                });
+
+            }).catch((error) => {
+                errorMessage('Something Went Wrong !')
+            })
+        }
     </script>
 @endsection

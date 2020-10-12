@@ -49,7 +49,7 @@ class DefaultController extends Controller
             $data['invoiceNo'] = $invoice_no+1;
         }
 
-        $data['date'] = date('Y-m-d');
+        $data['date'] = date('d-m-Y');
 
         return response()->json($data);
     }

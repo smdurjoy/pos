@@ -2,17 +2,17 @@
 
 @section('content')
     <h5 class="title">Stock Report</h5>
-    <strong>Supplier Name: </strong> {{ $suppliers[0]['supplier']['name'] }}
-    <table width="100%" class="table table-bordered mt-2">
+    <p><span style="font-weight: bold">Supplier: </span> {{ $suppliers[0]['supplier']['name'] }}</p>
+    <table width="100%" class="table table-bordered mt-2 text-center">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Category</th>
-                <th>Product Name</th>
-                <th>Stock</th>
-                <th>In.Qty</th>
-                <th>Out.Qty</th>
-                <th>Unit</th>
+                <th class="text-center">Id</th>
+                <th class="text-center">Category</th>
+                <th class="text-center">Product Name</th>
+                <th class="text-center">Stock</th>
+                <th class="text-center">In.Qty</th>
+                <th class="text-center">Out.Qty</th>
+                <th class="text-center">Unit</th>
             </tr>
         </thead>
 

@@ -156,10 +156,10 @@
                     const invoiceDetails = response.data[0]['invoice_details'];
                     const customer = response.data[0]['payment']['customer'];
                     const payment = response.data[0]['payment'];
-                    console.log(payment)
+                    console.log(data)
 
                     $('.paymentDetails').html(
-                        " <table class='table table-bordered table-sm'><tr><td class='customerName'><span style='font-weight: bold;'>Customer:</span> "+ customer.name +"</td><td><span style='font-weight: bold;'>Invoice No:</span> #"+ data.invoice_no +" </td></tr><tr><td><span style='font-weight: bold;'>Mobile:</span> "+ customer.number +"</td><td><span style='font-weight: bold;'>Date:</span> "+ data.date +" </td></tr><tr><td><span style='font-weight: bold;'>Address:</span> "+ customer.address +"</td></tr></table><table width='100%' class='table table-bordered table-sm'><thead><tr><th class='text-bold'>SL.</th><th class='text-bold'>Category</th><th class='text-bold'>Product Name </th><th class='text-bold'>Unit</th><th class='text-bold'>Unit Price</th><th class='text-bold'>Amount</th></tr></thead><tbody id='payInvoiceDetails'></tbody><tbody><tr><td colspan='5' class='text-bold'>Total Amount</td><td class='text-bold totalAmount'></td></tr><tr><td colspan='5'>Discount Amount</td><td>"+ payment.discount_amount +"</td></tr><tr><td colspan='5'><span style='font-weight: bold;'>Paid Amount</span></td><td><span style='font-weight: bold;'>"+ payment.paid_amount +"</span></td></tr></tbody></table>"
+                        " <table class='table table-bordered table-sm'><tr><td class='customerName'><span style='font-weight: bold;'>Customer:</span> "+ customer.name +"</td><td><span style='font-weight: bold;'>Invoice No:</span> #"+ data.invoice_no +" </td></tr><tr><td><span style='font-weight: bold;'>Mobile:</span> "+ customer.number +"</td><td><span style='font-weight: bold;'>Date:</span> "+ data.date +" </td></tr><tr><td><span style='font-weight: bold;'>Address:</span> "+ customer.address +"</td></tr></table><table width='100%' class='table table-bordered table-sm'><thead><tr><th class='text-bold'>SL.</th><th class='text-bold'>Category</th><th class='text-bold'>Product Name </th><th class='text-bold'>Quantity</th><th class='text-bold'>Unit Price</th><th class='text-bold'>Amount</th></tr></thead><tbody id='payInvoiceDetails'></tbody><tbody><tr><td colspan='5' class='text-bold'>Total Amount</td><td class='text-bold totalAmount'></td></tr><tr><td colspan='5'>Discount Amount</td><td>"+ payment.discount_amount +"</td></tr><tr><td colspan='5'><span style='font-weight: bold;'>Paid Amount</span></td><td><span style='font-weight: bold;'>"+ payment.paid_amount +"</span></td></tr></tbody></table>"
                     )
 
                     let index = 1;
@@ -169,7 +169,7 @@
                             "<td>" + index++ + "</td>" +
                             "<td>" + invoiceDetails[i].category.name + "</td>" +
                             "<td>" + invoiceDetails[i].product.name + "</td>" +
-                            "<td>" + invoiceDetails[i].product.quantity + "</td>" +
+                            "<td>" + invoiceDetails[i].selling_quantity + "</td>" +
                             "<td>" + invoiceDetails[i].unit_price + "</td>" +
                             "<td>" + invoiceDetails[i].selling_price + "</td>"
                         ).appendTo('#payInvoiceDetails');
