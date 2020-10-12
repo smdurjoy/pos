@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Update Password')
 
 @section('content')
     <!-- Content Wrapper. Contains page content -->
@@ -31,7 +32,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body col-md-8 offset-md-2">
-                                <form id="updatePassForm">  
+                                <form id="updatePassForm">
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label for="crntPass">Current Password</label>
@@ -80,7 +81,7 @@
                     $('#currentPass').addClass('rightPass');
                     $('#currentPass').removeClass('wrongPass');
                     $("#checkCrntPass").html("<font color='green'>Password is correct</font>");
-                } 
+                }
                 else if(response.data == 0) {
                     $('#currentPass').removeClass('rightPass');
                     $('#currentPass').addClass('wrongPass');
@@ -159,7 +160,7 @@
                     $('#newPass').val('');
                     $('#confirmPass').val('');
                 })
-            }  
+            }
         });
     </script>
 @endsection

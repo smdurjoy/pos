@@ -1,4 +1,5 @@
 @extends('layouts.pdf-report')
+@section('title', 'Daily Purchase Report')
 
 @section('content')
     <h5 class="title">Daily Invoice Report ({{ $start_date }} to {{ $end_date }})</h5>

@@ -1,4 +1,5 @@
 @extends('layouts.pdf-report')
+@section('title', 'Stock Report')
 
 @section('content')
     <h5 class="title">Stock Report</h5>

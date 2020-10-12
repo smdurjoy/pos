@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Credit Customers')
 
 @section('content')
     <!-- Content Wrapper. Contains page content -->
@@ -334,7 +335,7 @@
                     url = url.replace(':id', id);
                     url = url.replace(':invoiceNum', data[0]['invoice_no']);
                     $('.pdfUrl').html(
-                        " <a href='"+ url +"' target='_blank' id='generatePdf' class='btn btn-danger btn-sm'>Generate PDF</a> "
+                        " <a href='"+ url +"' target='_blank' id='generatePdf' class='btn btn-danger btn-sm'><i class='fa fa-print'></i> Generate PDF</a> "
                     )
                 }
             }).catch(error => {

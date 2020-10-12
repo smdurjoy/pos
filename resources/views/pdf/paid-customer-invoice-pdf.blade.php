@@ -1,4 +1,5 @@
 @extends('layouts.pdf-report')
+@section('title', 'Paid Customers Report')
 
 @section('content')
     <h5 class="title">Customer Invoice Details</h5>

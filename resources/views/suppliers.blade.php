@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Manage Suppliers')
 
 @section('content')
     <!-- Content Wrapper. Contains page content -->

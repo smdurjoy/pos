@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Daily Purchase Report')
 
 @section('content')
     <!-- Content Wrapper. Contains page content -->

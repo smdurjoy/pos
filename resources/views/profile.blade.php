@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Profile')
 
 @section('content')
     <!-- Content Wrapper. Contains page content -->
@@ -104,7 +105,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer"> 
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
                         <button id="profileEditConfirmBtn" data-id="" type="submit" class="btn btn-danger btn-sm">Update</button>
                     </div>
@@ -121,7 +122,7 @@
         function getProfileData() {
             axios.get('/getProfileData').then((response) => {
                 $('.box-profile').empty();
-                if(response.status == 200) {    
+                if(response.status == 200) {
                     $('.loading').addClass('d-none');
                     const data = response.data;
 
@@ -134,7 +135,7 @@
 
                         "<a href='#' id='editProfile' title='Edit Profile' data-id=" + data.id + " class='btn btn-primary btn-block btn-sm'><b>Edit Profile</b></a>"
                     ).appendTo('.box-profile')
-                } 
+                }
 
             }).catch((error) => {
                 errorMessage('Something Went Wrong !')
@@ -179,7 +180,7 @@
             }
         });
 
-        
+
         $(document).on('submit', '#editProfileForm', function(e) {
             const name = $('#editProfileName').val()
             const email = $('#editProfileEmail').val()
@@ -212,7 +213,7 @@
                 e.preventDefault();
                 $('#profileEditConfirmBtn').html('<span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>Working...').addClass('disabled');
                 const data = new FormData(this);
-            
+
                 axios.post('/updateProfileInfo', data).then((response) => {
                     if(response.status == 200 && response.data == 1) {
                         $('#editProfileModal').modal('hide');
