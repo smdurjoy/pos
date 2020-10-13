@@ -40,6 +40,9 @@ $(document).on('click', '.confirmDelete', function() {
                     else if(record == 'Invoice') {
                         getInvoices();
                     }
+                    else if(record == 'Visitor') {
+                        getVisitors();
+                    }
 
                 } else {
                     errorMessage('Something Went Wrong !')

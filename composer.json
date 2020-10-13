@@ -15,7 +15,8 @@
         "laravel/framework": "^7.24",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.4",
-        "niklasravnsborg/laravel-pdf": "^4.0"
+        "niklasravnsborg/laravel-pdf": "^4.0",
+        "stevebauman/location": "^5.2"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

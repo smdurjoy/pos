@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin Login</title>
+    <title>Amar Store</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -21,7 +21,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
-        <a href="../../index2.html"><b>Admin</b>Panel</a>
+        <a href="../../index2.html"><b>Amar</b>Store</a>
     </div>
     <!-- /.login-logo -->
     <div class="card">
@@ -31,7 +31,7 @@
             @if($errors->any())
                 <div class="alert alert-danger alert-dismissible fade show">
                     @foreach( $errors->all() as $error )
-                        <strong>{{ $error }}</strong> <br> 
+                        <strong>{{ $error }}</strong> <br>
                     @endforeach
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -70,6 +70,26 @@
                         <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                     </div>
                     <!-- /.col -->
+                </div>
+                <div class="row mt-3 text-center">
+                   <table class="table table-bordered table-sm text-center">
+                       <tr>
+                           <th>Email</th>
+                           <th>Password</th>
+                           <th>Role</th>
+                       </tr>
+                       <tr>
+                           <td>admin@admin.com</td>
+                           <td>admin963</td>
+                           <td>Admin</td>
+                       </tr>
+                       <tr>
+                           <td>user@user.com</td>
+                           <td>user963</td>
+                           <td>User</td>
+                       </tr>
+                   </table>
+                    <p style="font-size: 14px; color: #0069D9; text-align: center"><b>Note:</b> Role user will not be able to manage users.</p>
                 </div>
             </form>
         </div>

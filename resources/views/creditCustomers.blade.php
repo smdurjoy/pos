@@ -107,7 +107,7 @@
                                 <div class="form-group">
                                     <label for="date">Date</label>
                                     <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                        <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" placeholder="YYYY-MM-DD" id="date" name="date"/>
+                                        <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" placeholder="DD-MM-YYYY" id="date" name="date"/>
                                         <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                         </div>
@@ -235,7 +235,7 @@
 
         // Date picker format
         $('#reservationdate').datetimepicker({
-            format: 'YYYY-MM-DD'
+            format: 'DD-MM-YYYY'
         });
 
         // If customer paid partial amount
@@ -289,6 +289,7 @@
                     successMessage('Invoice Updated Successfully.')
                     $('#invoiceUpdateBtn').text('Update').removeClass('disabled');
                     $('#editDueModal').modal('hide');
+                    $('#editCustomerInvoice').trigger('reset');
                     getCreditCustomers();
                 } else {
                     $('#invoiceUpdateBtn').text('Update').removeClass('disabled');

@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth']], function() {
     Route::get('/', 'HomeController@index');
+    Route::get('/visitors', 'HomeController@visitors');
+    Route::get('/getVisitors', 'HomeController@getVisitors');
+    Route::get('/delete-Visitor/{id}', 'HomeController@deleteVisitor');
 
     // User Routes
     Route::get('/users', 'UserController@users');

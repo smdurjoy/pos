@@ -120,14 +120,21 @@ class CustomerController extends Controller
                 $payment->due_amount = 0;
                 $payment_details->current_paid_amount = $request->deu_amount;
                 $payment->paid_status = 'full_paid';
-            } else if($request->paid_status == 'partial_paid') {
+            }
+            else if($request->paid_status == 'partial_paid' && $request->paid_amount == $payment->due_amount) {
+                $payment->paid_status = 'full_paid';
+                $payment->due_amount = 0;
+                $payment->paid_amount += $request->due_amount;
+                $payment_details->current_paid_amount = $request->deu_amount;
+            }
+            else if($request->paid_status == 'partial_paid') {
                 $payment->paid_amount += $request->paid_amount;
                 $payment->due_amount -= $request->paid_amount;
                 $payment_details->current_paid_amount = $request->paid_amount;
             }
             $payment->save();
             $payment_details->invoice_id = $request->invoice_id;
-            $payment_details->date = $request->date;
+            $payment_details->date = date('Y-m-d', strtotime($request->date));
             $payment_details->save();
 
             return 1;
